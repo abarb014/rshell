@@ -12,7 +12,7 @@
 using namespace std;
 using namespace boost;
 
-const int MAX_ARGS = 20;
+const int MAX_ARGS = 100;
 
 string cleanInput(const string&);
 void statusChecker(queue<string>&, queue<string>&, int&, int&);
@@ -98,12 +98,11 @@ int main()
                 statusChecker(command_list, con_command_list, commandCount, status);
                 
                 // Build the new arrays and start the loop over again
-                char **argv = new char *[commandCount + 1];
+                argv  = new char *[commandCount + 1];
                 for (int i = 0; i < commandCount; i++)
                 {
                     argv[i] = new char[MAX_ARGS];
                     strcpy(argv[i], con_command_list.front().c_str());
-
                     con_command_list.pop();
                 }
                 argv[commandCount] = '\0';
