@@ -15,6 +15,7 @@ using namespace boost;
 const int MAX_ARGS = 20;
 
 string cleanInput(const string&);
+void statusChecker(queue<string>&, queue<string>&, int&, int&);
 
 int main()
 {
@@ -35,7 +36,13 @@ int main()
         command_list.push(*it);
     }
 
-    int commandCount = command_list.size();
+    int commandCount = 0;
+    
+    // Further parse the input to stop at a connecter
+    // Connector status will be set by an int variable
+    int status = 0;
+    queue<string> con_command_list;
+    statusChecker(command_list, con_command_list, commandCount, status);
 
     // Dynamically allocate the arrays we need for our command list
   
@@ -43,9 +50,9 @@ int main()
     for (int i = 0; i < commandCount; i++)
     {
         argv[i] = new char[MAX_ARGS];
-        strcpy(argv[i], command_list.front().c_str());
+        strcpy(argv[i], con_command_list.front().c_str());
 
-        command_list.pop();
+        con_command_list.pop();
     }
     argv[commandCount] = '\0';
     
@@ -75,7 +82,36 @@ int main()
                 perror("wait");
             }
 
-            // clear the previous arrays
+            // If status 1 (semicolon) is detected, add commands from command_list until next connector is reached, and start again
+            if (status == 1)
+            {
+                // First clear the old arrays
+                for (int i = 0; i < commandCount; i++)
+                {
+                    delete [] argv[i];
+                }
+
+                delete [] argv;
+                commandCount = 0;
+                
+                // Reset status and build up command list again
+                statusChecker(command_list, con_command_list, commandCount, status);
+                
+                // Build the new arrays and start the loop over again
+                char **argv = new char *[commandCount + 1];
+                for (int i = 0; i < commandCount; i++)
+                {
+                    argv[i] = new char[MAX_ARGS];
+                    strcpy(argv[i], con_command_list.front().c_str());
+
+                    con_command_list.pop();
+                }
+                argv[commandCount] = '\0';
+
+                continue;
+            }
+
+            // This stuff will happen AFTER the connectors
             for (int i = 0; i < commandCount; i++)
             {
                 delete [] argv[i];
@@ -93,15 +129,16 @@ int main()
                 command_list.push(*it);
             }
 
-            commandCount = command_list.size();
+            commandCount = 0;
+            statusChecker(command_list, con_command_list, commandCount, status);
 
             argv = new char *[commandCount + 1];
             for (int i = 0; i < commandCount; i++)
             {
                 argv[i] = new char[MAX_ARGS];
-                strcpy(argv[i], command_list.front().c_str());
+                strcpy(argv[i], con_command_list.front().c_str());
 
-                command_list.pop();
+                con_command_list.pop();
             }
 
             argv[commandCount] = '\0';
@@ -128,4 +165,26 @@ string cleanInput(const string& input)
     }
 
     return new_input;
+}
+
+void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCount, int& status)
+{
+    for (int i = 0, size = original.size(); i < size; i++)
+    {
+        if (original.front().compare(";") == 0)
+        {
+            original.pop();
+            status = 1;
+            return;
+        }
+        else
+        {
+            fixed.push(original.front());
+            original.pop();
+            commandCount += 1;
+        }
+    }
+
+    // If it makes it throught the checker, set status back to 0
+    status = 0;
 }
