@@ -8,6 +8,7 @@
 #include <errno.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+#include <sys/param.h>
 
 using namespace std;
 using namespace boost;
@@ -15,7 +16,7 @@ using namespace boost;
 const int MAX_ARGS = 100;
 
 string cleanInput(const string&);
-void getInput(string &, queue<string> &);
+void getInput(const string&, string &, queue<string> &);
 void statusChecker(queue<string>&, queue<string>&, int&, int&);
 void buildArrays(char **&, const int &, queue<string> &);
 void clearQueue(queue<string>&);
@@ -24,12 +25,40 @@ void rshellExit();
 
 int main()
 {
+    // Set up the login and hostname and a failsafe in case either one doesn't work.
+    bool loginStatus = 0;
+    char host[MAXHOSTNAMELEN];
+    if (gethostname(host, sizeof(host)) == -1)
+    {
+        perror("gethostname");
+        loginStatus = 1;
+    }
+    char *login = getlogin();
+    if (login == NULL)
+    {
+        perror("getlogin");
+        loginStatus = 1;
+    }
+    
+    string prompt;
+    if (loginStatus == 1)
+    {
+        prompt = "$: ";
+    }
+    else
+    {
+        prompt.append(login);
+        prompt.append("@");
+        prompt.append(host);
+        prompt.append(" $ ");
+    }
+    
     // Obtain a line of input from the user then fix it, and tokenize it
     // then save it in a Queue.
     string command_line;
     queue<string> command_list;
 
-    getInput(command_line, command_list);
+    getInput(prompt, command_line, command_list);
     int commandCount = 0;
     
     // Further parse the input to stop at a connecter
@@ -101,7 +130,7 @@ int main()
                     clearArrays(argv, commandCount);
 
                     // Get new input and parse it
-                    getInput(command_line, command_list);
+                    getInput(prompt, command_line, command_list);
 
                     // Check for more connectors
                     statusChecker(command_list, con_command_list, commandCount, status);
@@ -144,7 +173,7 @@ int main()
 
                     clearArrays(argv, commandCount);
 
-                    getInput(command_line, command_list);
+                    getInput(prompt, command_line, command_list);
 
                     statusChecker(command_list, con_command_list, commandCount, status);
 
@@ -162,7 +191,7 @@ int main()
 
                 clearArrays(argv, commandCount);
 
-                getInput(command_line, command_list);
+                getInput(prompt, command_line, command_list);
 
                 statusChecker(command_list, con_command_list, commandCount, status);
 
@@ -174,7 +203,7 @@ int main()
             // This stuff will happen AFTER the connectors
             clearArrays(argv, commandCount);
 
-            getInput(command_line, command_list);
+            getInput(prompt, command_line, command_list);
 
             statusChecker(command_list, con_command_list, commandCount, status);
 
@@ -286,10 +315,10 @@ void clearArrays(char **&argv, int &commandCount)
     commandCount = 0;
 }
 
-void getInput(string &command_line, queue<string> &command_list)
+void getInput(const string& prompt, string &command_line, queue<string> &command_list)
 {
 
-    cout << "$ ";
+    cout << prompt;
     getline(cin, command_line);
     command_line = cleanInput(command_line);
     char_separator<char> sep(" ");
@@ -302,8 +331,7 @@ void getInput(string &command_line, queue<string> &command_list)
 
 void rshellExit()
 {
-    cout << endl;
-    cout << "logout" << endl;
-    cout << "[Process Completed]" << endl << endl;
+    cout << "logout\n" << endl;
+    cout << "[Process Completed]" << endl;
     exit(1); // Successful exit
 }
