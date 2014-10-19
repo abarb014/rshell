@@ -15,27 +15,20 @@ using namespace boost;
 const int MAX_ARGS = 100;
 
 string cleanInput(const string&);
+void getInput(string &, queue<string> &);
 void statusChecker(queue<string>&, queue<string>&, int&, int&);
+void buildArrays(char **&, const int &, queue<string> &);
+void clearQueue(queue<string>&);
+void clearArrays(char **&argv, int &commandCount);
 
 int main()
 {
     // Obtain a line of input from the user then fix it, and tokenize it
     // then save it in a Queue.
     string command_line;
-
-    cout << "$ ";
-
-    getline(cin, command_line);
-    command_line = cleanInput(command_line);
-
     queue<string> command_list;
-    char_separator<char> sep(" ");
-    tokenizer< char_separator<char> > tok(command_line, sep);
-    for (tokenizer< char_separator<char> >::iterator it = tok.begin(); it != tok.end(); it++)
-    {
-        command_list.push(*it);
-    }
 
+    getInput(command_line, command_list);
     int commandCount = 0;
     
     // Further parse the input to stop at a connecter
@@ -46,16 +39,11 @@ int main()
 
     // Dynamically allocate the arrays we need for our command list
   
-    char **argv = new char *[commandCount + 1];
-    for (int i = 0; i < commandCount; i++)
-    {
-        argv[i] = new char[MAX_ARGS];
-        strcpy(argv[i], con_command_list.front().c_str());
+    char **argv;
+    buildArrays(argv, commandCount, con_command_list);
 
-        con_command_list.pop();
-    }
-    argv[commandCount] = '\0';
-    
+    int *commandStatus = new int;
+
     // Fork and execute the commands!
     while(1)
     {
@@ -70,12 +58,14 @@ int main()
             if (execvp(argv[0], argv) == -1)
             {
                 perror("execvp");
+                exit(1); // To indicate error
             }
-            exit(1);
+            exit(0); // A successful exit
         }
         else // This is the parent process
         {
-            pid = wait(NULL);
+            pid = wait(&commandStatus);
+            //cout << WEXITSTATUS(commandStatus) << endl;
 
             if (pid == -1)
             {
@@ -86,61 +76,92 @@ int main()
             if (status == 1)
             {
                 // First clear the old arrays
-                for (int i = 0; i < commandCount; i++)
-                {
-                    delete [] argv[i];
-                }
-
-                delete [] argv;
-                commandCount = 0;
+                clearArrays(argv, commandCount);
                 
                 // Reset status and build up command list again
                 statusChecker(command_list, con_command_list, commandCount, status);
                 
                 // Build the new arrays and start the loop over again
-                argv  = new char *[commandCount + 1];
-                for (int i = 0; i < commandCount; i++)
-                {
-                    argv[i] = new char[MAX_ARGS];
-                    strcpy(argv[i], con_command_list.front().c_str());
-                    con_command_list.pop();
-                }
-                argv[commandCount] = '\0';
+                buildArrays(argv, commandCount, con_command_list);
 
                 continue;
             }
 
-            // This stuff will happen AFTER the connectors
-            for (int i = 0; i < commandCount; i++)
+            // If status 2 (AND) is detected, the next command will only execute if the first succeeds.
+            else if (status == 2)
             {
-                delete [] argv[i];
+                if (WEXITSTATUS(commandStatus) == 1)
+                {
+                    // If the first command failed, clear the queues
+                    clearQueue(command_list);
+                    clearQueue(con_command_list);
+
+                    // Call delete on the old arrays
+                    clearArrays(argv, commandCount);
+
+                    // Get new input and parse it
+                    getInput(command_line, command_list);
+
+                    // Check for more connectors
+                    statusChecker(command_list, con_command_list, commandCount, status);
+
+                    // Build the new command arrays
+                    buildArrays(argv, commandCount, con_command_list);
+                    
+                    continue;
+                }
+                else
+                {
+                    // If it works, get the next command and test it too
+                    clearArrays(argv, commandCount);
+
+                    statusChecker(command_list, con_command_list, commandCount, status);
+
+                    buildArrays(argv, commandCount, con_command_list);
+
+                    continue;
+                }
             }
 
-            delete [] argv;
+            // If status 3 (OR) is detected, the next command will only execute if the first fails.
+            else if (status == 3)
+            {
+                if (WEXITSTATUS(commandStatus) == 1)
+                {
+                    clearArrays(argv, commandCount);
+
+                    statusChecker(command_list, con_command_list, commandCount, status);
+
+                    buildArrays(argv, commandCount, con_command_list);
+
+                    continue;
+                }
+                else
+                {
+                    clearQueue(command_list);
+                    clearQueue(con_command_list);
+
+                    clearArrays(argv, commandCount);
+
+                    getInput(command_line, command_list);
+
+                    statusChecker(command_list, con_command_list, commandCount, status);
+
+                    buildArrays(argv, commandCount, con_command_list);
+
+                    continue;
+                }
+            }
+
+            // This stuff will happen AFTER the connectors
+            clearArrays(argv, commandCount);
 
             // Get new input, fix it, and tokenize it.
-            cout << "$ ";
-            getline(cin, command_line);
-            command_line = cleanInput(command_line);
-            tokenizer< char_separator<char> > tok(command_line, sep);
-            for (tokenizer< char_separator<char> >::iterator it = tok.begin(); it != tok.end(); it++)
-            {
-                command_list.push(*it);
-            }
+            getInput(command_line, command_list);
 
-            commandCount = 0;
             statusChecker(command_list, con_command_list, commandCount, status);
 
-            argv = new char *[commandCount + 1];
-            for (int i = 0; i < commandCount; i++)
-            {
-                argv[i] = new char[MAX_ARGS];
-                strcpy(argv[i], con_command_list.front().c_str());
-
-                con_command_list.pop();
-            }
-
-            argv[commandCount] = '\0';
+            buildArrays(argv, commandCount, con_command_list);
         }
     }
 
@@ -170,10 +191,25 @@ void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCo
 {
     for (int i = 0, size = original.size(); i < size; i++)
     {
+        // If a semicolon is found, anything after it will be executed
         if (original.front().compare(";") == 0)
         {
             original.pop();
             status = 1;
+            return;
+        }
+        // If && is found, only execute the next command if it succeeds
+        else if (original.front().compare("&&") == 0)
+        {
+            original.pop();
+            status = 2;
+            return;
+        }
+        // If || is found, only execute the next command if the first fails
+        else if (original.front().compare("||") == 0)
+        {
+            original.pop();
+            status = 3;
             return;
         }
         else
@@ -186,4 +222,51 @@ void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCo
 
     // If it makes it throught the checker, set status back to 0
     status = 0;
+}
+
+void buildArrays(char **&argv, const int &commandCount, queue<string> &con_command_list)
+{
+    argv = new char *[commandCount + 1];
+    for (int i = 0; i < commandCount; i++)
+    {
+        argv[i] = new char[MAX_ARGS];
+        strcpy(argv[i], con_command_list.front().c_str());
+
+        con_command_list.pop();
+    }
+
+    argv[commandCount] = '\0';
+}
+
+void clearQueue(queue<string> &byebye)
+{
+    while (!byebye.empty())
+    {
+        byebye.pop();
+    }
+}
+
+void clearArrays(char **&argv, int &commandCount)
+{
+    for (int i = 0; i < commandCount; i++)
+    {
+        delete [] argv[i];
+    }
+
+    delete [] argv;
+    commandCount = 0;
+}
+
+void getInput(string &command_line, queue<string> &command_list)
+{
+
+    cout << "$ ";
+    getline(cin, command_line);
+    command_line = cleanInput(command_line);
+    char_separator<char> sep(" ");
+    tokenizer< char_separator<char> > tok(command_line, sep);
+    for (tokenizer< char_separator<char> >::iterator it = tok.begin(); it != tok.end(); it++)
+    {
+        command_list.push(*it);
+    }
 }
