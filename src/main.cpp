@@ -153,10 +153,26 @@ int main()
                 }
             }
 
+            // If status 4 (#) is detected, the program will discard everything after it
+            else if (status == 4)
+            {
+                clearQueue(command_list);
+                clearQueue(con_command_list);
+
+                clearArrays(argv, commandCount);
+
+                getInput(command_line, command_list);
+
+                statusChecker(command_list, con_command_list, commandCount, status);
+
+                buildArrays(argv, commandCount, con_command_list);
+
+                continue;
+            }
+
             // This stuff will happen AFTER the connectors
             clearArrays(argv, commandCount);
 
-            // Get new input, fix it, and tokenize it.
             getInput(command_line, command_list);
 
             statusChecker(command_list, con_command_list, commandCount, status);
@@ -172,7 +188,7 @@ string cleanInput(const string& input)
 {
     string new_input;
 
-    for (int i = 0; i < input.size(); i++)
+    for (unsigned i = 0; i < input.size(); i++)
     {
         if (input[i] == ';')
         {
@@ -210,6 +226,13 @@ void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCo
         {
             original.pop();
             status = 3;
+            return;
+        }
+        // If # is found, everything after it will be discarded
+        else if (original.front().compare("#") == 0)
+        {
+            original.pop();
+            status = 4;
             return;
         }
         else
