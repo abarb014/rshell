@@ -20,6 +20,7 @@ void statusChecker(queue<string>&, queue<string>&, int&, int&);
 void buildArrays(char **&, const int &, queue<string> &);
 void clearQueue(queue<string>&);
 void clearArrays(char **&argv, int &commandCount);
+void rshellExit();
 
 int main()
 {
@@ -205,6 +206,11 @@ string cleanInput(const string& input)
 
 void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCount, int& status)
 {
+    if (original.front().compare("exit") == 0)
+    {
+        rshellExit();
+    }
+
     for (int i = 0, size = original.size(); i < size; i++)
     {
         // If a semicolon is found, anything after it will be executed
@@ -292,4 +298,12 @@ void getInput(string &command_line, queue<string> &command_list)
     {
         command_list.push(*it);
     }
+}
+
+void rshellExit()
+{
+    cout << endl;
+    cout << "logout" << endl;
+    cout << "[Process Completed]" << endl << endl;
+    exit(1); // Successful exit
 }
