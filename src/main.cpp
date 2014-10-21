@@ -224,6 +224,10 @@ string cleanInput(const string& input)
         {
             new_input += " ; ";
         }
+        else if (input[i] == '#')
+        {
+            new_input += " # ";
+        }
         else
         {
             new_input += input[i];
@@ -333,5 +337,5 @@ void rshellExit()
 {
     cout << "logout\n" << endl;
     cout << "[Process Completed]" << endl;
-    exit(1); // Successful exit
+    exit(0); // Successful exit
 }
