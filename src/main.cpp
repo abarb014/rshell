@@ -228,6 +228,22 @@ string cleanInput(const string& input)
         {
             new_input += " # ";
         }
+        else if (input[i] == '|')
+        {
+            if (i+1 < input.size())
+            {
+                if (input[i+1] == '|')
+                    new_input += " || ";
+            }
+        }
+        else if (input[i] == '&')
+        {
+            if (i+1 < input.size())
+            {
+                if (input[i+1] == '&')
+                    new_input += " && ";
+            }
+        }
         else
         {
             new_input += input[i];
