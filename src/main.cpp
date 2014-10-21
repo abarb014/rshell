@@ -17,7 +17,7 @@ const int MAX_ARGS = 100;
 
 string cleanInput(const string&);
 void getInput(const string&, string &, queue<string> &);
-void statusChecker(queue<string>&, queue<string>&, int&, int&);
+void statusChecker(queue<string>&, queue<string>&, int&, int&, char**&);
 void buildArrays(char **&, const int &, queue<string> &);
 void clearQueue(queue<string>&);
 void clearArrays(char **&argv, int &commandCount);
@@ -64,12 +64,12 @@ int main()
     // Further parse the input to stop at a connecter
     // Connector status will be set by an int variable
     int status = 0;
+    char **argv = NULL;
     queue<string> con_command_list;
-    statusChecker(command_list, con_command_list, commandCount, status);
+    statusChecker(command_list, con_command_list, commandCount, status, argv);
 
     // Dynamically allocate the arrays we need for our command list
   
-    char **argv;
     buildArrays(argv, commandCount, con_command_list);
 
     int *commandStatus = new int;
@@ -88,7 +88,7 @@ int main()
             if (execvp(argv[0], argv) == -1)
             {
                 perror("execvp");
-                exit(1); // To indicate error
+                exit(1);
             }
             exit(0); // A successful exit
         }
@@ -109,7 +109,7 @@ int main()
                 clearArrays(argv, commandCount);
                 
                 // Reset status and build up command list again
-                statusChecker(command_list, con_command_list, commandCount, status);
+                statusChecker(command_list, con_command_list, commandCount, status, argv);
                 
                 // Build the new arrays and start the loop over again
                 buildArrays(argv, commandCount, con_command_list);
@@ -133,7 +133,7 @@ int main()
                     getInput(prompt, command_line, command_list);
 
                     // Check for more connectors
-                    statusChecker(command_list, con_command_list, commandCount, status);
+                    statusChecker(command_list, con_command_list, commandCount, status, argv);
 
                     // Build the new command arrays
                     buildArrays(argv, commandCount, con_command_list);
@@ -145,7 +145,7 @@ int main()
                     // If it works, get the next command and test it too
                     clearArrays(argv, commandCount);
 
-                    statusChecker(command_list, con_command_list, commandCount, status);
+                    statusChecker(command_list, con_command_list, commandCount, status, argv);
 
                     buildArrays(argv, commandCount, con_command_list);
 
@@ -160,7 +160,7 @@ int main()
                 {
                     clearArrays(argv, commandCount);
 
-                    statusChecker(command_list, con_command_list, commandCount, status);
+                    statusChecker(command_list, con_command_list, commandCount, status, argv);
 
                     buildArrays(argv, commandCount, con_command_list);
 
@@ -175,7 +175,7 @@ int main()
 
                     getInput(prompt, command_line, command_list);
 
-                    statusChecker(command_list, con_command_list, commandCount, status);
+                    statusChecker(command_list, con_command_list, commandCount, status, argv);
 
                     buildArrays(argv, commandCount, con_command_list);
 
@@ -193,7 +193,7 @@ int main()
 
                 getInput(prompt, command_line, command_list);
 
-                statusChecker(command_list, con_command_list, commandCount, status);
+                statusChecker(command_list, con_command_list, commandCount, status, argv);
 
                 buildArrays(argv, commandCount, con_command_list);
 
@@ -205,7 +205,7 @@ int main()
 
             getInput(prompt, command_line, command_list);
 
-            statusChecker(command_list, con_command_list, commandCount, status);
+            statusChecker(command_list, con_command_list, commandCount, status, argv);
 
             buildArrays(argv, commandCount, con_command_list);
         }
@@ -237,10 +237,19 @@ string cleanInput(const string& input)
     return new_input;
 }
 
-void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCount, int& status)
+void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCount, int& status, char **&argv)
 {
     if (original.front().compare("exit") == 0)
     {
+        for (int i = 0; i < commandCount; i++)
+        {
+            delete [] argv[i];
+            argv[i] = NULL;
+        }
+
+        delete [] argv;
+        argv = NULL;
+
         rshellExit();
     }
 
@@ -313,9 +322,11 @@ void clearArrays(char **&argv, int &commandCount)
     for (int i = 0; i < commandCount; i++)
     {
         delete [] argv[i];
+        argv[i] = NULL;
     }
 
     delete [] argv;
+    argv = NULL;
     commandCount = 0;
 }
 
