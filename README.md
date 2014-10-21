@@ -59,3 +59,7 @@ Features
 
 Known Bugs
 ---
+* Typing multiple "&&" connectors with no spaces in between will not produce any errors.
+* Typing multiple "||" connectors with no spaces in between will not produce any errors.
+* Use of the "#" connector within an echo statements quoatation marks will still be removed from the output.
+* Commands of the form `command#comment` will work, despite not being able to run in the original BASH shell.
