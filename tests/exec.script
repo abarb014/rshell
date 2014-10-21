@@ -1,98 +1,124 @@
-Script started on Mon 20 Oct 2014 09:36:25 PM PDT
+Script started on Tue 21 Oct 2014 10:09:29 AM PDT
 ~
-abarb014@well $ cd cs100/rshell
-~/cs100/rshell
-abarb014@well $ make
+abarb014@hammer $ cs100
+[0;91m
+===============================================================================
+|                                                                             |
+| You have enabled settings specific for cs100.                               |
+|                                                                             |
+===============================================================================
+[0m
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m cd cs100/rshell
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (exec) [0;36m$[0m make
 mkdir -p bin
 g++ -Wall -Werror -ansi -pedantic src/main.cpp -o bin/rshell
-~/cs100/rshell
-abarb014@well $ ./bin/rshell
-abarb014@well.cs.ucr.edu $ clear
-[H[2Jabarb014@well.cs.ucr.edu $ # Ref gular Commands
-abarb014@well.cs.ucr.edu $ ls
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (exec) [0;36m$[0m bin/rshell
+abarb014@hammer.cs.ucr.edu $ # The first test              Test if comments work alone
+abarb014@hammer.cs.ucr.edu $ # Test empty commands
+abarb014@hammer.cs.ucr.edu $ 
+abarb014@hammer.cs.ucr.edu $ # Test Regular Commands with no Arguments or Options
+abarb014@hammer.cs.ucr.edu $ ls
 bin  LICENSE  Makefile	README.md  src	tests
-abarb014@well.cs.ucr.edu $ pwd
+abarb014@hammer.cs.ucr.edu $ pwd
 /home/csmajs/abarb014/cs100/rshell
-abarb014@well.cs.ucr.edu $ mkdir sample
-abarb014@well.cs.ucr.edu $ ls
-bin  LICENSE  Makefile	README.md  sample  src	tests
-abarb014@well.cs.ucr.edu $ rmdir sample
-abarb014@well.cs.ucr.edu $ ls
-bin  LICENSE  Makefile	README.md  src	tests
-abarb014@well.cs.ucr.edu $ clear
-[H[2Jabarb014@well.cs.ucr.edu $ # Commands with arguments
-abarb014@well.cs.ucr.edu $ la -a    s -a
+abarb014@hammer.cs.ucr.edu $ clear
+[H[2Jabarb014@hammer.cs.ucr.edu $ # Test commands with arguments and/or options
+abarb014@hammer.cs.ucr.edu $ ls -a
 .  ..  bin  .git  LICENSE  Makefile  README.md	src  tests
-abarb014@well.cs.ucr.edu $ ls -a -F
+abarb014@hammer.cs.ucr.edu $ ls -a -F
 ./  ../  bin/  .git/  LICENSE  Makefile  README.md  src/  tests/
-abarb014@well.cs.ucr.edu $ ls  echo -e "\tWhoa dude"
-"	Whoa dude"
-abarb014@well.cs.ucr.edu $ ls    ls -aF
+abarb014@hammer.cs.ucr.edu $ ls -aF
 ./  ../  bin/  .git/  LICENSE  Makefile  README.md  src/  tests/
-abarb014@well.cs.ucr.edu $ clear
-[H[2Jabarb014@well.cs.ucr.edu $ #connec       Connectors (1 at a time)
-abarb014@well.cs.ucr.edu $ ls ; pwd
+abarb014@hammer.cs.ucr.edu $ echo -e "\tWhoa dude, a tab"
+"	Whoa dude, a tab"
+abarb014@hammer.cs.ucr.edu $ echo "Look at meeeeee"
+"Look at meeeeee"
+abarb014@hammer.cs.ucr.edu $ # Test connectors one at a time
+abarb014@hammer.cs.ucr.edu $ ls ;    ; pwd
 bin  LICENSE  Makefile	README.md  src	tests
 /home/csmajs/abarb014/cs100/rshell
-abarb014@well.cs.ucr.edu $ echo "This should output
-"This should output
-abarb014@well.cs.ucr.edu $ ^[[A    echo "This should output" || eh cho "But this shouldn't"
-"This should output"
-abarb014@well.cs.ucr.edu $ echo "This should output" && echo "And so should this"
-"This should output"
-"And so should this"
-abarb014@well.cs.ucr.edu $ clear
-[H[2Jabarb014@well.cs.ucr.edu $ #c  Multiple Connectors
-abarb014@well.cs.ucr.edu $ ls ;   ; pwd;       ; pwd; echo "Heyo!"
-bin  LICENSE  Makefile	README.md  src	tests
-/home/csmajs/abarb014/cs100/rshell
-"Heyo!"
-abarb014@well.cs.ucr.edu $ ls && echo "Oh yeah!" && pwd
-bin  LICENSE  Makefile	README.md  src	tests
-"Oh yeah!"
-/home/csmajs/abarb014/cs100/rshell
-abarb014@well.cs.ucr.edu $ echo "Nothing after this will output" || ls || pwd
-"Nothing after this will output"
-abarb014@well.cs.ucr.edu $ clear
-[H[2Jabarb014@well.cs.ucr.edu $ # Connce  ector Combos
-abarb014@well.cs.ucr.edu $ ls && echo "It'll stop right here" || echo "I do nothing"
-bin  LICENSE  Makefile	README.md  src	tests
-"It'll stop right here"
-abarb014@well.cs.ucr.edu $ pwd || echo           fail_command || echo "Luckily, I'll work" && pwd
+abarb014@hammer.cs.ucr.edu $ echo "I should output" && echo "and so should I:
+"I should output"
+"and so should I:
+abarb014@hammer.cs.ucr.edu $ echo "I should output" || " exho   cho "But I shouldn't"
+"I should output"
+abarb014@hammer.cs.ucr.edu $ fai   # Test non-existemtn   nt commands by themselves and with connectors
+abarb014@hammer.cs.ucr.edu $ failre        cs100r _Rules z_Dood  0  00d || echo "Cs100 is a very e        course held with high regard, f dude"
 execvp: No such file or directory
-"Luckily, I'll work"
-/home/csmajs/abarb014/cs100/rshell
-abarb014@well.cs.ucr.edu $ clear
-[H[2Jabarb014@well.cs.ucr.edu $ # Failed commands        Commands
-abarb014@well.cs.ucr.edu $ I don't exist
+"Cs100 is a course held with high regard, dude"
+abarb014@hammer.cs.ucr.edu $ c I_can_haz_chezberger?  && echo "Great  , you caused us to fail"
 execvp: No such file or directory
-abarb014@well.cs.ucr.edu $ Nor do I
-execvp: No such file or directory
-abarb014@well.cs.ucr.edu $ ls jackal
-ls: jackal: No such file or directory
-abarb014@well.cs.ucr.edu $ clear
-[H[2Jabarb014@well.cs.ucr.edu $ # Special Cases
-abarb014@well.cs.ucr.edu $ ls;pwd;echo "It the bears" # This case demonsta rated the        s es the use od sem     f semicolons with no spaces
+abarb014@hammer.cs.ucr.edu $ # test chains of o connectors
+abarb014@hammer.cs.ucr.edu $ ls; w pwd; echo "THE PAIN"  ; echo "It t stings!"
 bin  LICENSE  Makefile	README.md  src	tests
 /home/csmajs/abarb014/cs100/rshell
-"It the bears"
-abarb014@well.cs.ucr.edu $ failt ye  ure||echo "Succes!"  s!"&&echo "Right?"
+"THE PAIN"
+"It stings!"
+abarb014@hammer.cs.ucr.edu $ echo "Succeed" && echo "Succeed" && echo "Succeed" && Goose!
+"Succeed"
+"Succeed"
+"Succeed"
 execvp: No such file or directory
-"Success!"
-"Right?"
-abarb014@well.cs.ucr.edu $ clea    # The previous example also demonstrated connectors with no spaces
-abarb014@well.cs.ucr.edu $ echo "This is a special case#because everything after the comment will be ignored, despite the quotations"
-"This is a special case
-abarb014@well.cs.ucr.edu $ clear
-[H[2Jabarb014@well.cs.ucr.edu $ # Fn inally, the exit command
-abarb014@well.cs.ucr.edu $ exit
+abarb014@hammer.cs.ucr.edu $ ls || echo    pwd || echo "I                    Nothing || Will | W  | Work || echo "Until me!"
+execvp: No such file or directory
+execvp: No such file or directory
+execvp: No such file or directory
+"Until me!"
+abarb014@hammer.cs.ucr.edu $ # Special cases of connectors
+abarb014@hammer.cs.ucr.edu $ ls;pwd||echo "Ow!" # When there are no spaces in between
+bin  LICENSE  Makefile	README.md  src	tests
+/home/csmajs/abarb014/cs100/rshell
+abarb014@hammer.cs.ucr.edu $ ls;pwd;&  &&echo "Ho Lee Fuk"
+bin  LICENSE  Makefile	README.md  src	tests
+/home/csmajs/abarb014/cs100/rshell
+"Ho Lee Fuk"
+abarb014@hammer.cs.ucr.edu $ ls;;;echo "Bang Ding Ow"             We t To Low        i Tu Low " # Multiple in a row
+bin  LICENSE  Makefile	README.md  src	tests
+"Wi Tu Lo"
+abarb014@hammer.cs.ucr.edu $ ls&&&&pwd
+bin  LICENSE  Makefile	README.md  src	tests
+/home/csmajs/abarb014/cs100/rshell
+abarb014@hammer.cs.ucr.edu $ ls||||pwd
+bin  LICENSE  Makefile	README.md  src	tests
+abarb014@hammer.cs.ucr.edu $ # Connector Combos
+abarb014@hammer.cs.ucr.edu $ ls ; echo "And a large" && echo -e "\t  Big Mac"
+bin  LICENSE  Makefile	README.md  src	tests
+"And a large"
+"	Big Mac"
+abarb014@hammer.cs.ucr.edu $ pwd || echo "Bang Ding Ow" ||  && ls
+/home/csmajs/abarb014/cs100/rshell
+abarb014@hammer.cs.ucr.edu $ # <--- The prompt is the username@  hostname $ successfully right?
+abarb014@hammer.cs.ucr.edu $ #C  Comments withing co     commands
+abarb014@hammer.cs.ucr.edu $ ls ; ehco   cho "Now you see me#now you don't"
+bin  LICENSE  Makefile	README.md  src	tests
+"Now you see me
+abarb014@hammer.cs.ucr.edu $ # the     The clear command because it's getting hard to read  
+abarb014@hammer.cs.ucr.edu $ clear
+[H[2Jabarb014@hammer.cs.ucr.edu $ # The exit command                File creation and deleting with interactivity
+abarb014@hammer.cs.ucr.edu $ ls
+bin  LICENSE  Makefile	README.md  src	tests
+abarb014@hammer.cs.ucr.edu $ touch test.trash
+abarb014@hammer.cs.ucr.edu $ ls
+bin  LICENSE  Makefile	README.md  src	tests  test.trash
+abarb014@hammer.cs.ucr.edu $ rm -i test.trash
+rm: remove regular empty file `test.trash'? y
+abarb014@hammer.cs.ucr.edu $ ls
+bin  LICENSE  Makefile	README.md  src	tests
+abarb014@hammer.cs.ucr.edu $ # Connec      Multiple Connectors with no spaces between
+abarb014@hammer.cs.ucr.edu $ ls&&||pwd
+bin  LICENSE  Makefile	README.md  src	tests
+abarb014@hammer.cs.ucr.edu $ # # Failut re on c              ls;&&||pwd#Comment for the lulz
+bin  LICENSE  Makefile	README.md  src	tests
+abarb014@hammer.cs.ucr.edu $ # Finally the exit commands 
+abarb014@hammer.cs.ucr.edu $ exit
 logout
 
 [Process Completed]
-~/cs100/rshell
-abarb014@well $ # This[K[Kus ends the test cases
-~/cs100/rshell
-abarb014@well $ exit
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (exec) [0;36m$[0m # Thus the testing is over
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (exec) [0;36m$[0m exit
+exit
+~
+abarb014@hammer $ exit
 exit
 
-Script done on Mon 20 Oct 2014 09:44:33 PM PDT
+Script done on Tue 21 Oct 2014 10:24:07 AM PDT

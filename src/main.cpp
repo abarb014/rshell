@@ -255,6 +255,11 @@ string cleanInput(const string& input)
 
 void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCount, int& status, char **&argv)
 {
+    // ALWAYS CHECK IF THE DAMN QUEUE IS EMPTY BEFORE TRYING TO ACCESS MEMORY
+    if (original.empty())
+    {
+        return;
+    }
     if (original.front().compare("exit") == 0)
     {
         for (int i = 0; i < commandCount; i++)
