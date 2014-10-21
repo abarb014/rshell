@@ -1,0 +1,98 @@
+Script started on Mon 20 Oct 2014 09:36:25 PM PDT
+~
+abarb014@well $ cd cs100/rshell
+~/cs100/rshell
+abarb014@well $ make
+mkdir -p bin
+g++ -Wall -Werror -ansi -pedantic src/main.cpp -o bin/rshell
+~/cs100/rshell
+abarb014@well $ ./bin/rshell
+abarb014@well.cs.ucr.edu $ clear
+[H[2Jabarb014@well.cs.ucr.edu $ # Ref gular Commands
+abarb014@well.cs.ucr.edu $ ls
+bin  LICENSE  Makefile	README.md  src	tests
+abarb014@well.cs.ucr.edu $ pwd
+/home/csmajs/abarb014/cs100/rshell
+abarb014@well.cs.ucr.edu $ mkdir sample
+abarb014@well.cs.ucr.edu $ ls
+bin  LICENSE  Makefile	README.md  sample  src	tests
+abarb014@well.cs.ucr.edu $ rmdir sample
+abarb014@well.cs.ucr.edu $ ls
+bin  LICENSE  Makefile	README.md  src	tests
+abarb014@well.cs.ucr.edu $ clear
+[H[2Jabarb014@well.cs.ucr.edu $ # Commands with arguments
+abarb014@well.cs.ucr.edu $ la -a    s -a
+.  ..  bin  .git  LICENSE  Makefile  README.md	src  tests
+abarb014@well.cs.ucr.edu $ ls -a -F
+./  ../  bin/  .git/  LICENSE  Makefile  README.md  src/  tests/
+abarb014@well.cs.ucr.edu $ ls  echo -e "\tWhoa dude"
+"	Whoa dude"
+abarb014@well.cs.ucr.edu $ ls    ls -aF
+./  ../  bin/  .git/  LICENSE  Makefile  README.md  src/  tests/
+abarb014@well.cs.ucr.edu $ clear
+[H[2Jabarb014@well.cs.ucr.edu $ #connec       Connectors (1 at a time)
+abarb014@well.cs.ucr.edu $ ls ; pwd
+bin  LICENSE  Makefile	README.md  src	tests
+/home/csmajs/abarb014/cs100/rshell
+abarb014@well.cs.ucr.edu $ echo "This should output
+"This should output
+abarb014@well.cs.ucr.edu $ ^[[A    echo "This should output" || eh cho "But this shouldn't"
+"This should output"
+abarb014@well.cs.ucr.edu $ echo "This should output" && echo "And so should this"
+"This should output"
+"And so should this"
+abarb014@well.cs.ucr.edu $ clear
+[H[2Jabarb014@well.cs.ucr.edu $ #c  Multiple Connectors
+abarb014@well.cs.ucr.edu $ ls ;   ; pwd;       ; pwd; echo "Heyo!"
+bin  LICENSE  Makefile	README.md  src	tests
+/home/csmajs/abarb014/cs100/rshell
+"Heyo!"
+abarb014@well.cs.ucr.edu $ ls && echo "Oh yeah!" && pwd
+bin  LICENSE  Makefile	README.md  src	tests
+"Oh yeah!"
+/home/csmajs/abarb014/cs100/rshell
+abarb014@well.cs.ucr.edu $ echo "Nothing after this will output" || ls || pwd
+"Nothing after this will output"
+abarb014@well.cs.ucr.edu $ clear
+[H[2Jabarb014@well.cs.ucr.edu $ # Connce  ector Combos
+abarb014@well.cs.ucr.edu $ ls && echo "It'll stop right here" || echo "I do nothing"
+bin  LICENSE  Makefile	README.md  src	tests
+"It'll stop right here"
+abarb014@well.cs.ucr.edu $ pwd || echo           fail_command || echo "Luckily, I'll work" && pwd
+execvp: No such file or directory
+"Luckily, I'll work"
+/home/csmajs/abarb014/cs100/rshell
+abarb014@well.cs.ucr.edu $ clear
+[H[2Jabarb014@well.cs.ucr.edu $ # Failed commands        Commands
+abarb014@well.cs.ucr.edu $ I don't exist
+execvp: No such file or directory
+abarb014@well.cs.ucr.edu $ Nor do I
+execvp: No such file or directory
+abarb014@well.cs.ucr.edu $ ls jackal
+ls: jackal: No such file or directory
+abarb014@well.cs.ucr.edu $ clear
+[H[2Jabarb014@well.cs.ucr.edu $ # Special Cases
+abarb014@well.cs.ucr.edu $ ls;pwd;echo "It the bears" # This case demonsta rated the        s es the use od sem     f semicolons with no spaces
+bin  LICENSE  Makefile	README.md  src	tests
+/home/csmajs/abarb014/cs100/rshell
+"It the bears"
+abarb014@well.cs.ucr.edu $ failt ye  ure||echo "Succes!"  s!"&&echo "Right?"
+execvp: No such file or directory
+"Success!"
+"Right?"
+abarb014@well.cs.ucr.edu $ clea    # The previous example also demonstrated connectors with no spaces
+abarb014@well.cs.ucr.edu $ echo "This is a special case#because everything after the comment will be ignored, despite the quotations"
+"This is a special case
+abarb014@well.cs.ucr.edu $ clear
+[H[2Jabarb014@well.cs.ucr.edu $ # Fn inally, the exit command
+abarb014@well.cs.ucr.edu $ exit
+logout
+
+[Process Completed]
+~/cs100/rshell
+abarb014@well $ # This[K[Kus ends the test cases
+~/cs100/rshell
+abarb014@well $ exit
+exit
+
+Script done on Mon 20 Oct 2014 09:44:33 PM PDT
