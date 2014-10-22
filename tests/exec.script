@@ -1,4 +1,4 @@
-Script started on Tue 21 Oct 2014 10:09:29 AM PDT
+Script started on Tue 21 Oct 2014 07:22:46 PM PDT
 ~
 abarb014@hammer $ cs100
 [0;91m
@@ -9,116 +9,1153 @@ abarb014@hammer $ cs100
 ===============================================================================
 [0m
 [s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m cd cs100/rshell
-[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (exec) [0;36m$[0m make
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (exec) [0;36m$[0m mske[K[K[Kake
 mkdir -p bin
 g++ -Wall -Werror -ansi -pedantic src/main.cpp -o bin/rshell
-[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (exec) [0;36m$[0m bin/rshell
-abarb014@hammer.cs.ucr.edu $ # The first test              Test if comments work alone
-abarb014@hammer.cs.ucr.edu $ # Test empty commands
-abarb014@hammer.cs.ucr.edu $ 
-abarb014@hammer.cs.ucr.edu $ # Test Regular Commands with no Arguments or Options
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (exec) [0;36m$[0m /[Kbin/rshell
+abarb014@hammer.cs.ucr.edu $ # Regular Commands (No arguments)
 abarb014@hammer.cs.ucr.edu $ ls
 bin  LICENSE  Makefile	README.md  src	tests
 abarb014@hammer.cs.ucr.edu $ pwd
 /home/csmajs/abarb014/cs100/rshell
-abarb014@hammer.cs.ucr.edu $ clear
-[H[2Jabarb014@hammer.cs.ucr.edu $ # Test commands with arguments and/or options
+abarb014@hammer.cs.ucr.edu $ ps
+  PID TTY          TIME CMD
+25608 pts/41   00:00:00 bash
+25741 pts/41   00:00:00 rshell
+25798 pts/41   00:00:00 ps
+abarb014@hammer.cs.ucr.edu $ ls -a     # Commands with arguem  ments
 abarb014@hammer.cs.ucr.edu $ ls -a
 .  ..  bin  .git  LICENSE  Makefile  README.md	src  tests
 abarb014@hammer.cs.ucr.edu $ ls -a -F
 ./  ../  bin/  .git/  LICENSE  Makefile  README.md  src/  tests/
-abarb014@hammer.cs.ucr.edu $ ls -aF
-./  ../  bin/  .git/  LICENSE  Makefile  README.md  src/  tests/
-abarb014@hammer.cs.ucr.edu $ echo -e "\tWhoa dude, a tab"
-"	Whoa dude, a tab"
-abarb014@hammer.cs.ucr.edu $ echo "Look at meeeeee"
-"Look at meeeeee"
-abarb014@hammer.cs.ucr.edu $ # Test connectors one at a time
-abarb014@hammer.cs.ucr.edu $ ls ;    ; pwd
-bin  LICENSE  Makefile	README.md  src	tests
-/home/csmajs/abarb014/cs100/rshell
-abarb014@hammer.cs.ucr.edu $ echo "I should output" && echo "and so should I:
-"I should output"
-"and so should I:
-abarb014@hammer.cs.ucr.edu $ echo "I should output" || " exho   cho "But I shouldn't"
-"I should output"
-abarb014@hammer.cs.ucr.edu $ fai   # Test non-existemtn   nt commands by themselves and with connectors
-abarb014@hammer.cs.ucr.edu $ failre        cs100r _Rules z_Dood  0  00d || echo "Cs100 is a very e        course held with high regard, f dude"
-execvp: No such file or directory
-"Cs100 is a course held with high regard, dude"
-abarb014@hammer.cs.ucr.edu $ c I_can_haz_chezberger?  && echo "Great  , you caused us to fail"
-execvp: No such file or directory
-abarb014@hammer.cs.ucr.edu $ # test chains of o connectors
-abarb014@hammer.cs.ucr.edu $ ls; w pwd; echo "THE PAIN"  ; echo "It t stings!"
-bin  LICENSE  Makefile	README.md  src	tests
-/home/csmajs/abarb014/cs100/rshell
-"THE PAIN"
-"It stings!"
-abarb014@hammer.cs.ucr.edu $ echo "Succeed" && echo "Succeed" && echo "Succeed" && Goose!
-"Succeed"
-"Succeed"
-"Succeed"
-execvp: No such file or directory
-abarb014@hammer.cs.ucr.edu $ ls || echo    pwd || echo "I                    Nothing || Will | W  | Work || echo "Until me!"
-execvp: No such file or directory
-execvp: No such file or directory
-execvp: No such file or directory
-"Until me!"
-abarb014@hammer.cs.ucr.edu $ # Special cases of connectors
-abarb014@hammer.cs.ucr.edu $ ls;pwd||echo "Ow!" # When there are no spaces in between
-bin  LICENSE  Makefile	README.md  src	tests
-/home/csmajs/abarb014/cs100/rshell
-abarb014@hammer.cs.ucr.edu $ ls;pwd;&  &&echo "Ho Lee Fuk"
-bin  LICENSE  Makefile	README.md  src	tests
-/home/csmajs/abarb014/cs100/rshell
-"Ho Lee Fuk"
-abarb014@hammer.cs.ucr.edu $ ls;;;echo "Bang Ding Ow"             We t To Low        i Tu Low " # Multiple in a row
-bin  LICENSE  Makefile	README.md  src	tests
-"Wi Tu Lo"
-abarb014@hammer.cs.ucr.edu $ ls&&&&pwd
-bin  LICENSE  Makefile	README.md  src	tests
-/home/csmajs/abarb014/cs100/rshell
-abarb014@hammer.cs.ucr.edu $ ls||||pwd
-bin  LICENSE  Makefile	README.md  src	tests
-abarb014@hammer.cs.ucr.edu $ # Connector Combos
-abarb014@hammer.cs.ucr.edu $ ls ; echo "And a large" && echo -e "\t  Big Mac"
-bin  LICENSE  Makefile	README.md  src	tests
-"And a large"
-"	Big Mac"
-abarb014@hammer.cs.ucr.edu $ pwd || echo "Bang Ding Ow" ||  && ls
-/home/csmajs/abarb014/cs100/rshell
-abarb014@hammer.cs.ucr.edu $ # <--- The prompt is the username@  hostname $ successfully right?
-abarb014@hammer.cs.ucr.edu $ #C  Comments withing co     commands
-abarb014@hammer.cs.ucr.edu $ ls ; ehco   cho "Now you see me#now you don't"
-bin  LICENSE  Makefile	README.md  src	tests
-"Now you see me
-abarb014@hammer.cs.ucr.edu $ # the     The clear command because it's getting hard to read  
+abarb014@hammer.cs.ucr.edu $ ps -ef
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         1     0  0 Oct05 ?        00:04:56 /sbin/init
+root         2     0  0 Oct05 ?        00:00:00 [kthreadd]
+root         3     2  0 Oct05 ?        00:00:06 [migration/0]
+root         4     2  0 Oct05 ?        00:00:00 [ksoftirqd/0]
+root         5     2  0 Oct05 ?        00:00:00 [migration/0]
+root         6     2  0 Oct05 ?        00:00:01 [watchdog/0]
+root         7     2  0 Oct05 ?        00:05:40 [migration/1]
+root         8     2  0 Oct05 ?        00:00:00 [migration/1]
+root         9     2  0 Oct05 ?        00:00:00 [ksoftirqd/1]
+root        10     2  0 Oct05 ?        00:00:27 [watchdog/1]
+root        11     2  0 Oct05 ?        00:00:36 [migration/2]
+root        12     2  0 Oct05 ?        00:00:00 [migration/2]
+root        13     2  0 Oct05 ?        00:00:00 [ksoftirqd/2]
+root        14     2  0 Oct05 ?        00:00:01 [watchdog/2]
+root        15     2  0 Oct05 ?        00:00:01 [migration/3]
+root        16     2  0 Oct05 ?        00:00:00 [migration/3]
+root        17     2  0 Oct05 ?        00:00:00 [ksoftirqd/3]
+root        18     2  0 Oct05 ?        00:00:01 [watchdog/3]
+root        19     2  0 Oct05 ?        00:00:00 [migration/4]
+root        20     2  0 Oct05 ?        00:00:00 [migration/4]
+root        21     2  0 Oct05 ?        00:00:00 [ksoftirqd/4]
+root        22     2  0 Oct05 ?        00:00:01 [watchdog/4]
+root        23     2  0 Oct05 ?        00:00:00 [migration/5]
+root        24     2  0 Oct05 ?        00:00:00 [migration/5]
+root        25     2  0 Oct05 ?        00:00:00 [ksoftirqd/5]
+root        26     2  0 Oct05 ?        00:00:00 [watchdog/5]
+root        27     2  0 Oct05 ?        00:00:03 [migration/6]
+root        28     2  0 Oct05 ?        00:00:00 [migration/6]
+root        29     2  0 Oct05 ?        00:00:00 [ksoftirqd/6]
+root        30     2  0 Oct05 ?        00:00:01 [watchdog/6]
+root        31     2  0 Oct05 ?        00:06:05 [migration/7]
+root        32     2  0 Oct05 ?        00:00:00 [migration/7]
+root        33     2  0 Oct05 ?        00:00:00 [ksoftirqd/7]
+root        34     2  0 Oct05 ?        00:00:24 [watchdog/7]
+root        35     2  0 Oct05 ?        00:00:03 [migration/8]
+root        36     2  0 Oct05 ?        00:00:00 [migration/8]
+root        37     2  0 Oct05 ?        00:00:00 [ksoftirqd/8]
+root        38     2  0 Oct05 ?        00:00:01 [watchdog/8]
+root        39     2  0 Oct05 ?        00:00:01 [migration/9]
+root        40     2  0 Oct05 ?        00:00:00 [migration/9]
+root        41     2  0 Oct05 ?        00:00:00 [ksoftirqd/9]
+root        42     2  0 Oct05 ?        00:00:01 [watchdog/9]
+root        43     2  0 Oct05 ?        00:00:00 [migration/10]
+root        44     2  0 Oct05 ?        00:00:00 [migration/10]
+root        45     2  0 Oct05 ?        00:00:00 [ksoftirqd/10]
+root        46     2  0 Oct05 ?        00:00:01 [watchdog/10]
+root        47     2  0 Oct05 ?        00:00:00 [migration/11]
+root        48     2  0 Oct05 ?        00:00:00 [migration/11]
+root        49     2  0 Oct05 ?        00:00:00 [ksoftirqd/11]
+root        50     2  0 Oct05 ?        00:00:01 [watchdog/11]
+root        51     2  0 Oct05 ?        00:00:08 [migration/12]
+root        52     2  0 Oct05 ?        00:00:00 [migration/12]
+root        53     2  0 Oct05 ?        00:00:00 [ksoftirqd/12]
+root        54     2  0 Oct05 ?        00:00:01 [watchdog/12]
+root        55     2  0 Oct05 ?        00:04:48 [migration/13]
+root        56     2  0 Oct05 ?        00:00:00 [migration/13]
+root        57     2  0 Oct05 ?        00:00:00 [ksoftirqd/13]
+root        58     2  0 Oct05 ?        00:00:23 [watchdog/13]
+root        59     2  0 Oct05 ?        00:00:17 [migration/14]
+root        60     2  0 Oct05 ?        00:00:00 [migration/14]
+root        61     2  0 Oct05 ?        00:00:00 [ksoftirqd/14]
+root        62     2  0 Oct05 ?        00:00:01 [watchdog/14]
+root        63     2  0 Oct05 ?        00:00:01 [migration/15]
+root        64     2  0 Oct05 ?        00:00:00 [migration/15]
+root        65     2  0 Oct05 ?        00:00:00 [ksoftirqd/15]
+root        66     2  0 Oct05 ?        00:00:01 [watchdog/15]
+root        67     2  0 Oct05 ?        00:00:00 [migration/16]
+root        68     2  0 Oct05 ?        00:00:00 [migration/16]
+root        69     2  0 Oct05 ?        00:00:00 [ksoftirqd/16]
+root        70     2  0 Oct05 ?        00:00:01 [watchdog/16]
+root        71     2  0 Oct05 ?        00:00:00 [migration/17]
+root        72     2  0 Oct05 ?        00:00:00 [migration/17]
+root        73     2  0 Oct05 ?        00:00:00 [ksoftirqd/17]
+root        74     2  0 Oct05 ?        00:00:01 [watchdog/17]
+root        75     2  0 Oct05 ?        00:00:05 [migration/18]
+root        76     2  0 Oct05 ?        00:00:00 [migration/18]
+root        77     2  0 Oct05 ?        00:00:00 [ksoftirqd/18]
+root        78     2  0 Oct05 ?        00:00:01 [watchdog/18]
+root        79     2  0 Oct05 ?        00:05:08 [migration/19]
+root        80     2  0 Oct05 ?        00:00:00 [migration/19]
+root        81     2  0 Oct05 ?        00:00:00 [ksoftirqd/19]
+root        82     2  0 Oct05 ?        00:00:30 [watchdog/19]
+root        83     2  0 Oct05 ?        00:00:07 [migration/20]
+root        84     2  0 Oct05 ?        00:00:00 [migration/20]
+root        85     2  0 Oct05 ?        00:00:00 [ksoftirqd/20]
+root        86     2  0 Oct05 ?        00:00:01 [watchdog/20]
+root        87     2  0 Oct05 ?        00:00:01 [migration/21]
+root        88     2  0 Oct05 ?        00:00:00 [migration/21]
+root        89     2  0 Oct05 ?        00:00:00 [ksoftirqd/21]
+root        90     2  0 Oct05 ?        00:00:01 [watchdog/21]
+root        91     2  0 Oct05 ?        00:00:00 [migration/22]
+root        92     2  0 Oct05 ?        00:00:00 [migration/22]
+root        93     2  0 Oct05 ?        00:00:00 [ksoftirqd/22]
+root        94     2  0 Oct05 ?        00:00:01 [watchdog/22]
+root        95     2  0 Oct05 ?        00:00:00 [migration/23]
+root        96     2  0 Oct05 ?        00:00:00 [migration/23]
+root        97     2  0 Oct05 ?        00:00:00 [ksoftirqd/23]
+root        98     2  0 Oct05 ?        00:00:01 [watchdog/23]
+root        99     2  0 Oct05 ?        00:00:06 [migration/24]
+root       100     2  0 Oct05 ?        00:00:00 [migration/24]
+root       101     2  0 Oct05 ?        00:00:00 [ksoftirqd/24]
+root       102     2  0 Oct05 ?        00:00:02 [watchdog/24]
+root       103     2  0 Oct05 ?        00:04:49 [migration/25]
+root       104     2  0 Oct05 ?        00:00:00 [migration/25]
+root       105     2  0 Oct05 ?        00:00:02 [ksoftirqd/25]
+root       106     2  0 Oct05 ?        00:00:23 [watchdog/25]
+root       107     2  0 Oct05 ?        00:00:18 [migration/26]
+root       108     2  0 Oct05 ?        00:00:00 [migration/26]
+root       109     2  0 Oct05 ?        00:00:00 [ksoftirqd/26]
+root       110     2  0 Oct05 ?        00:00:01 [watchdog/26]
+root       111     2  0 Oct05 ?        00:00:01 [migration/27]
+root       112     2  0 Oct05 ?        00:00:00 [migration/27]
+root       113     2  0 Oct05 ?        00:00:00 [ksoftirqd/27]
+root       114     2  0 Oct05 ?        00:00:01 [watchdog/27]
+root       115     2  0 Oct05 ?        00:00:00 [migration/28]
+root       116     2  0 Oct05 ?        00:00:00 [migration/28]
+root       117     2  0 Oct05 ?        00:00:00 [ksoftirqd/28]
+root       118     2  0 Oct05 ?        00:00:01 [watchdog/28]
+root       119     2  0 Oct05 ?        00:00:00 [migration/29]
+root       120     2  0 Oct05 ?        00:00:00 [migration/29]
+root       121     2  0 Oct05 ?        00:00:00 [ksoftirqd/29]
+root       122     2  0 Oct05 ?        00:00:01 [watchdog/29]
+root       123     2  0 Oct05 ?        00:00:05 [migration/30]
+root       124     2  0 Oct05 ?        00:00:00 [migration/30]
+root       125     2  0 Oct05 ?        00:00:00 [ksoftirqd/30]
+root       126     2  0 Oct05 ?        00:00:01 [watchdog/30]
+root       127     2  0 Oct05 ?        00:05:24 [migration/31]
+root       128     2  0 Oct05 ?        00:00:00 [migration/31]
+root       129     2  0 Oct05 ?        00:00:00 [ksoftirqd/31]
+root       130     2  0 Oct05 ?        00:00:26 [watchdog/31]
+root       131     2  0 Oct05 ?        00:00:07 [migration/32]
+root       132     2  0 Oct05 ?        00:00:00 [migration/32]
+root       133     2  0 Oct05 ?        00:00:00 [ksoftirqd/32]
+root       134     2  0 Oct05 ?        00:00:01 [watchdog/32]
+root       135     2  0 Oct05 ?        00:00:01 [migration/33]
+root       136     2  0 Oct05 ?        00:00:00 [migration/33]
+root       137     2  0 Oct05 ?        00:00:04 [ksoftirqd/33]
+root       138     2  0 Oct05 ?        00:00:01 [watchdog/33]
+root       139     2  0 Oct05 ?        00:00:00 [migration/34]
+root       140     2  0 Oct05 ?        00:00:00 [migration/34]
+root       141     2  0 Oct05 ?        00:00:00 [ksoftirqd/34]
+root       142     2  0 Oct05 ?        00:00:01 [watchdog/34]
+root       143     2  0 Oct05 ?        00:00:00 [migration/35]
+root       144     2  0 Oct05 ?        00:00:00 [migration/35]
+root       145     2  0 Oct05 ?        00:00:00 [ksoftirqd/35]
+root       146     2  0 Oct05 ?        00:00:01 [watchdog/35]
+root       147     2  0 Oct05 ?        00:00:05 [migration/36]
+root       148     2  0 Oct05 ?        00:00:00 [migration/36]
+root       149     2  0 Oct05 ?        00:00:00 [ksoftirqd/36]
+root       150     2  0 Oct05 ?        00:00:01 [watchdog/36]
+root       151     2  0 Oct05 ?        00:04:24 [migration/37]
+root       152     2  0 Oct05 ?        00:00:00 [migration/37]
+root       153     2  0 Oct05 ?        00:00:01 [ksoftirqd/37]
+root       154     2  0 Oct05 ?        00:00:24 [watchdog/37]
+root       155     2  0 Oct05 ?        00:00:12 [migration/38]
+root       156     2  0 Oct05 ?        00:00:00 [migration/38]
+root       157     2  0 Oct05 ?        00:00:00 [ksoftirqd/38]
+root       158     2  0 Oct05 ?        00:00:01 [watchdog/38]
+root       159     2  0 Oct05 ?        00:00:01 [migration/39]
+root       160     2  0 Oct05 ?        00:00:00 [migration/39]
+root       161     2  0 Oct05 ?        00:00:00 [ksoftirqd/39]
+root       162     2  0 Oct05 ?        00:00:01 [watchdog/39]
+root       163     2  0 Oct05 ?        00:00:00 [migration/40]
+root       164     2  0 Oct05 ?        00:00:00 [migration/40]
+root       165     2  0 Oct05 ?        00:00:00 [ksoftirqd/40]
+root       166     2  0 Oct05 ?        00:00:01 [watchdog/40]
+root       167     2  0 Oct05 ?        00:00:00 [migration/41]
+root       168     2  0 Oct05 ?        00:00:00 [migration/41]
+root       169     2  0 Oct05 ?        00:00:00 [ksoftirqd/41]
+root       170     2  0 Oct05 ?        00:00:01 [watchdog/41]
+root       171     2  0 Oct05 ?        00:00:07 [migration/42]
+root       172     2  0 Oct05 ?        00:00:00 [migration/42]
+root       173     2  0 Oct05 ?        00:00:00 [ksoftirqd/42]
+root       174     2  0 Oct05 ?        00:00:01 [watchdog/42]
+root       175     2  0 Oct05 ?        00:04:44 [migration/43]
+root       176     2  0 Oct05 ?        00:00:00 [migration/43]
+root       177     2  0 Oct05 ?        00:00:00 [ksoftirqd/43]
+root       178     2  0 Oct05 ?        00:00:21 [watchdog/43]
+root       179     2  0 Oct05 ?        00:00:07 [migration/44]
+root       180     2  0 Oct05 ?        00:00:00 [migration/44]
+root       181     2  0 Oct05 ?        00:00:00 [ksoftirqd/44]
+root       182     2  0 Oct05 ?        00:00:01 [watchdog/44]
+root       183     2  0 Oct05 ?        00:00:01 [migration/45]
+root       184     2  0 Oct05 ?        00:00:00 [migration/45]
+root       185     2  0 Oct05 ?        00:00:00 [ksoftirqd/45]
+root       186     2  0 Oct05 ?        00:00:01 [watchdog/45]
+root       187     2  0 Oct05 ?        00:00:00 [migration/46]
+root       188     2  0 Oct05 ?        00:00:00 [migration/46]
+root       189     2  0 Oct05 ?        00:00:00 [ksoftirqd/46]
+root       190     2  0 Oct05 ?        00:00:01 [watchdog/46]
+root       191     2  0 Oct05 ?        00:00:00 [migration/47]
+root       192     2  0 Oct05 ?        00:00:00 [migration/47]
+root       193     2  0 Oct05 ?        00:00:00 [ksoftirqd/47]
+root       194     2  0 Oct05 ?        00:00:01 [watchdog/47]
+root       195     2  0 Oct05 ?        00:03:39 [events/0]
+root       196     2  0 Oct05 ?        00:00:46 [events/1]
+root       197     2  0 Oct05 ?        00:00:41 [events/2]
+root       198     2  0 Oct05 ?        00:00:35 [events/3]
+root       199     2  0 Oct05 ?        00:00:33 [events/4]
+root       200     2  0 Oct05 ?        00:00:41 [events/5]
+root       201     2  0 Oct05 ?        00:00:53 [events/6]
+root       202     2  0 Oct05 ?        00:00:45 [events/7]
+root       203     2  0 Oct05 ?        00:00:46 [events/8]
+root       204     2  0 Oct05 ?        00:00:39 [events/9]
+root       205     2  0 Oct05 ?        00:00:38 [events/10]
+root       206     2  0 Oct05 ?        00:00:49 [events/11]
+root       207     2  0 Oct05 ?        00:00:38 [events/12]
+root       208     2  0 Oct05 ?        00:00:48 [events/13]
+root       209     2  0 Oct05 ?        00:00:38 [events/14]
+root       210     2  0 Oct05 ?        00:00:34 [events/15]
+root       211     2  0 Oct05 ?        00:00:31 [events/16]
+root       212     2  0 Oct05 ?        00:00:41 [events/17]
+root       213     2  0 Oct05 ?        00:00:39 [events/18]
+root       214     2  0 Oct05 ?        00:00:49 [events/19]
+root       215     2  0 Oct05 ?        00:00:39 [events/20]
+root       216     2  0 Oct05 ?        00:00:35 [events/21]
+root       217     2  0 Oct05 ?        00:00:35 [events/22]
+root       218     2  0 Oct05 ?        00:00:46 [events/23]
+root       219     2  0 Oct05 ?        00:00:38 [events/24]
+root       220     2  0 Oct05 ?        00:00:48 [events/25]
+root       221     2  0 Oct05 ?        00:00:38 [events/26]
+root       222     2  0 Oct05 ?        00:00:33 [events/27]
+root       223     2  0 Oct05 ?        00:00:34 [events/28]
+root       224     2  0 Oct05 ?        00:00:43 [events/29]
+root       225     2  0 Oct05 ?        00:00:50 [events/30]
+root       226     2  0 Oct05 ?        00:01:01 [events/31]
+root       227     2  0 Oct05 ?        00:00:34 [events/32]
+root       228     2  0 Oct05 ?        00:00:30 [events/33]
+root       229     2  0 Oct05 ?        00:00:35 [events/34]
+root       230     2  0 Oct05 ?        00:00:44 [events/35]
+root       231     2  0 Oct05 ?        00:00:36 [events/36]
+root       232     2  0 Oct05 ?        00:00:44 [events/37]
+root       233     2  0 Oct05 ?        00:00:35 [events/38]
+root       234     2  0 Oct05 ?        00:00:34 [events/39]
+root       235     2  0 Oct05 ?        00:00:33 [events/40]
+root       236     2  0 Oct05 ?        00:00:43 [events/41]
+root       237     2  0 Oct05 ?        00:00:37 [events/42]
+root       238     2  0 Oct05 ?        00:00:54 [events/43]
+root       239     2  0 Oct05 ?        00:00:34 [events/44]
+root       240     2  0 Oct05 ?        00:00:33 [events/45]
+root       241     2  0 Oct05 ?        00:00:33 [events/46]
+root       242     2  0 Oct05 ?        00:00:44 [events/47]
+root       243     2  0 Oct05 ?        00:00:00 [cgroup]
+root       244     2  0 Oct05 ?        00:00:00 [khelper]
+root       245     2  0 Oct05 ?        00:00:00 [netns]
+root       246     2  0 Oct05 ?        00:00:00 [async/mgr]
+root       247     2  0 Oct05 ?        00:00:00 [pm]
+root       248     2  0 Oct05 ?        00:00:04 [sync_supers]
+root       249     2  0 Oct05 ?        00:00:04 [bdi-default]
+root       250     2  0 Oct05 ?        00:00:00 [kintegrityd/0]
+root       251     2  0 Oct05 ?        00:00:00 [kintegrityd/1]
+root       252     2  0 Oct05 ?        00:00:00 [kintegrityd/2]
+root       253     2  0 Oct05 ?        00:00:00 [kintegrityd/3]
+root       254     2  0 Oct05 ?        00:00:00 [kintegrityd/4]
+root       255     2  0 Oct05 ?        00:00:00 [kintegrityd/5]
+root       256     2  0 Oct05 ?        00:00:00 [kintegrityd/6]
+root       257     2  0 Oct05 ?        00:00:00 [kintegrityd/7]
+root       258     2  0 Oct05 ?        00:00:00 [kintegrityd/8]
+root       259     2  0 Oct05 ?        00:00:00 [kintegrityd/9]
+root       260     2  0 Oct05 ?        00:00:00 [kintegrityd/10]
+root       261     2  0 Oct05 ?        00:00:00 [kintegrityd/11]
+root       262     2  0 Oct05 ?        00:00:00 [kintegrityd/12]
+root       263     2  0 Oct05 ?        00:00:00 [kintegrityd/13]
+root       264     2  0 Oct05 ?        00:00:00 [kintegrityd/14]
+root       265     2  0 Oct05 ?        00:00:00 [kintegrityd/15]
+root       266     2  0 Oct05 ?        00:00:00 [kintegrityd/16]
+root       267     2  0 Oct05 ?        00:00:00 [kintegrityd/17]
+root       268     2  0 Oct05 ?        00:00:00 [kintegrityd/18]
+root       269     2  0 Oct05 ?        00:00:00 [kintegrityd/19]
+root       270     2  0 Oct05 ?        00:00:00 [kintegrityd/20]
+root       271     2  0 Oct05 ?        00:00:00 [kintegrityd/21]
+root       272     2  0 Oct05 ?        00:00:00 [kintegrityd/22]
+root       273     2  0 Oct05 ?        00:00:00 [kintegrityd/23]
+root       274     2  0 Oct05 ?        00:00:00 [kintegrityd/24]
+root       275     2  0 Oct05 ?        00:00:00 [kintegrityd/25]
+root       276     2  0 Oct05 ?        00:00:00 [kintegrityd/26]
+root       277     2  0 Oct05 ?        00:00:00 [kintegrityd/27]
+root       278     2  0 Oct05 ?        00:00:00 [kintegrityd/28]
+root       279     2  0 Oct05 ?        00:00:00 [kintegrityd/29]
+root       280     2  0 Oct05 ?        00:00:00 [kintegrityd/30]
+root       281     2  0 Oct05 ?        00:00:00 [kintegrityd/31]
+root       282     2  0 Oct05 ?        00:00:00 [kintegrityd/32]
+root       283     2  0 Oct05 ?        00:00:00 [kintegrityd/33]
+root       284     2  0 Oct05 ?        00:00:00 [kintegrityd/34]
+root       285     2  0 Oct05 ?        00:00:00 [kintegrityd/35]
+root       286     2  0 Oct05 ?        00:00:00 [kintegrityd/36]
+root       287     2  0 Oct05 ?        00:00:00 [kintegrityd/37]
+root       288     2  0 Oct05 ?        00:00:00 [kintegrityd/38]
+root       289     2  0 Oct05 ?        00:00:00 [kintegrityd/39]
+root       290     2  0 Oct05 ?        00:00:00 [kintegrityd/40]
+root       291     2  0 Oct05 ?        00:00:00 [kintegrityd/41]
+root       292     2  0 Oct05 ?        00:00:00 [kintegrityd/42]
+root       293     2  0 Oct05 ?        00:00:00 [kintegrityd/43]
+root       294     2  0 Oct05 ?        00:00:00 [kintegrityd/44]
+root       295     2  0 Oct05 ?        00:00:00 [kintegrityd/45]
+root       296     2  0 Oct05 ?        00:00:00 [kintegrityd/46]
+root       297     2  0 Oct05 ?        00:00:00 [kintegrityd/47]
+root       298     2  0 Oct05 ?        00:00:00 [kblockd/0]
+root       299     2  0 Oct05 ?        00:00:14 [kblockd/1]
+root       300     2  0 Oct05 ?        00:00:00 [kblockd/2]
+root       301     2  0 Oct05 ?        00:00:00 [kblockd/3]
+root       302     2  0 Oct05 ?        00:00:00 [kblockd/4]
+root       303     2  0 Oct05 ?        00:00:00 [kblockd/5]
+root       304     2  0 Oct05 ?        00:00:00 [kblockd/6]
+root       305     2  0 Oct05 ?        00:00:00 [kblockd/7]
+root       306     2  0 Oct05 ?        00:00:00 [kblockd/8]
+root       307     2  0 Oct05 ?        00:00:00 [kblockd/9]
+root       308     2  0 Oct05 ?        00:00:00 [kblockd/10]
+root       309     2  0 Oct05 ?        00:00:00 [kblockd/11]
+root       310     2  0 Oct05 ?        00:00:00 [kblockd/12]
+root       311     2  0 Oct05 ?        00:00:00 [kblockd/13]
+root       312     2  0 Oct05 ?        00:00:00 [kblockd/14]
+root       313     2  0 Oct05 ?        00:00:00 [kblockd/15]
+root       314     2  0 Oct05 ?        00:00:00 [kblockd/16]
+root       315     2  0 Oct05 ?        00:00:00 [kblockd/17]
+root       316     2  0 Oct05 ?        00:00:00 [kblockd/18]
+root       317     2  0 Oct05 ?        00:00:00 [kblockd/19]
+root       318     2  0 Oct05 ?        00:00:00 [kblockd/20]
+root       319     2  0 Oct05 ?        00:00:00 [kblockd/21]
+root       320     2  0 Oct05 ?        00:00:00 [kblockd/22]
+root       321     2  0 Oct05 ?        00:00:00 [kblockd/23]
+root       322     2  0 Oct05 ?        00:00:00 [kblockd/24]
+root       323     2  0 Oct05 ?        00:00:00 [kblockd/25]
+root       324     2  0 Oct05 ?        00:00:00 [kblockd/26]
+root       325     2  0 Oct05 ?        00:00:00 [kblockd/27]
+root       326     2  0 Oct05 ?        00:00:00 [kblockd/28]
+root       327     2  0 Oct05 ?        00:00:00 [kblockd/29]
+root       328     2  0 Oct05 ?        00:00:00 [kblockd/30]
+root       329     2  0 Oct05 ?        00:00:00 [kblockd/31]
+root       330     2  0 Oct05 ?        00:00:00 [kblockd/32]
+root       331     2  0 Oct05 ?        00:00:00 [kblockd/33]
+root       332     2  0 Oct05 ?        00:00:00 [kblockd/34]
+root       333     2  0 Oct05 ?        00:00:00 [kblockd/35]
+root       334     2  0 Oct05 ?        00:00:00 [kblockd/36]
+root       335     2  0 Oct05 ?        00:00:00 [kblockd/37]
+root       336     2  0 Oct05 ?        00:00:00 [kblockd/38]
+root       337     2  0 Oct05 ?        00:00:00 [kblockd/39]
+root       338     2  0 Oct05 ?        00:00:00 [kblockd/40]
+root       339     2  0 Oct05 ?        00:00:00 [kblockd/41]
+root       340     2  0 Oct05 ?        00:00:00 [kblockd/42]
+root       341     2  0 Oct05 ?        00:00:00 [kblockd/43]
+root       342     2  0 Oct05 ?        00:00:00 [kblockd/44]
+root       343     2  0 Oct05 ?        00:00:00 [kblockd/45]
+root       344     2  0 Oct05 ?        00:00:00 [kblockd/46]
+root       345     2  0 Oct05 ?        00:00:00 [kblockd/47]
+root       346     2  0 Oct05 ?        00:00:00 [kacpid]
+root       347     2  0 Oct05 ?        00:00:00 [kacpi_notify]
+root       348     2  0 Oct05 ?        00:00:00 [kacpi_hotplug]
+root       349     2  0 Oct05 ?        00:00:00 [ata_aux]
+root       350     2  0 Oct05 ?        00:00:00 [ata_sff/0]
+root       351     2  0 Oct05 ?        00:00:00 [ata_sff/1]
+root       352     2  0 Oct05 ?        00:00:00 [ata_sff/2]
+root       353     2  0 Oct05 ?        00:00:00 [ata_sff/3]
+root       354     2  0 Oct05 ?        00:00:00 [ata_sff/4]
+root       355     2  0 Oct05 ?        00:00:00 [ata_sff/5]
+root       356     2  0 Oct05 ?        00:00:00 [ata_sff/6]
+root       357     2  0 Oct05 ?        00:00:00 [ata_sff/7]
+root       358     2  0 Oct05 ?        00:00:00 [ata_sff/8]
+root       359     2  0 Oct05 ?        00:00:00 [ata_sff/9]
+root       360     2  0 Oct05 ?        00:00:00 [ata_sff/10]
+root       361     2  0 Oct05 ?        00:00:00 [ata_sff/11]
+root       362     2  0 Oct05 ?        00:00:00 [ata_sff/12]
+root       363     2  0 Oct05 ?        00:00:00 [ata_sff/13]
+root       364     2  0 Oct05 ?        00:00:00 [ata_sff/14]
+root       365     2  0 Oct05 ?        00:00:00 [ata_sff/15]
+root       366     2  0 Oct05 ?        00:00:00 [ata_sff/16]
+root       367     2  0 Oct05 ?        00:00:00 [ata_sff/17]
+root       368     2  0 Oct05 ?        00:00:00 [ata_sff/18]
+root       369     2  0 Oct05 ?        00:00:00 [ata_sff/19]
+root       370     2  0 Oct05 ?        00:00:00 [ata_sff/20]
+root       371     2  0 Oct05 ?        00:00:00 [ata_sff/21]
+root       372     2  0 Oct05 ?        00:00:00 [ata_sff/22]
+root       373     2  0 Oct05 ?        00:00:00 [ata_sff/23]
+root       374     2  0 Oct05 ?        00:00:00 [ata_sff/24]
+root       375     2  0 Oct05 ?        00:00:00 [ata_sff/25]
+root       376     2  0 Oct05 ?        00:00:00 [ata_sff/26]
+root       377     2  0 Oct05 ?        00:00:00 [ata_sff/27]
+root       378     2  0 Oct05 ?        00:00:00 [ata_sff/28]
+root       379     2  0 Oct05 ?        00:00:00 [ata_sff/29]
+root       380     2  0 Oct05 ?        00:00:00 [ata_sff/30]
+root       381     2  0 Oct05 ?        00:00:00 [ata_sff/31]
+root       382     2  0 Oct05 ?        00:00:00 [ata_sff/32]
+root       383     2  0 Oct05 ?        00:00:00 [ata_sff/33]
+root       384     2  0 Oct05 ?        00:00:00 [ata_sff/34]
+root       385     2  0 Oct05 ?        00:00:00 [ata_sff/35]
+root       386     2  0 Oct05 ?        00:00:00 [ata_sff/36]
+root       387     2  0 Oct05 ?        00:00:00 [ata_sff/37]
+root       388     2  0 Oct05 ?        00:00:00 [ata_sff/38]
+root       389     2  0 Oct05 ?        00:00:00 [ata_sff/39]
+root       390     2  0 Oct05 ?        00:00:00 [ata_sff/40]
+root       391     2  0 Oct05 ?        00:00:00 [ata_sff/41]
+root       392     2  0 Oct05 ?        00:00:00 [ata_sff/42]
+root       393     2  0 Oct05 ?        00:00:00 [ata_sff/43]
+root       394     2  0 Oct05 ?        00:00:00 [ata_sff/44]
+root       395     2  0 Oct05 ?        00:00:00 [ata_sff/45]
+root       396     2  0 Oct05 ?        00:00:00 [ata_sff/46]
+root       397     2  0 Oct05 ?        00:00:00 [ata_sff/47]
+root       398     2  0 Oct05 ?        00:00:00 [ksuspend_usbd]
+root       399     2  0 Oct05 ?        00:00:00 [khubd]
+root       400     2  0 Oct05 ?        00:00:00 [kseriod]
+root       401     2  0 Oct05 ?        00:00:00 [md/0]
+root       402     2  0 Oct05 ?        00:00:00 [md/1]
+root       403     2  0 Oct05 ?        00:00:00 [md/2]
+root       404     2  0 Oct05 ?        00:00:00 [md/3]
+root       405     2  0 Oct05 ?        00:00:00 [md/4]
+root       406     2  0 Oct05 ?        00:00:00 [md/5]
+root       407     2  0 Oct05 ?        00:00:00 [md/6]
+root       408     2  0 Oct05 ?        00:00:00 [md/7]
+root       409     2  0 Oct05 ?        00:00:00 [md/8]
+root       410     2  0 Oct05 ?        00:00:00 [md/9]
+root       411     2  0 Oct05 ?        00:00:00 [md/10]
+root       412     2  0 Oct05 ?        00:00:00 [md/11]
+root       413     2  0 Oct05 ?        00:00:00 [md/12]
+root       414     2  0 Oct05 ?        00:00:00 [md/13]
+root       415     2  0 Oct05 ?        00:00:00 [md/14]
+root       416     2  0 Oct05 ?        00:00:00 [md/15]
+root       417     2  0 Oct05 ?        00:00:00 [md/16]
+root       418     2  0 Oct05 ?        00:00:00 [md/17]
+root       419     2  0 Oct05 ?        00:00:00 [md/18]
+root       420     2  0 Oct05 ?        00:00:00 [md/19]
+root       421     2  0 Oct05 ?        00:00:00 [md/20]
+root       422     2  0 Oct05 ?        00:00:00 [md/21]
+root       423     2  0 Oct05 ?        00:00:00 [md/22]
+root       424     2  0 Oct05 ?        00:00:00 [md/23]
+root       425     2  0 Oct05 ?        00:00:00 [md/24]
+root       426     2  0 Oct05 ?        00:00:00 [md/25]
+root       427     2  0 Oct05 ?        00:00:00 [md/26]
+root       428     2  0 Oct05 ?        00:00:00 [md/27]
+root       429     2  0 Oct05 ?        00:00:00 [md/28]
+root       430     2  0 Oct05 ?        00:00:00 [md/29]
+root       431     2  0 Oct05 ?        00:00:00 [md/30]
+root       432     2  0 Oct05 ?        00:00:00 [md/31]
+root       433     2  0 Oct05 ?        00:00:00 [md/32]
+root       434     2  0 Oct05 ?        00:00:00 [md/33]
+root       435     2  0 Oct05 ?        00:00:00 [md/34]
+root       436     2  0 Oct05 ?        00:00:00 [md/35]
+root       437     2  0 Oct05 ?        00:00:00 [md/36]
+root       438     2  0 Oct05 ?        00:00:00 [md/37]
+root       439     2  0 Oct05 ?        00:00:00 [md/38]
+root       440     2  0 Oct05 ?        00:00:00 [md/39]
+root       441     2  0 Oct05 ?        00:00:00 [md/40]
+root       442     2  0 Oct05 ?        00:00:00 [md/41]
+root       443     2  0 Oct05 ?        00:00:00 [md/42]
+root       444     2  0 Oct05 ?        00:00:00 [md/43]
+root       445     2  0 Oct05 ?        00:00:00 [md/44]
+root       446     2  0 Oct05 ?        00:00:00 [md/45]
+root       447     2  0 Oct05 ?        00:00:00 [md/46]
+root       448     2  0 Oct05 ?        00:00:00 [md/47]
+root       449     2  0 Oct05 ?        00:00:00 [md_misc/0]
+root       450     2  0 Oct05 ?        00:00:00 [md_misc/1]
+root       451     2  0 Oct05 ?        00:00:00 [md_misc/2]
+root       452     2  0 Oct05 ?        00:00:00 [md_misc/3]
+root       453     2  0 Oct05 ?        00:00:00 [md_misc/4]
+root       454     2  0 Oct05 ?        00:00:00 [md_misc/5]
+root       455     2  0 Oct05 ?        00:00:00 [md_misc/6]
+root       456     2  0 Oct05 ?        00:00:00 [md_misc/7]
+root       457     2  0 Oct05 ?        00:00:00 [md_misc/8]
+root       458     2  0 Oct05 ?        00:00:00 [md_misc/9]
+root       459     2  0 Oct05 ?        00:00:00 [md_misc/10]
+root       460     2  0 Oct05 ?        00:00:00 [md_misc/11]
+root       461     2  0 Oct05 ?        00:00:00 [md_misc/12]
+root       462     2  0 Oct05 ?        00:00:00 [md_misc/13]
+root       463     2  0 Oct05 ?        00:00:00 [md_misc/14]
+root       464     2  0 Oct05 ?        00:00:00 [md_misc/15]
+root       465     2  0 Oct05 ?        00:00:00 [md_misc/16]
+root       466     2  0 Oct05 ?        00:00:00 [md_misc/17]
+root       467     2  0 Oct05 ?        00:00:00 [md_misc/18]
+root       468     2  0 Oct05 ?        00:00:00 [md_misc/19]
+root       469     2  0 Oct05 ?        00:00:00 [md_misc/20]
+root       470     2  0 Oct05 ?        00:00:00 [md_misc/21]
+root       471     2  0 Oct05 ?        00:00:00 [md_misc/22]
+root       472     2  0 Oct05 ?        00:00:00 [md_misc/23]
+root       473     2  0 Oct05 ?        00:00:00 [md_misc/24]
+root       474     2  0 Oct05 ?        00:00:00 [md_misc/25]
+root       475     2  0 Oct05 ?        00:00:00 [md_misc/26]
+root       476     2  0 Oct05 ?        00:00:00 [md_misc/27]
+root       477     2  0 Oct05 ?        00:00:00 [md_misc/28]
+root       478     2  0 Oct05 ?        00:00:00 [md_misc/29]
+root       479     2  0 Oct05 ?        00:00:00 [md_misc/30]
+root       480     2  0 Oct05 ?        00:00:00 [md_misc/31]
+root       481     2  0 Oct05 ?        00:00:00 [md_misc/32]
+root       482     2  0 Oct05 ?        00:00:00 [md_misc/33]
+root       483     2  0 Oct05 ?        00:00:00 [md_misc/34]
+root       484     2  0 Oct05 ?        00:00:00 [md_misc/35]
+root       485     2  0 Oct05 ?        00:00:00 [md_misc/36]
+root       486     2  0 Oct05 ?        00:00:00 [md_misc/37]
+root       487     2  0 Oct05 ?        00:00:00 [md_misc/38]
+root       488     2  0 Oct05 ?        00:00:00 [md_misc/39]
+root       489     2  0 Oct05 ?        00:00:00 [md_misc/40]
+root       490     2  0 Oct05 ?        00:00:00 [md_misc/41]
+root       491     2  0 Oct05 ?        00:00:00 [md_misc/42]
+root       492     2  0 Oct05 ?        00:00:00 [md_misc/43]
+root       493     2  0 Oct05 ?        00:00:00 [md_misc/44]
+root       494     2  0 Oct05 ?        00:00:00 [md_misc/45]
+root       495     2  0 Oct05 ?        00:00:00 [md_misc/46]
+root       496     2  0 Oct05 ?        00:00:00 [md_misc/47]
+root       497     2  0 Oct05 ?        00:00:00 [linkwatch]
+root       498     2  0 Oct05 ?        00:00:01 [khungtaskd]
+root       499     2  0 Oct05 ?        00:00:00 [kswapd0]
+root       500     2  0 Oct05 ?        00:00:00 [kswapd1]
+root       501     2  0 Oct05 ?        00:00:00 [kswapd2]
+root       502     2  0 Oct05 ?        00:00:00 [kswapd3]
+root       503     2  0 Oct05 ?        00:00:00 [kswapd4]
+root       504     2  0 Oct05 ?        00:00:00 [kswapd5]
+root       505     2  0 Oct05 ?        00:00:00 [kswapd6]
+root       506     2  0 Oct05 ?        00:00:00 [kswapd7]
+root       507     2  0 Oct05 ?        00:00:00 [ksmd]
+root       508     2  0 Oct05 ?        00:00:07 [khugepaged]
+root       509     2  0 Oct05 ?        00:00:00 [aio/0]
+root       510     2  0 Oct05 ?        00:00:00 [aio/1]
+root       511     2  0 Oct05 ?        00:00:00 [aio/2]
+root       512     2  0 Oct05 ?        00:00:00 [aio/3]
+root       513     2  0 Oct05 ?        00:00:00 [aio/4]
+root       514     2  0 Oct05 ?        00:00:00 [aio/5]
+root       515     2  0 Oct05 ?        00:00:00 [aio/6]
+root       516     2  0 Oct05 ?        00:00:00 [aio/7]
+root       517     2  0 Oct05 ?        00:00:00 [aio/8]
+root       518     2  0 Oct05 ?        00:00:00 [aio/9]
+root       519     2  0 Oct05 ?        00:00:00 [aio/10]
+root       520     2  0 Oct05 ?        00:00:00 [aio/11]
+root       521     2  0 Oct05 ?        00:00:00 [aio/12]
+root       522     2  0 Oct05 ?        00:00:00 [aio/13]
+root       523     2  0 Oct05 ?        00:00:00 [aio/14]
+root       524     2  0 Oct05 ?        00:00:00 [aio/15]
+root       525     2  0 Oct05 ?        00:00:00 [aio/16]
+root       526     2  0 Oct05 ?        00:00:00 [aio/17]
+root       527     2  0 Oct05 ?        00:00:00 [aio/18]
+root       528     2  0 Oct05 ?        00:00:00 [aio/19]
+root       529     2  0 Oct05 ?        00:00:00 [aio/20]
+root       530     2  0 Oct05 ?        00:00:00 [aio/21]
+root       531     2  0 Oct05 ?        00:00:00 [aio/22]
+root       532     2  0 Oct05 ?        00:00:00 [aio/23]
+root       533     2  0 Oct05 ?        00:00:00 [aio/24]
+root       534     2  0 Oct05 ?        00:00:00 [aio/25]
+root       535     2  0 Oct05 ?        00:00:00 [aio/26]
+root       536     2  0 Oct05 ?        00:00:00 [aio/27]
+root       537     2  0 Oct05 ?        00:00:00 [aio/28]
+root       538     2  0 Oct05 ?        00:00:00 [aio/29]
+root       539     2  0 Oct05 ?        00:00:00 [aio/30]
+root       540     2  0 Oct05 ?        00:00:00 [aio/31]
+root       541     2  0 Oct05 ?        00:00:00 [aio/32]
+root       542     2  0 Oct05 ?        00:00:00 [aio/33]
+root       543     2  0 Oct05 ?        00:00:00 [aio/34]
+root       544     2  0 Oct05 ?        00:00:00 [aio/35]
+root       545     2  0 Oct05 ?        00:00:00 [aio/36]
+root       546     2  0 Oct05 ?        00:00:00 [aio/37]
+root       547     2  0 Oct05 ?        00:00:00 [aio/38]
+root       548     2  0 Oct05 ?        00:00:00 [aio/39]
+root       549     2  0 Oct05 ?        00:00:00 [aio/40]
+root       550     2  0 Oct05 ?        00:00:00 [aio/41]
+root       551     2  0 Oct05 ?        00:00:00 [aio/42]
+root       552     2  0 Oct05 ?        00:00:00 [aio/43]
+root       553     2  0 Oct05 ?        00:00:00 [aio/44]
+root       554     2  0 Oct05 ?        00:00:00 [aio/45]
+root       555     2  0 Oct05 ?        00:00:00 [aio/46]
+root       556     2  0 Oct05 ?        00:00:00 [aio/47]
+root       557     2  0 Oct05 ?        00:00:00 [crypto/0]
+root       558     2  0 Oct05 ?        00:00:00 [crypto/1]
+root       559     2  0 Oct05 ?        00:00:00 [crypto/2]
+root       560     2  0 Oct05 ?        00:00:00 [crypto/3]
+root       561     2  0 Oct05 ?        00:00:00 [crypto/4]
+root       562     2  0 Oct05 ?        00:00:00 [crypto/5]
+root       563     2  0 Oct05 ?        00:00:00 [crypto/6]
+root       564     2  0 Oct05 ?        00:00:00 [crypto/7]
+root       565     2  0 Oct05 ?        00:00:00 [crypto/8]
+root       566     2  0 Oct05 ?        00:00:00 [crypto/9]
+root       567     2  0 Oct05 ?        00:00:00 [crypto/10]
+root       568     2  0 Oct05 ?        00:00:00 [crypto/11]
+root       569     2  0 Oct05 ?        00:00:00 [crypto/12]
+root       570     2  0 Oct05 ?        00:00:00 [crypto/13]
+root       571     2  0 Oct05 ?        00:00:00 [crypto/14]
+root       572     2  0 Oct05 ?        00:00:00 [crypto/15]
+root       573     2  0 Oct05 ?        00:00:00 [crypto/16]
+root       574     2  0 Oct05 ?        00:00:00 [crypto/17]
+root       575     2  0 Oct05 ?        00:00:00 [crypto/18]
+root       576     2  0 Oct05 ?        00:00:00 [crypto/19]
+root       577     2  0 Oct05 ?        00:00:00 [crypto/20]
+root       578     2  0 Oct05 ?        00:00:00 [crypto/21]
+root       579     2  0 Oct05 ?        00:00:00 [crypto/22]
+root       580     2  0 Oct05 ?        00:00:00 [crypto/23]
+root       581     2  0 Oct05 ?        00:00:00 [crypto/24]
+root       582     2  0 Oct05 ?        00:00:00 [crypto/25]
+root       583     2  0 Oct05 ?        00:00:00 [crypto/26]
+root       584     2  0 Oct05 ?        00:00:00 [crypto/27]
+root       585     2  0 Oct05 ?        00:00:00 [crypto/28]
+root       586     2  0 Oct05 ?        00:00:00 [crypto/29]
+root       587     2  0 Oct05 ?        00:00:00 [crypto/30]
+root       588     2  0 Oct05 ?        00:00:00 [crypto/31]
+root       589     2  0 Oct05 ?        00:00:00 [crypto/32]
+root       590     2  0 Oct05 ?        00:00:00 [crypto/33]
+root       591     2  0 Oct05 ?        00:00:00 [crypto/34]
+root       592     2  0 Oct05 ?        00:00:00 [crypto/35]
+root       593     2  0 Oct05 ?        00:00:00 [crypto/36]
+root       594     2  0 Oct05 ?        00:00:00 [crypto/37]
+root       595     2  0 Oct05 ?        00:00:00 [crypto/38]
+root       596     2  0 Oct05 ?        00:00:00 [crypto/39]
+root       597     2  0 Oct05 ?        00:00:00 [crypto/40]
+root       598     2  0 Oct05 ?        00:00:00 [crypto/41]
+root       599     2  0 Oct05 ?        00:00:00 [crypto/42]
+root       600     2  0 Oct05 ?        00:00:00 [crypto/43]
+root       601     2  0 Oct05 ?        00:00:00 [crypto/44]
+root       602     2  0 Oct05 ?        00:00:00 [crypto/45]
+root       603     2  0 Oct05 ?        00:00:00 [crypto/46]
+root       604     2  0 Oct05 ?        00:00:00 [crypto/47]
+root       609     2  0 Oct05 ?        00:00:00 [kthrotld/0]
+root       610     2  0 Oct05 ?        00:00:00 [kthrotld/1]
+root       611     2  0 Oct05 ?        00:00:00 [kthrotld/2]
+root       612     2  0 Oct05 ?        00:00:00 [kthrotld/3]
+root       613     2  0 Oct05 ?        00:00:00 [kthrotld/4]
+root       614     2  0 Oct05 ?        00:00:00 [kthrotld/5]
+root       615     2  0 Oct05 ?        00:00:00 [kthrotld/6]
+root       616     2  0 Oct05 ?        00:00:00 [kthrotld/7]
+root       617     2  0 Oct05 ?        00:00:00 [kthrotld/8]
+root       618     2  0 Oct05 ?        00:00:00 [kthrotld/9]
+root       619     2  0 Oct05 ?        00:00:00 [kthrotld/10]
+root       620     2  0 Oct05 ?        00:00:00 [kthrotld/11]
+root       621     2  0 Oct05 ?        00:00:00 [kthrotld/12]
+root       622     2  0 Oct05 ?        00:00:00 [kthrotld/13]
+root       623     2  0 Oct05 ?        00:00:00 [kthrotld/14]
+root       624     2  0 Oct05 ?        00:00:00 [kthrotld/15]
+root       625     2  0 Oct05 ?        00:00:00 [kthrotld/16]
+root       626     2  0 Oct05 ?        00:00:00 [kthrotld/17]
+root       627     2  0 Oct05 ?        00:00:00 [kthrotld/18]
+root       628     2  0 Oct05 ?        00:00:00 [kthrotld/19]
+root       629     2  0 Oct05 ?        00:00:00 [kthrotld/20]
+root       630     2  0 Oct05 ?        00:00:00 [kthrotld/21]
+root       631     2  0 Oct05 ?        00:00:00 [kthrotld/22]
+root       632     2  0 Oct05 ?        00:00:00 [kthrotld/23]
+root       633     2  0 Oct05 ?        00:00:00 [kthrotld/24]
+root       634     2  0 Oct05 ?        00:00:00 [kthrotld/25]
+root       635     2  0 Oct05 ?        00:00:00 [kthrotld/26]
+root       636     2  0 Oct05 ?        00:00:00 [kthrotld/27]
+root       637     2  0 Oct05 ?        00:00:00 [kthrotld/28]
+root       638     2  0 Oct05 ?        00:00:00 [kthrotld/29]
+root       639     2  0 Oct05 ?        00:00:00 [kthrotld/30]
+root       640     2  0 Oct05 ?        00:00:00 [kthrotld/31]
+root       641     2  0 Oct05 ?        00:00:00 [kthrotld/32]
+root       642     2  0 Oct05 ?        00:00:00 [kthrotld/33]
+root       643     2  0 Oct05 ?        00:00:00 [kthrotld/34]
+root       644     2  0 Oct05 ?        00:00:00 [kthrotld/35]
+root       645     2  0 Oct05 ?        00:00:00 [kthrotld/36]
+root       646     2  0 Oct05 ?        00:00:00 [kthrotld/37]
+root       647     2  0 Oct05 ?        00:00:00 [kthrotld/38]
+root       648     2  0 Oct05 ?        00:00:00 [kthrotld/39]
+root       649     2  0 Oct05 ?        00:00:00 [kthrotld/40]
+root       650     2  0 Oct05 ?        00:00:00 [kthrotld/41]
+root       651     2  0 Oct05 ?        00:00:00 [kthrotld/42]
+root       652     2  0 Oct05 ?        00:00:00 [kthrotld/43]
+root       653     2  0 Oct05 ?        00:00:00 [kthrotld/44]
+root       654     2  0 Oct05 ?        00:00:00 [kthrotld/45]
+root       655     2  0 Oct05 ?        00:00:00 [kthrotld/46]
+root       656     2  0 Oct05 ?        00:00:00 [kthrotld/47]
+root       667     2  0 Oct05 ?        00:00:00 [kpsmoused]
+root       668     2  0 Oct05 ?        00:00:00 [usbhid_resumer]
+root       698     2  0 Oct05 ?        00:00:00 [kstriped]
+root       733     2  0 Oct05 ?        00:00:00 [scsi_eh_0]
+root       734     2  0 Oct05 ?        00:00:00 [usb-storage]
+root       896     2  0 Oct05 ?        00:00:00 [scsi_eh_1]
+root       898     2  0 Oct05 ?        00:11:00 [scsi_eh_2]
+root       900     2  0 Oct05 ?        00:10:59 [scsi_eh_3]
+root       901     2  0 Oct05 ?        00:00:00 [scsi_eh_4]
+root       939     2  0 Oct05 ?        00:00:00 [scsi_eh_5]
+root       940     2  0 Oct05 ?        00:00:00 [scsi_eh_6]
+root       988     2  0 Oct05 ?        00:00:00 [scsi_eh_7]
+root       989     2  0 Oct05 ?        00:00:00 [fw_event0]
+root       991     2  0 Oct05 ?        00:00:18 [poll_0_status]
+root      1106     2  0 Oct05 ?        00:00:29 [jbd2/sda1-8]
+root      1107     2  0 Oct05 ?        00:00:00 [ext4-dio-unwrit]
+root      1108     2  0 Oct05 ?        00:00:15 [flush-8:0]
+root      1193     1  0 Oct05 ?        00:00:00 /sbin/udevd -d
+root      1434     2  0 Oct05 ?        00:00:12 [edac-poller]
+root      1793     2  0 Oct05 ?        00:00:00 [kauditd]
+root      2024     1  0 Oct05 ?        00:00:04 /sbin/dhclient -1 -q -cf /etc/dhcp/dhclient-eth0.conf -lf /var/lib/dhclient/dhclient-eth0.leases -pf /var/run/dhclient-eth0.pid eth
+root      2090     1  0 Oct05 ?        00:00:00 /sbin/portreserve
+root      2097     1  0 Oct05 ?        00:04:44 /sbin/rsyslogd -i /var/run/syslogd.pid -c 5
+root      2193     1  0 Oct05 ?        00:03:42 irqbalance --pid=/var/run/irqbalance.pid
+rpcuser   2225     1  0 Oct05 ?        00:00:00 rpc.statd
+dbus      2339     1  0 Oct05 ?        00:00:09 dbus-daemon --system
+avahi     2350     1  0 Oct05 ?        00:00:00 avahi-daemon: running [hammer.local]
+avahi     2351  2350  0 Oct05 ?        00:00:00 avahi-daemon: chroot helper
+68        2400     1  0 Oct05 ?        00:00:09 hald
+root      2401  2400  0 Oct05 ?        00:00:00 hald-runner
+root      2433  2401  0 Oct05 ?        00:00:00 hald-addon-input: Listening on /dev/input/event0 /dev/input/event1
+68        2441  2401  0 Oct05 ?        00:00:10 hald-addon-acpi: listening on acpid socket /var/run/acpid.socket
+root      2615     1  0 Oct05 ?        00:00:09 crond
+root      2639     1  0 Oct05 tty1     00:00:00 /sbin/mingetty /dev/tty1
+root      2641     1  0 Oct05 tty2     00:00:00 /sbin/mingetty /dev/tty2
+root      2643     1  0 Oct05 tty3     00:00:00 /sbin/mingetty /dev/tty3
+root      2645     1  0 Oct05 tty4     00:00:00 /sbin/mingetty /dev/tty4
+root      2647     1  0 Oct05 tty5     00:00:00 /sbin/mingetty /dev/tty5
+root      2649     1  0 Oct05 tty6     00:00:00 /sbin/mingetty /dev/tty6
+root      6648 21545  0 09:12 ?        00:00:00 sshd: asand017 [priv]
+asand017  6658  6648  0 09:12 ?        00:00:00 sshd: asand017@pts/7
+asand017  6660  6658  0 09:12 pts/7    00:00:00 -bash
+asand017  6701  6660  0 09:13 pts/7    00:00:00 vim lab2.cpp
+root      8451 21545  0 16:08 ?        00:00:00 sshd: ogonz007 [priv]
+ogonz007  8467  8451  0 16:08 ?        00:00:00 sshd: ogonz007@pts/25
+ogonz007  8468  8467  0 16:08 pts/25   00:00:00 -bash
+ogonz007  8497  8468  0 16:08 pts/25   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+ogonz007  8510  8497  0 16:08 pts/25   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+ogonz007  8511  8510  0 16:08 pts/45   00:00:00 bash --norc -i
+ogonz007  8667  8511  0 16:09 pts/45   00:00:04 /usr/bin/vim -w /usr/csshare/cs100/log/vim/vim-ogonz007-2014-10-21-16-09-29.t0yviRMJS rshell.cpp
+root      9480 21545  0 16:15 ?        00:00:00 sshd: jreye028 [priv]
+jreye028  9491  9480  0 16:15 ?        00:00:00 sshd: jreye028@pts/48
+jreye028  9492  9491  0 16:15 pts/48   00:00:00 -bash
+jreye028 13254  9492  0 16:42 pts/48   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+jreye028 13267 13254  0 16:42 pts/48   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+jreye028 13268 13267  0 16:42 pts/44   00:00:00 bash --norc -i
+root     15324 21545  0 17:03 ?        00:00:00 sshd: mxu008 [priv]
+mxu008   15333 15324  0 17:03 ?        00:00:00 sshd: mxu008@pts/15
+mxu008   15334 15333  0 17:03 pts/15   00:00:00 -bash
+mxu008   15361 15334  0 17:03 pts/15   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+mxu008   15374 15361  0 17:03 pts/15   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+mxu008   15375 15374  0 17:03 pts/18   00:00:00 bash --norc -i
+root     17383 21545  0 17:49 ?        00:00:00 sshd: ahsu013 [priv]
+ahsu013  17392 17383  0 17:49 ?        00:00:00 sshd: ahsu013@pts/4
+ahsu013  17393 17392  0 17:49 pts/4    00:00:00 -bash
+ahsu013  17416 17393  0 17:49 pts/4    00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+ahsu013  17429 17416  0 17:49 pts/4    00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+ahsu013  17430 17429  0 17:49 pts/14   00:00:00 bash --norc -i
+ahsu013  17605 17430  0 17:53 pts/14   00:00:00 /usr/bin/vim -w /usr/csshare/cs100/log/vim/vim-ahsu013-2014-10-21-17-53-00.NIUCRzcS0 src/rshell0.cpp
+root     18320 21545  0 18:26 ?        00:00:00 sshd: ahsu013 [priv]
+ahsu013  18331 18320  0 18:26 ?        00:00:00 sshd: ahsu013@pts/10
+ahsu013  18332 18331  0 18:26 pts/10   00:00:00 -bash
+ahsu013  18374 18332  0 18:26 pts/10   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+ahsu013  18387 18374  0 18:26 pts/10   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+ahsu013  18388 18387  0 18:26 pts/19   00:00:00 bash --norc -i
+rpc      18546     1  0 Oct08 ?        00:00:08 rpcbind
+root     18632     1  0 Oct08 ?        00:00:31 automount --pid-file /var/run/autofs.pid
+rpcuser  18648     1  0 Oct08 ?        00:00:00 rpc.statd --no-notify
+root     18653  1193  0 Oct08 ?        00:00:00 /sbin/udevd -d
+root     18654     2  0 Oct08 ?        00:00:00 [rpciod/0]
+root     18655     2  0 Oct08 ?        00:00:00 [rpciod/1]
+root     18656     2  0 Oct08 ?        00:00:01 [rpciod/2]
+root     18657     2  0 Oct08 ?        00:00:00 [rpciod/3]
+root     18658     2  0 Oct08 ?        00:00:00 [rpciod/4]
+root     18659     2  0 Oct08 ?        00:00:00 [rpciod/5]
+root     18660     2  0 Oct08 ?        00:00:00 [rpciod/6]
+root     18661     2  0 Oct08 ?        00:00:00 [rpciod/7]
+root     18662     2  0 Oct08 ?        00:00:00 [rpciod/8]
+root     18663     2  0 Oct08 ?        00:00:00 [rpciod/9]
+root     18664     2  0 Oct08 ?        00:00:01 [rpciod/10]
+root     18665     2  0 Oct08 ?        00:00:01 [rpciod/11]
+root     18666     2  0 Oct08 ?        00:00:00 [rpciod/12]
+root     18667     2  0 Oct08 ?        00:00:00 [rpciod/13]
+root     18668     2  0 Oct08 ?        00:00:00 [rpciod/14]
+root     18669     2  0 Oct08 ?        00:00:00 [rpciod/15]
+root     18670     2  0 Oct08 ?        00:00:00 [rpciod/16]
+root     18671     2  0 Oct08 ?        00:00:00 [rpciod/17]
+root     18672     2  0 Oct08 ?        00:00:00 [rpciod/18]
+root     18673     2  0 Oct08 ?        00:00:00 [rpciod/19]
+root     18674     2  0 Oct08 ?        00:00:00 [rpciod/20]
+root     18675     2  0 Oct08 ?        00:00:00 [rpciod/21]
+root     18676     2  0 Oct08 ?        00:00:00 [rpciod/22]
+root     18677     2  0 Oct08 ?        00:00:00 [rpciod/23]
+root     18678     2  0 Oct08 ?        00:00:00 [rpciod/24]
+root     18679     2  0 Oct08 ?        00:00:00 [rpciod/25]
+root     18680     2  0 Oct08 ?        00:00:00 [rpciod/26]
+root     18681     2  0 Oct08 ?        00:00:00 [rpciod/27]
+root     18682     2  0 Oct08 ?        00:00:00 [rpciod/28]
+root     18683     2  0 Oct08 ?        00:00:00 [rpciod/29]
+root     18684     2  0 Oct08 ?        00:00:00 [rpciod/30]
+root     18685     2  0 Oct08 ?        00:00:00 [rpciod/31]
+root     18686     2  0 Oct08 ?        00:00:00 [rpciod/32]
+root     18687     2  0 Oct08 ?        00:00:00 [rpciod/33]
+root     18688     2  0 Oct08 ?        00:00:00 [rpciod/34]
+root     18689     2  0 Oct08 ?        00:00:00 [rpciod/35]
+root     18690     2  0 Oct08 ?        00:00:00 [rpciod/36]
+root     18691     2  0 Oct08 ?        00:00:00 [rpciod/37]
+root     18692     2  0 Oct08 ?        00:00:00 [rpciod/38]
+root     18693     2  0 Oct08 ?        00:00:00 [rpciod/39]
+root     18694     2  0 Oct08 ?        00:00:00 [rpciod/40]
+root     18695     2  0 Oct08 ?        00:00:00 [rpciod/41]
+root     18696     2  0 Oct08 ?        00:00:00 [rpciod/42]
+root     18697     2  0 Oct08 ?        00:00:00 [rpciod/43]
+root     18698     2  0 Oct08 ?        00:00:00 [rpciod/44]
+root     18699     2  0 Oct08 ?        00:00:00 [rpciod/45]
+root     18700     2  0 Oct08 ?        00:00:00 [rpciod/46]
+root     18701     2  0 Oct08 ?        00:00:00 [rpciod/47]
+root     18703     2  0 Oct08 ?        00:00:00 [kslowd000]
+root     18704     2  0 Oct08 ?        00:00:00 [kslowd001]
+root     18705     2  0 Oct08 ?        00:00:03 [nfsiod]
+root     18707     2  0 18:35 ?        00:00:00 [flush-0:23]
+root     18765 21545  0 18:36 ?        00:00:00 sshd: pstar001 [priv]
+pstar001 18776 18765  0 18:36 ?        00:00:00 sshd: pstar001@pts/21
+pstar001 18777 18776  0 18:36 pts/21   00:00:00 -bash
+root     18806 21545  0 18:37 ?        00:00:00 sshd: pstar001 [priv]
+pstar001 18815 18806  0 18:37 ?        00:00:00 sshd: pstar001@pts/22
+pstar001 18816 18815  0 18:37 pts/22   00:00:00 -bash
+pstar001 18850 18816  0 18:38 pts/22   00:00:06 vim main.cpp
+root     19058 21545  0 18:41 ?        00:00:00 sshd: jholl013 [priv]
+jholl013 19080 19058  0 18:42 ?        00:00:00 sshd: jholl013@pts/8
+jholl013 19081 19080  0 18:42 pts/8    00:00:00 -bash
+root     19106 21545  0 18:42 ?        00:00:00 sshd: jholl013 [priv]
+jholl013 19108 19106  0 18:42 ?        00:00:00 sshd: jholl013@pts/16
+jholl013 19109 19108  0 18:42 pts/16   00:00:00 -bash
+jholl013 19147 19081  0 18:42 pts/8    00:00:00 vim src/rshell.cpp
+root     19259 21545  0 18:44 ?        00:00:00 sshd: cmanj001 [priv]
+cmanj001 19279 19259  0 18:44 ?        00:00:00 sshd: cmanj001@pts/23
+cmanj001 19280 19279  0 18:44 pts/23   00:00:00 -bash
+root     19306 21545  0 18:44 ?        00:00:00 sshd: cmanj001 [priv]
+cmanj001 19315 19306  0 18:44 ?        00:00:00 sshd: cmanj001@pts/24
+cmanj001 19316 19315  0 18:44 pts/24   00:00:00 -bash
+jholl013 19378 19109  0 18:46 pts/16   00:00:00 bin/rshell
+jholl013 19402 19378  0 18:46 pts/16   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+jholl013 19415 19402  0 18:46 pts/16   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+jholl013 19416 19415  0 18:46 pts/27   00:00:00 bash --norc -i
+root     19489 21545  0 18:47 ?        00:00:00 sshd: asand017 [priv]
+asand017 19499 19489  0 18:47 ?        00:00:00 sshd: asand017@pts/11
+asand017 19500 19499  0 18:47 pts/11   00:00:00 -bash
+asand017 19534 19500  0 18:48 pts/11   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+asand017 19547 19534  0 18:48 pts/11   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+asand017 19548 19547  0 18:48 pts/28   00:00:00 bash --norc -i
+jholl013 19911 19416  0 18:52 pts/27   00:00:00 script test/exec.script
+jholl013 19913 19911  0 18:52 pts/27   00:00:00 script test/exec.script
+jholl013 19914 19913  0 18:52 pts/33   00:00:00 bash -i
+jholl013 19917 19914  0 18:52 pts/33   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+jholl013 19930 19917  0 18:52 pts/33   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+jholl013 19931 19930  0 18:52 pts/37   00:00:00 bash --norc -i
+jholl013 20039 19931  0 18:52 pts/37   00:00:00 bin/rshell
+root     20230 21545  0 18:54 ?        00:00:00 sshd: nlapr001 [priv]
+root     20250 21545  0 18:54 ?        00:00:00 sshd: achao008 [priv]
+nlapr001 20259 20230  0 18:54 ?        00:00:00 sshd: nlapr001@pts/38
+nlapr001 20260 20259  0 18:54 pts/38   00:00:00 -bash
+root     20291 21545  0 18:54 ?        00:00:00 sshd: achao008 [priv]
+achao008 20294 20250  0 18:54 ?        00:00:00 sshd: achao008@pts/40
+achao008 20302 20291  0 18:54 ?        00:00:00 sshd: achao008@notty
+achao008 20303 20302  0 18:54 ?        00:00:00 /usr/libexec/openssh/sftp-server
+achao008 20304 20294  0 18:54 pts/40   00:00:00 -bash
+nlapr001 20337 20260  0 18:55 pts/38   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+nlapr001 20350 20337  0 18:55 pts/38   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+nlapr001 20351 20350  0 18:55 pts/42   00:00:00 bash --norc -i
+achao008 20358 20304  0 18:55 pts/40   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+achao008 20371 20358  0 18:55 pts/40   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+achao008 20372 20371  0 18:55 pts/47   00:00:00 bash --norc -i
+root     20414 21545  0 18:55 ?        00:00:00 sshd: atost001 [priv]
+atost001 20434 20414  0 18:55 ?        00:00:00 sshd: atost001@pts/49
+atost001 20435 20434  0 18:55 pts/49   00:00:00 -bash
+atost001 20460 20435  0 18:55 pts/49   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+atost001 20473 20460  0 18:55 pts/49   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+atost001 20474 20473  0 18:55 pts/50   00:00:00 bash --norc -i
+cmanj001 20682 19316  0 18:57 pts/24   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+cmanj001 20695 20682  0 18:57 pts/24   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+cmanj001 20696 20695  0 18:57 pts/53   00:00:00 bash --norc -i
+root     20738 21545  0 11:55 ?        00:00:00 sshd: bchen022 [priv]
+bchen022 20758 20738  0 11:55 ?        00:00:00 sshd: bchen022@pts/34
+bchen022 20759 20758  0 11:55 pts/34   00:00:00 -bash
+bchen022 20796 20759  0 11:55 pts/34   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+bchen022 20809 20796  0 11:55 pts/34   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+bchen022 20810 20809  0 11:55 pts/35   00:00:00 bash --norc -i
+root     20836 21545  0 18:57 ?        00:00:00 sshd: afan004 [priv]
+root     20849 21545  0 11:55 ?        00:00:00 sshd: bchen022 [priv]
+afan004  20853 20836  0 18:58 ?        00:00:00 sshd: afan004@pts/54
+afan004  20854 20853  0 18:58 pts/54   00:00:00 -bash
+bchen022 20863 20849  0 11:55 ?        00:00:00 sshd: bchen022@pts/1
+bchen022 20864 20863  0 11:55 pts/1    00:00:00 -bash
+afan004  20921 20854  0 18:58 pts/54   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+afan004  20934 20921  0 18:58 pts/54   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+afan004  20935 20934  0 18:58 pts/55   00:00:00 bash --norc -i
+achao008 20960 20372  0 18:58 pts/47   00:00:04 /usr/bin/vim -w /usr/csshare/cs100/log/vim/vim-achao008-2014-10-21-18-58-33.FzgOYONhg src/main.cpp
+root     21298 21545  0 18:59 ?        00:00:00 sshd: htsai010 [priv]
+htsai010 21308 21298  0 18:59 ?        00:00:00 sshd: htsai010@pts/26
+htsai010 21309 21308  0 18:59 pts/26   00:00:00 -bash
+htsai010 21333 21309  0 18:59 pts/26   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+htsai010 21346 21333  0 18:59 pts/26   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+htsai010 21347 21346  0 18:59 pts/56   00:00:00 bash --norc -i
+cmanj001 21532 19280  0 19:00 pts/23   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+root     21545     1  0 Oct08 ?        00:00:09 /usr/sbin/sshd
+cmanj001 21546 21532  0 19:00 pts/23   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+cmanj001 21547 21546  0 19:00 pts/0    00:00:00 bash --norc -i
+cmanj001 21613 21547  0 19:01 pts/0    00:00:01 /usr/bin/vim -w /usr/csshare/cs100/log/vim/vim-cmanj001-2014-10-21-19-01-03.rpvscVwEY main.cpp
+root     23253     1  0 Oct17 ?        00:00:00 cupsd -C /etc/cups/cupsd.conf
+postfix  23315 23963  0 19:07 ?        00:00:00 pickup -l -t fifo -u
+root     23783 21545  0 19:12 ?        00:00:00 sshd: dgoer001 [priv]
+dgoer001 23799 23783  0 19:12 ?        00:00:00 sshd: dgoer001@pts/5
+dgoer001 23800 23799  0 19:12 pts/5    00:00:00 -bash
+dgoer001 23827 23800  0 19:12 pts/5    00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+dgoer001 23840 23827  0 19:12 pts/5    00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+dgoer001 23841 23840  0 19:12 pts/6    00:00:00 bash --norc -i
+root     23963     1  0 Oct17 ?        00:00:00 /usr/libexec/postfix/master
+postfix  23967 23963  0 Oct17 ?        00:00:00 qmgr -l -t fifo -u
+root     24133 21545  0 19:15 ?        00:00:00 sshd: jreye028 [priv]
+jreye028 24232 24133  0 19:16 ?        00:00:00 sshd: jreye028@pts/20
+jreye028 24233 24232  0 19:16 pts/20   00:00:00 -bash
+jreye028 24268 24233  0 19:16 pts/20   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+jreye028 24281 24268  0 19:16 pts/20   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+jreye028 24282 24281  0 19:16 pts/29   00:00:00 bash --norc -i
+root     24409 21545  0 19:16 ?        00:00:00 sshd: hchu007 [priv]
+hchu007  24443 24409  0 19:16 ?        00:00:00 sshd: hchu007@pts/31
+hchu007  24444 24443  0 19:16 pts/31   00:00:00 -bash
+hchu007  24474 24444  0 19:16 pts/31   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+hchu007  24487 24474  0 19:16 pts/31   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+hchu007  24488 24487  0 19:16 pts/30   00:00:00 bash --norc -i
+bchen022 24583 20864  0 12:48 pts/1    00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+bchen022 24596 24583  0 12:48 pts/1    00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+bchen022 24597 24596  0 12:48 pts/2    00:00:00 bash --norc -i
+htsai010 24642 21347  0 19:17 pts/56   00:00:00 /usr/bin/vim -w /usr/csshare/cs100/log/vim/vim-htsai010-2014-10-21-19-17-21.0cRrc0Ve6 main.cpp
+root     25064 21545  0 19:20 ?        00:00:00 sshd: dpham008 [priv]
+dpham008 25081 25064  0 19:20 ?        00:00:00 sshd: dpham008@pts/9
+dpham008 25082 25081  0 19:20 pts/9    00:00:00 -bash
+dpham008 25107 25082  0 19:20 pts/9    00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+dpham008 25120 25107  0 19:20 pts/9    00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+dpham008 25121 25120  0 19:20 pts/12   00:00:00 bash --norc -i
+root     25125 21545  0 19:20 ?        00:00:00 sshd: abarb014 [priv]
+abarb014 25135 25125  0 19:20 ?        00:00:00 sshd: abarb014@pts/32
+abarb014 25136 25135  0 19:20 pts/32   00:00:00 -bash
+dpham008 25179 25121  0 19:20 pts/12   00:00:01 /usr/bin/vim -w /usr/csshare/cs100/log/vim/vim-dpham008-2014-10-21-19-20-43.EFLT0Dkyi main.cpp
+abarb014 25325 25136  0 19:21 pts/32   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+abarb014 25338 25325  0 19:21 pts/32   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+abarb014 25339 25338  0 19:21 pts/36   00:00:00 bash --norc -i
+dgoer001 25491 23841  0 19:22 pts/6    00:00:00 /usr/bin/vim -w /usr/csshare/cs100/log/vim/vim-dgoer001-2014-10-21-19-22-28.AFS6HfWxE main.cpp
+asand017 25505 19548  0 19:22 pts/28   00:00:00 /usr/bin/vim -w /usr/csshare/cs100/log/vim/vim-asand017-2014-10-21-19-22-29.sG7ejxqCE rshell.cpp
+root     25528     1  0 19:22 ?        00:00:00 /usr/sbin/ypbind
+abarb014 25580 25339  0 19:22 pts/36   00:00:00 script tests/exec.script
+abarb014 25582 25580  0 19:22 pts/36   00:00:00 script tests/exec.script
+abarb014 25583 25582  0 19:22 pts/39   00:00:00 bash -i
+root     25591 21545  0 19:22 ?        00:00:00 sshd: ihund001 [priv]
+abarb014 25594 25583  0 19:22 pts/39   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+abarb014 25607 25594  0 19:22 pts/39   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+abarb014 25608 25607  0 19:22 pts/41   00:00:00 bash --norc -i
+root     25613 21545  0 19:22 ?        00:00:00 sshd: aorti017 [priv]
+ihund001 25634 25591  0 19:22 ?        00:00:00 sshd: ihund001@pts/43
+ihund001 25635 25634  0 19:22 pts/43   00:00:00 -bash
+aorti017 25710 25613  0 19:23 ?        00:00:00 sshd: aorti017@pts/46
+aorti017 25717 25710  0 19:23 pts/46   00:00:00 -bash
+abarb014 25741 25608  0 19:23 pts/41   00:00:00 bin/rshell
+cmanj001 25759 20696  0 19:23 pts/53   00:00:00 man getpwuid
+cmanj001 25762 25759  0 19:23 pts/53   00:00:00 sh -c (cd "/usr/share/man" && (echo ".ll 10.5i"; echo ".nr LL 10.5i"; echo ".pl 1100i"; /usr/bin/gunzip -c '/usr/share/man/man3/get
+cmanj001 25763 25762  0 19:23 pts/53   00:00:00 sh -c (cd "/usr/share/man" && (echo ".ll 10.5i"; echo ".nr LL 10.5i"; echo ".pl 1100i"; /usr/bin/gunzip -c '/usr/share/man/man3/get
+cmanj001 25767 25763  0 19:23 pts/53   00:00:00 /usr/bin/less -is
+jreye028 25820 24282  0 19:24 pts/29   00:00:00 ./a.out
+atost001 25839 20474  0 19:24 pts/50   00:00:00 /usr/bin/vim -w /usr/csshare/cs100/log/vim/vim-atost001-2014-10-21-19-24-16.hdtY8eF1e exec.cpp
+root     25855 21545  0 19:24 ?        00:00:00 sshd: aorti017 [priv]
+root     25857 21545  0 19:24 ?        00:00:00 sshd: ihund001 [priv]
+sshd     25858 25857  0 19:24 ?        00:00:00 sshd: ihund001 [net]
+bchen022 25869 42649  0 19:24 pts/17   00:00:00 ./a.out
+bchen022 25870 25869  0 19:24 pts/17   00:00:00 ./a.out
+dpham008 25871 25179  0 19:24 pts/12   00:00:00 ./a.out
+aorti017 25881 25855  0 19:24 ?        00:00:00 sshd: aorti017@pts/51
+aorti017 25882 25881  0 19:24 pts/51   00:00:00 -bash
+abarb014 25905 25741  6 19:24 pts/41   00:00:00 ps -ef
+root     28950     2  0 Oct19 ?        00:00:00 [lockd]
+jholl013 37299     1  0 Oct19 ?        00:00:00 SCREEN
+jholl013 37300 37299  0 Oct19 pts/3    00:00:00 /bin/bash
+bchen022 39855 24597  0 14:56 pts/2    00:00:03 /usr/bin/vim -w /usr/csshare/cs100/log/vim/vim-bchen022-2014-10-21-14-56-44.ZdYHulmBY main.cpp
+root     42166     1  0 Oct07 ?        00:00:01 /usr/sbin/gdm-binary -nodaemon
+root     42197 42166  0 Oct07 ?        00:00:00 /usr/libexec/gdm-simple-slave --display-id /org/gnome/DisplayManager/Display1
+root     42202 42197  0 Oct07 tty7     00:00:29 /usr/bin/Xorg :0 -br -verbose -audit 4 -auth /var/run/gdm/auth-for-gdm-JdE8wg/database -nolisten tcp
+root     42278     1  0 Oct07 ?        00:00:01 /usr/sbin/console-kit-daemon --no-daemon
+gdm      42348     1  0 Oct07 ?        00:00:00 /usr/bin/dbus-launch --exit-with-session
+gdm      42349     1  0 Oct07 ?        00:00:00 /bin/dbus-daemon --fork --print-pid 5 --print-address 7 --session
+gdm      42350 42197  0 Oct07 ?        00:00:01 /usr/bin/gnome-session --autostart=/usr/share/gdm/autostart/LoginWindow/
+root     42353     1  0 Oct07 ?        00:00:01 /usr/libexec/devkit-power-daemon
+gdm      42375 42350  0 Oct07 ?        00:00:03 /usr/libexec/at-spi-registryd
+gdm      42377     1  0 Oct07 ?        00:00:15 /usr/libexec/gnome-settings-daemon --gconf-prefix=/apps/gdm/simple-greeter/settings-manager-plugins
+gdm      42379     1  0 Oct07 ?        00:00:00 /usr/libexec/bonobo-activation-server --ac-activate --ior-output-fd=12
+gdm      42393     1  0 Oct07 ?        00:00:00 /usr/libexec/gvfsd
+gdm      42394 42350  0 Oct07 ?        00:00:04 metacity
+gdm      42395 42350  0 Oct07 ?        00:00:08 gnome-power-manager
+gdm      42396 42350  0 Oct07 ?        00:00:21 /usr/libexec/gdm-simple-greeter
+gdm      42397 42350  0 Oct07 ?        00:00:00 plymouth-log-viewer --icon
+gdm      42398 42350  0 Oct07 ?        00:00:00 /usr/libexec/polkit-gnome-authentication-agent-1
+root     42405     1  0 Oct07 ?        00:00:03 /usr/libexec/polkit-1/polkitd
+gdm      42410     1  0 Oct07 ?        00:00:00 /usr/bin/pulseaudio --start --log-target=syslog
+rtkit    42412     1  0 Oct07 ?        00:00:13 /usr/libexec/rtkit-daemon
+root     42417 42197  0 Oct07 ?        00:00:00 pam: gdm-password
+root     42586 21545  0 15:24 ?        00:00:00 sshd: bchen022 [priv]
+bchen022 42609 42586  0 15:24 ?        00:00:00 sshd: bchen022@pts/13
+bchen022 42610 42609  0 15:24 pts/13   00:00:00 -bash
+bchen022 42635 42610  0 15:24 pts/13   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+bchen022 42648 42635  0 15:24 pts/13   00:00:00 script -q -c env PS1='\[\e[s%%%%%%%%%%\e[u\]\[\e[0;32m\]\u\[\e[0;36m\]@\[\e[0;32m\]cs100\[\e[0;36m\]:\[\e[0;32m\]\w\[\e[0;95m\]$(__
+bchen022 42649 42648  0 15:24 pts/17   00:00:00 bash --norc -i
 abarb014@hammer.cs.ucr.edu $ clear
-[H[2Jabarb014@hammer.cs.ucr.edu $ # The exit command                File creation and deleting with interactivity
+[H[2Jabarb014@hammer.cs.ucr.edu $ c # Commands with arguments and options
+abarb014@hammer.cs.ucr.edu $ echo -e "\tHey look, a tab"
+"	Hey look, a tab"
+abarb014@hammer.cs.ucr.edu $ echo -e "\vNow it's a vertical tab"
+"Now it's a vertical tab"
+abarb014@hammer.cs.ucr.edu $ ls -a tests
+.  ..  exec.script
+abarb014@hammer.cs.ucr.edu $ # Some      Failure c           Commands that don't work (aka are fake        fake)
+abarb014@hammer.cs.ucr.edu $ make_me_money
+execvp: No such file or directory
+abarb014@hammer.cs.ucr.edu $ compile_yourself
+execvp: No such file or directory
+abarb014@hammer.cs.ucr.edu $ gtfo_noob
+execvp: No such file or directory
+abarb014@hammer.cs.ucr.edu $ #c  Commands that are not implemented, the only one I know is cd
+abarb014@hammer.cs.ucr.edu $ cd tests
+execvp: No such file or directory
+abarb014@hammer.cs.ucr.edu $ # The semico      ; connector
+abarb014@hammer.cs.ucr.edu $ ls ; pwd
+bin  LICENSE  Makefile	README.md  src	tests
+/home/csmajs/abarb014/cs100/rshell
+abarb014@hammer.cs.ucr.edu $ pwd; echo "Big whoop"
+/home/csmajs/abarb014/cs100/rshell
+"Big whoop"
+abarb014@hammer.cs.ucr.edu $ # The || Connector
+abarb014@hammer.cs.ucr.edu $ ehco     cho "I will rn un" || echo "And I will not"
+"I will run"
+abarb014@hammer.cs.ucr.edu $ echo   hco "I won't run" || echo "BUT IW  WILL"
+execvp: No such file or directory
+"BUT I WILL"
+abarb014@hammer.cs.ucr.edu $ # The && c Connecotr   tor
+abarb014@hammer.cs.ucr.edu $ echo "You have my w sword" * && echo "And my bow"
+"You have my sword"
+"And my bow"
+abarb014@hammer.cs.ucr.edu $ echo     hco "Someone stop Gimli" && echo "And my AXE! Wait, I failed      never ran"
+execvp: No such file or directory
+abarb014@hammer.cs.ucr.edu $ # ; Chains
+abarb014@hammer.cs.ucr.edu $ ls; pwd; echo "AND MY AXE!"
+bin  LICENSE  Makefile	README.md  src	tests
+/home/csmajs/abarb014/cs100/rshell
+"AND MY AXE!"
+abarb014@hammer.cs.ucr.edu $ # ; ; with no spaces                now with no spaces
+abarb014@hammer.cs.ucr.edu $ ls;pwd;echo "Not my axe"
+bin  LICENSE  Makefile	README.md  src	tests
+/home/csmajs/abarb014/cs100/rshell
+"Not my axe"
+abarb014@hammer.cs.ucr.edu $ # || Chain
+abarb014@hammer.cs.ucr.edu $ echo "You all will faile " || echo "Yup" || echo "uhuh"
+"You all will fail"
+abarb014@hammer.cs.ucr.edu $ echo     hco Oh || ehco No || echo "A Darn spelling errors"
+execvp: No such file or directory
+execvp: No such file or directory
+"Darn spelling errors"
+abarb014@hammer.cs.ucr.edu $ # || Chain with no spaces
+abarb014@hammer.cs.ucr.edu $ echo "My        poop||homework||echo "AND MY AXE!"
+execvp: No such file or directory
+execvp: No such file or directory
+"AND MY AXE!"
+abarb014@hammer.cs.ucr.edu $ # && Chain
+abarb014@hammer.cs.ucr.edu $ ec cho "And" && echo "He  " && echo "Was" && "Like"        echo "Like" && echo "Oh" && echo "My" && echo "God" !"
+"And"
+"He"
+"Was"
+"Like"
+"Oh"
+"My"
+"God!"
+abarb014@hammer.cs.ucr.edu $ # && Chain with no spaces
+abarb014@hammer.cs.ucr.edu $ echo      Yo  Fail! && echo "This  " && echo "is" && echo "Pointless"
+execvp: No such file or directory
+abarb014@hammer.cs.ucr.edu $ # Whoops, sotty  r  rry, THIS is the one with nosp   spaces
+abarb014@hammer.cs.ucr.edu $ ls&&echo"  "Ow"&&pwd
+bin  LICENSE  Makefile	README.md  src	tests
+"Ow"
+/home/csmajs/abarb014/cs100/rshell
+abarb014@hammer.cs.ucr.edu $ # Connector combinations
+abarb014@hammer.cs.ucr.edu $ ls; pwd && echo "Holla"
+bin  LICENSE  Makefile	README.md  src	tests
+/home/csmajs/abarb014/cs100/rshell
+"Holla"
+abarb014@hammer.cs.ucr.edu $ ls && pwd  ; echo "H Bacl"  k"
+bin  LICENSE  Makefile	README.md  src	tests
+/home/csmajs/abarb014/cs100/rshell
+"Back"
+abarb014@hammer.cs.ucr.edu $ fail || ls && echo; pwd
+execvp: No such file or directory
+bin  LICENSE  Makefile	README.md  src	tests
+
+/home/csmajs/abarb014/cs100/rshell
+abarb014@hammer.cs.ucr.edu $ # Comments alone
+abarb014@hammer.cs.ucr.edu $ # Hey, I'm a comment
+abarb014@hammer.cs.ucr.edu $ # Do you come ar  'rounc d here often?
+abarb014@hammer.cs.ucr.edu $ # Comments in echo, they will get truncated no matter what
+abarb014@hammer.cs.ucr.edu $ echo "You have my w sword, and my bow, #   #, and my AXE"
+"You have my sword, and my bow
+abarb014@hammer.cs.ucr.edu $ # Comments in commands
+abarb014@hammer.cs.ucr.edu $ ls -a # I dont 't do anything
+.  ..  bin  .git  LICENSE  Makefile  README.md	src  tests
+abarb014@hammer.cs.ucr.edu $ ls # I disrupted your commands! Muahahaha -a
+bin  LICENSE  Makefile	README.md  src	tests
+abarb014@hammer.cs.ucr.edu $ # Executing files from within rshell
+abarb014@hammer.cs.ucr.edu $ ./bin/ls
+execvp: No such file or directory
+abarb014@hammer.cs.ucr.edu $ # Crap, that dot wasn't supposed to be there
+abarb014@hammer.cs.ucr.edu $ /bin/ls
+bin  LICENSE  Makefile	README.md  src	tests
+abarb014@hammer.cs.ucr.edu $ /bin/pwd
+/home/csmajs/abarb014/cs100/rshell
+abarb014@hammer.cs.ucr.edu $ # Running RSH   rshell w                rshell  -ception (T Running R rshell in rshell)
+abarb014@hammer.cs.ucr.edu $ . ls
+bin  LICENSE  Makefile	README.md  src	tests
+abarb014@hammer.cs.ucr.edu $ ./bin/rshell
+abarb014@hammer.cs.ucr.edu $ # I'm in the rshell that's             child rshell from the parent rhsle    shell
 abarb014@hammer.cs.ucr.edu $ ls
 bin  LICENSE  Makefile	README.md  src	tests
-abarb014@hammer.cs.ucr.edu $ touch test.trash
-abarb014@hammer.cs.ucr.edu $ ls
-bin  LICENSE  Makefile	README.md  src	tests  test.trash
-abarb014@hammer.cs.ucr.edu $ rm -i test.trash
-rm: remove regular empty file `test.trash'? y
-abarb014@hammer.cs.ucr.edu $ ls
+abarb014@hammer.cs.ucr.edu $ pwd
+/home/csmajs/abarb014/cs100/rshell
+abarb014@hammer.cs.ucr.edu $ ecit   xit
+logout
+
+[Process Completed]
+abarb014@hammer.cs.ucr.edu $ # Now I'm back in the orgi  iginal rshell
+abarb014@hammer.cs.ucr.edu $ # Empty commands
+abarb014@hammer.cs.ucr.edu $ 
+abarb014@hammer.cs.ucr.edu $ 
+abarb014@hammer.cs.ucr.edu $ 
+abarb014@hammer.cs.ucr.edu $ # noth    Connectors by themselves
+abarb014@hammer.cs.ucr.edu $ ;;;;
+
+^C
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (exec) [0;36m$[0m /bin/rshell
+bash: /bin/rshell: No such file or directory
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (exec) [0;36m$[0m ls
 bin  LICENSE  Makefile	README.md  src	tests
-abarb014@hammer.cs.ucr.edu $ # Connec      Multiple Connectors with no spaces between
-abarb014@hammer.cs.ucr.edu $ ls&&||pwd
-bin  LICENSE  Makefile	README.md  src	tests
-abarb014@hammer.cs.ucr.edu $ # # Failut re on c              ls;&&||pwd#Comment for the lulz
-bin  LICENSE  Makefile	README.md  src	tests
-abarb014@hammer.cs.ucr.edu $ # Finally the exit commands 
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (exec) [0;36m$[0m ./[K[Kcd bin
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell/bin[0;95m (exec) [0;36m$[0m ls
+rshell
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell/bin[0;95m (exec) [0;36m$[0m r[K./rshell
+abarb014@hammer.cs.ucr.edu $ # As you can see, it can't c handle multiple semicolons
+abarb014@hammer.cs.ucr.edu $ &&
+^C
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell/bin[0;95m (exec) [0;36m$[0m ./rshell
+abarb014@hammer.cs.ucr.edu $ # Currently, a known bug is connectos rs by themselves
+abarb014@hammer.cs.ucr.edu $ #Finally  , the exit command
 abarb014@hammer.cs.ucr.edu $ exit
 logout
 
 [Process Completed]
-[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (exec) [0;36m$[0m # Thus the testing is over
-[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (exec) [0;36m$[0m exit
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell/bin[0;95m (exec) [0;36m$[0m # Thus ends the tests
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell/bin[0;95m (exec) [0;36m$[0m exit
 exit
 ~
 abarb014@hammer $ exit
 exit
 
-Script done on Tue 21 Oct 2014 10:24:07 AM PDT
+Script done on Tue 21 Oct 2014 07:40:46 PM PDT
