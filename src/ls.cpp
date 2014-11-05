@@ -67,6 +67,18 @@ void listDirectories(int flags)
 
     else if (flags & FLAG_l)
     {
+        // Calculate the number of blocks and print it first
+        // Default ls blocks are 1024, so divide our number of 512 blocks by 2
+        int blocks = 0;
+        for (int i = 0; i < files.size(); i++)
+        {
+            if (!(flags & FLAG_a) && files.at(i)[0] == '.')
+                continue;
+            else
+                blocks += info.at(i).st_blocks;
+        }
+        cout << "total: " << blocks/2 << endl;
+
         for (int i = 0; i < files.size(); i++)
         {
             if (files.at(i)[0] == '.' && !(flags & FLAG_a))
