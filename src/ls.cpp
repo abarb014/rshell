@@ -65,7 +65,7 @@ vector<string> listDirectories(int flags, string initial)
 
     sort(files.begin(), files.end());
     
-    for (int i = 0; i < files.size(); i++)
+    for (unsigned i = 0; i < files.size(); i++)
     {
         directory_path.append(files.at(i));
         if ((stat(directory_path.c_str(), &statbuf)) == -1)
@@ -85,9 +85,26 @@ vector<string> listDirectories(int flags, string initial)
 
     // Now branch off depending on the kind of printing we're doing
 
+    // Only the 'a' flag is set, and not the 'l'
     if ((flags & FLAG_a) && !(flags & FLAG_l))
     {
-        for (int i = 0; i < files.size(); i++)
+        // Ouput formatting
+        unsigned width = 80;
+        unsigned longest = 0;
+
+        for (unsigned i = 0; i < files.size(); i++)
+        {
+            if (files.at(i).size() > longest)
+                longest = files.at(i).size();
+        }
+
+        longest += 4; // Minimum 4 spaces between longest entries.
+        unsigned columns = width / longest;
+
+        unsigned current = 0;
+
+        // Ouput
+        for (unsigned i = 0; i < files.size(); i++)
         {
             directory_path.append(files.at(i));
             if ((stat(directory_path.c_str(), &statbuf)) == -1)
@@ -98,23 +115,34 @@ vector<string> listDirectories(int flags, string initial)
 
             if (S_ISDIR(statbuf.st_mode))
             {
-                cout << files.at(i) << "/" << "\t";
+                cout << files.at(i) << "/";
+                current = files.at(i).size() + 1;
             }
             else
             {
-                cout << files.at(i) << "\t";
+                cout << files.at(i);
+                current = files.at(i).size();
+            }
+
+            cout << string(longest - current, ' ');
+            columns--;
+            if (columns == 0)
+            {
+                columns = width / longest;
+                cout << endl;
             }
 
             directory_path = copy;
         }
     }
 
+    // The 'l flag is set, and POSSIBLY the 'a' flag too
     else if (flags & FLAG_l)
     {
         // Calculate the number of blocks and print it first
         // Default ls blocks are 1024, so divide our number of 512 blocks by 2
         int blocks = 0;
-        for (int i = 0; i < files.size(); i++)
+        for (unsigned i = 0; i < files.size(); i++)
         {
             if (!(flags & FLAG_a) && files.at(i)[0] == '.')
                 continue;
@@ -123,7 +151,7 @@ vector<string> listDirectories(int flags, string initial)
         }
         cout << "total: " << blocks/2 << endl;
 
-        for (int i = 0; i < files.size(); i++)
+        for (unsigned i = 0; i < files.size(); i++)
         {
             if (files.at(i)[0] == '.' && !(flags & FLAG_a))
                 continue;
@@ -201,9 +229,26 @@ vector<string> listDirectories(int flags, string initial)
     }
 
 
+    // No flags :)
     else
     {
-        for (int i = 0; i < files.size(); i++)
+        // Ouput formatting
+        unsigned width = 80;
+        unsigned longest = 0;
+
+        for (unsigned i = 0; i < files.size(); i++)
+        {
+            if (files.at(i).size() > longest)
+                longest = files.at(i).size();
+        }
+
+        longest += 4; // Minimum 4 spaces between longest entries.
+        unsigned columns = width / longest;
+
+        unsigned current = 0;
+
+        // Ouput begins
+        for (unsigned i = 0; i < files.size(); i++)
         {
             if ( files.at(i)[0] == '.')
                 continue;
@@ -219,11 +264,21 @@ vector<string> listDirectories(int flags, string initial)
 
                 if (S_ISDIR(statbuf.st_mode))
                 {
-                    cout << files.at(i) << "/" << "\t";
+                    cout << files.at(i) << "/";
+                    current = files.at(i).size() + 1;
                 }
                 else
                 {
-                    cout << files.at(i) << "\t";
+                    cout << files.at(i);
+                    current = files.at(i).size();
+                }
+
+                cout << string(longest - current, ' ');
+                columns--;
+                if (columns == 0)
+                {
+                    columns = width / longest;
+                    cout << endl;
                 }
 
                 directory_path = copy;
@@ -241,9 +296,10 @@ void allDirectories(int flags, string initial)
 
     vector<string> directories = listDirectories(flags,initial);
 
-    cout << endl;
+    if (directories.size() != 0)
+        cout << endl;
 
-    for (int i = 0; i < directories.size(); i++)
+    for (unsigned i = 0; i < directories.size(); i++)
     {
         allDirectories(flags, directories.at(i));
     }
@@ -285,6 +341,8 @@ int main(int argc, char **argv)
         }
     }
 
+    sort(files.begin(), files.end());
+
     if (files.empty())
     {
         if (flags & FLAG_R)
@@ -299,7 +357,7 @@ int main(int argc, char **argv)
 
     else
     {
-        for (int i = 0; i < files.size(); i++)
+        for (unsigned i = 0; i < files.size(); i++)
         {
             if (flags & FLAG_R)
             {
@@ -307,10 +365,13 @@ int main(int argc, char **argv)
             }
             else
             {
-                cout << files.at(i) << ":" << endl;
+                if (files.size() > 1)
+                    cout << files.at(i) << ":" << endl;
                 listDirectories(flags, files.at(i));
-                cout << endl;
             }
+
+            if (i != files.size() - 1)
+                cout << endl;
         }
     }
 
