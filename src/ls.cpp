@@ -11,6 +11,7 @@
 #include <pwd.h>
 #include <grp.h>
 #include <ctime>
+#include <stdio.h>
 
 using namespace std;
 
@@ -20,6 +21,12 @@ using namespace std;
 #define FLAG_l 2
 #define FLAG_R 4
 
+// macros for colors
+
+#define D_COLOR "\x1b[38;5;27m"
+#define E_COLOR "\x1b[38;5;34m"
+#define H_COLOR "\x1b[47m"
+#define RESET_C "\x1b[0m"
 
 vector<string> listDirectories(int flags, string initial)
 {
@@ -113,17 +120,28 @@ vector<string> listDirectories(int flags, string initial)
                 exit(1);
             }
 
+            if (files.at(i)[0] == '.')
+            {
+                cout << H_COLOR;
+            }
+
             if (S_ISDIR(statbuf.st_mode))
             {
+                cout << D_COLOR;
                 cout << files.at(i) << "/";
                 current = files.at(i).size() + 1;
             }
             else
             {
+                if (statbuf.st_mode & S_IEXEC)
+                {
+                    cout << E_COLOR;
+                }
                 cout << files.at(i);
                 current = files.at(i).size();
             }
 
+            cout << RESET_C;
             cout << string(longest - current, ' ');
             columns--;
             if (columns == 0)
@@ -217,10 +235,24 @@ vector<string> listDirectories(int flags, string initial)
                 string time_s = ctime(&time);
                 cout << time_s.substr(4, 12) << " ";
 
-                cout << files.at(i); 
+                if (files.at(i)[0] == '.')
+                    cout << H_COLOR;
 
                 if (S_ISDIR(info.at(i).st_mode))
+                {
+                    cout << D_COLOR;
+                    cout << files.at(i);
                     cout << '/';
+                }
+
+                else
+                {
+                    if (info.at(i).st_mode & S_IEXEC)
+                        cout << E_COLOR;
+                        cout << files.at(i);
+                }
+
+                cout << RESET_C;
 
                 if (!(i + 1 == files.size()))
                     cout << endl;
@@ -264,13 +296,20 @@ vector<string> listDirectories(int flags, string initial)
 
                 if (S_ISDIR(statbuf.st_mode))
                 {
+                    cout << D_COLOR;
                     cout << files.at(i) << "/";
                     current = files.at(i).size() + 1;
+                    cout << RESET_C;
                 }
+
                 else
                 {
+                    if (statbuf.st_mode & S_IEXEC)
+                        cout << E_COLOR;
+
                     cout << files.at(i);
                     current = files.at(i).size();
+                    cout << RESET_C;
                 }
 
                 cout << string(longest - current, ' ');
@@ -296,8 +335,7 @@ void allDirectories(int flags, string initial)
 
     vector<string> directories = listDirectories(flags,initial);
 
-    if (directories.size() != 0)
-        cout << endl;
+    cout << endl;
 
     for (unsigned i = 0; i < directories.size(); i++)
     {
@@ -370,7 +408,7 @@ int main(int argc, char **argv)
                 listDirectories(flags, files.at(i));
             }
 
-            if (i != files.size() - 1)
+            if (!(i + 1 == files.size()))
                 cout << endl;
         }
     }
