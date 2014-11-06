@@ -21,7 +21,7 @@ using namespace std;
 #define FLAG_R 4
 
 
-void listDirectories(int flags)
+vector<string> listDirectories(int flags, string initial)
 {
     /* This function will print the contents of a single directory with either the -a or -l flag
      * however, it will not handle recursion. This will be used within another recursive function 
@@ -32,14 +32,24 @@ void listDirectories(int flags)
     // Statbufs corresponding to the SORTED files are stored in info
    
     vector<string> files;
+    vector<string> directories;
     vector<struct stat> info;
 
     struct stat statbuf;
     struct passwd *pwd;
     struct group *grp;
 
-    char *dirName = ".";
+    string directory_path(initial);
+    directory_path.append("/");
+    string copy(directory_path);
+
+    const char *dirName = initial.c_str();
     DIR *dirp = opendir(dirName);
+    if (dirp == NULL)
+    {
+        perror("opendir");
+        exit(1);
+    }
     dirent *direntp;
 
     while ( (direntp = readdir(dirp)) )
@@ -47,12 +57,30 @@ void listDirectories(int flags)
         files.push_back(direntp->d_name);
     }
 
+    if (errno != 0)
+    {
+        perror("readdir");
+        exit(1);
+    }
+
     sort(files.begin(), files.end());
     
     for (int i = 0; i < files.size(); i++)
     {
-        stat(files.at(i).c_str(), &statbuf);
+        directory_path.append(files.at(i));
+        if ((stat(directory_path.c_str(), &statbuf)) == -1)
+        {
+            perror("stat");
+            exit(1);
+        }
         info.push_back(statbuf);
+
+        if ((files.at(i) != ".") && (files.at(i) != "..") && (S_ISDIR(statbuf.st_mode)))
+        {
+            directories.push_back(directory_path);
+        }
+
+        directory_path = copy;
     }
 
     // Now branch off depending on the kind of printing we're doing
@@ -61,7 +89,23 @@ void listDirectories(int flags)
     {
         for (int i = 0; i < files.size(); i++)
         {
-            cout << files.at(i) << "\t";
+            directory_path.append(files.at(i));
+            if ((stat(directory_path.c_str(), &statbuf)) == -1)
+            {
+                perror("stat");
+                exit(1);
+            }
+
+            if (S_ISDIR(statbuf.st_mode))
+            {
+                cout << files.at(i) << "/" << "\t";
+            }
+            else
+            {
+                cout << files.at(i) << "\t";
+            }
+
+            directory_path = copy;
         }
     }
 
@@ -164,12 +208,46 @@ void listDirectories(int flags)
             if ( files.at(i)[0] == '.')
                 continue;
             else
-                cout << files.at(i) << "\t";
+            {
 
+                directory_path.append(files.at(i));
+                if ((stat(directory_path.c_str(), &statbuf)) == -1)
+                {
+                    perror("stat");
+                    exit(1);
+                }
+
+                if (S_ISDIR(statbuf.st_mode))
+                {
+                    cout << files.at(i) << "/" << "\t";
+                }
+                else
+                {
+                    cout << files.at(i) << "\t";
+                }
+
+                directory_path = copy;
+            }
         }
     }
 
     cout << endl;
+    return directories;
+}
+
+void allDirectories(int flags, string initial)
+{
+    cout << initial << ":" << endl;
+
+    vector<string> directories = listDirectories(flags,initial);
+
+    cout << endl;
+
+    for (int i = 0; i < directories.size(); i++)
+    {
+        allDirectories(flags, directories.at(i));
+    }
+
     return;
 }
 
@@ -200,14 +278,14 @@ int main(int argc, char **argv)
         }
     }
 
-    listDirectories(flags);
+    if (flags & FLAG_R)
+    {
+        allDirectories(flags, ".");
+    }
+    else
+    {
+        listDirectories(flags, ".");
+    }
 
     return(0);
-
-    char *dirName = ".";
-    DIR *dirp = opendir(dirName);
-    dirent *direntp;
-    while ((direntp = readdir(dirp)))
-        cout << direntp->d_name << endl;  // use stat here to find attributes of file
-    closedir(dirp);
 }
