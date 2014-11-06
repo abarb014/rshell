@@ -255,6 +255,8 @@ int main(int argc, char **argv)
 {
     // Parse the arguments to get the flags out, and check for invalid flags
     int flags = 0;
+    // Keep anything else that's typed as file 
+    vector<string> files;
 
     for (int i = 1; i < argc; i++)
     {
@@ -276,15 +278,40 @@ int main(int argc, char **argv)
                 }
             }
         }
+
+        else
+        {
+            files.push_back(argv[i]);
+        }
     }
 
-    if (flags & FLAG_R)
+    if (files.empty())
     {
-        allDirectories(flags, ".");
+        if (flags & FLAG_R)
+        {
+            allDirectories(flags, ".");
+        }
+        else
+        {
+            listDirectories(flags, ".");
+        }
     }
+
     else
     {
-        listDirectories(flags, ".");
+        for (int i = 0; i < files.size(); i++)
+        {
+            if (flags & FLAG_R)
+            {
+                allDirectories(flags, files.at(i));
+            }
+            else
+            {
+                cout << files.at(i) << ":" << endl;
+                listDirectories(flags, files.at(i));
+                cout << endl;
+            }
+        }
     }
 
     return(0);
