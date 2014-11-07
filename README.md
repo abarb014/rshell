@@ -64,3 +64,4 @@ Known Bugs
 * Use of the "#" connector within an echo statements quoatation marks will still be removed from the output.
 * Commands of the form `command#comment` will work, despite not being able to run in the original BASH shell.
 * Currently, using connectors by themselves will send the program into an infinite loop.
+* In ls.cpp, typing the -l command followed by a file parameter will not list the file information, instead it will give an error.

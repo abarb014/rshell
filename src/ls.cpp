@@ -55,7 +55,7 @@ vector<string> listDirectories(int flags, string initial)
     if (dirp == NULL)
     {
         perror("opendir");
-        exit(1);
+        return directories;
     }
     dirent *direntp;
 
