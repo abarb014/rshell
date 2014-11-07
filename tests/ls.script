@@ -1,0 +1,780 @@
+Script started on Thu 06 Nov 2014 04:17:16 PM PST
+~
+abarb014@hammer $ cs100
+[0;91m
+===============================================================================
+|                                                                             |
+| You have enabled settings specific for cs100.                               |
+|                                                                             |
+===============================================================================
+[0m
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m cd cs100/rshell
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m make
+mkdir -p bin
+g++ -Wall -Werror -ansi -pedantic src/main.cpp -o bin/rshell
+g++ -Wall -Werror -ansi -pedantic src/ls.cpp -o bin/ls
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls[K[K[K[K[K[K# Regular ls, no a[Koptions
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls
+[38;5;27mbin/[0m         LICENSE[0m      Makefile[0m     README.md[0m    [38;5;27msrc/[0m         [38;5;27mtests/[0m       
+
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m # ls with a directory parameter
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m # ls with a directory parameter[K# ls with a directory parameterbin/ls[K src
+ls.cpp[0m      main.cpp[0m    
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls src# ls with a directory parameter[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Ktwo directories
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m # ls with two directories[15Pbin/ls src tests
+src:
+ls.cpp[0m      main.cpp[0m    
+
+tests:
+exec.script[0m    ls.script[0m      
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m # ls -a [K[K[Kwith -a option
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls -a
+[47m[38;5;27m./[0m           [47m[38;5;27m../[0m          [47m[38;5;27m.git/[0m        [38;5;27mbin/[0m         LICENSE[0m      Makefile[0m     
+README.md[0m    [38;5;27msrc/[0m         [38;5;27mtests/[0m       
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m # ls [K -a with a di[K[Kfile[K[K[K[Kdirectory
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls -a bin
+[47m[38;5;27m./[0m        [47m[38;5;27m../[0m       [38;5;34mls[0m        [38;5;34mrshell[0m    
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m # ls with -l option
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls -l
+total: 24
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:16 [38;5;27mbin/[0m
+-rw------- 1 abarb014 csmajs 94 Oct 16 10:05 LICENSE[0m
+-rw------- 1 abarb014 csmajs 199 Nov  6 13:43 Makefile[0m
+-rw------- 1 abarb014 csmajs 1675 Nov  6 15:57 README.md[0m
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:15 [38;5;27msrc/[0m
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:16 [38;5;27mtests/[0m
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m # ls -l with a directory
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m ls [K[K[Kbin/ls -l bin
+total: 112
+-rwx------ 1 abarb014 csmajs 55170 Nov  6 16:16 [38;5;34mls[0m
+-rwx------ 1 abarb014 csmajs 53262 Nov  6 16:16 [38;5;34mrshell[0m
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m #ls [K[K[K ls -l with [K[K[K[K[K[K[K[Kwith -R option
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls -R
+.:
+[38;5;27mbin/[0m         LICENSE[0m      Makefile[0m     README.md[0m    [38;5;27msrc/[0m         [38;5;27mtests/[0m       
+
+
+./.git:
+#COMMIT_EDITMSG#[0m    #MERGE_MSG#[0m         [38;5;27mbranches/[0m           COMMIT_EDITMSG[0m      
+COMMIT_EDITMSG~[0m     config[0m              description[0m         FETCH_HEAD[0m          
+HEAD[0m                [38;5;27mhooks/[0m              index[0m               [38;5;27minfo/[0m               
+[38;5;27mlogs/[0m               [38;5;27mobjects/[0m            ORIG_HEAD[0m           [38;5;27mrefs/[0m               
+
+
+./.git/branches:
+
+
+./.git/hooks:
+[38;5;34mapplypatch-msg.sample[0m        [38;5;34mcommit-msg.sample[0m            
+[38;5;34mpost-update.sample[0m           [38;5;34mpre-applypatch.sample[0m        
+[38;5;34mpre-commit.sample[0m            pre-push.sample[0m              
+[38;5;34mpre-rebase.sample[0m            [38;5;34mprepare-commit-msg.sample[0m    
+[38;5;34mupdate.sample[0m                
+
+./.git/info:
+exclude[0m    
+
+./.git/logs:
+HEAD[0m    [38;5;27mrefs/[0m   
+
+./.git/logs/refs:
+[38;5;27mheads/[0m     [38;5;27mremotes/[0m   
+
+./.git/logs/refs/heads:
+exec[0m      ls[0m        master[0m    
+
+./.git/logs/refs/remotes:
+[38;5;27morigin/[0m   
+
+./.git/logs/refs/remotes/origin:
+exec[0m      ls[0m        master[0m    
+
+./.git/objects:
+[38;5;27m00/[0m     [38;5;27m02/[0m     [38;5;27m03/[0m     [38;5;27m06/[0m     [38;5;27m09/[0m     [38;5;27m0f/[0m     [38;5;27m10/[0m     [38;5;27m14/[0m     [38;5;27m1b/[0m     [38;5;27m1f/[0m     
+[38;5;27m21/[0m     [38;5;27m22/[0m     [38;5;27m24/[0m     [38;5;27m2f/[0m     [38;5;27m32/[0m     [38;5;27m35/[0m     [38;5;27m36/[0m     [38;5;27m38/[0m     [38;5;27m3c/[0m     [38;5;27m3f/[0m     
+[38;5;27m40/[0m     [38;5;27m43/[0m     [38;5;27m46/[0m     [38;5;27m4b/[0m     [38;5;27m52/[0m     [38;5;27m56/[0m     [38;5;27m58/[0m     [38;5;27m59/[0m     [38;5;27m5b/[0m     [38;5;27m5c/[0m     
+[38;5;27m60/[0m     [38;5;27m62/[0m     [38;5;27m67/[0m     [38;5;27m68/[0m     [38;5;27m69/[0m     [38;5;27m6a/[0m     [38;5;27m71/[0m     [38;5;27m72/[0m     [38;5;27m73/[0m     [38;5;27m76/[0m     
+[38;5;27m79/[0m     [38;5;27m7a/[0m     [38;5;27m7c/[0m     [38;5;27m82/[0m     [38;5;27m87/[0m     [38;5;27m89/[0m     [38;5;27m8a/[0m     [38;5;27m8b/[0m     [38;5;27m90/[0m     [38;5;27m91/[0m     
+[38;5;27m95/[0m     [38;5;27m98/[0m     [38;5;27m99/[0m     [38;5;27m9d/[0m     [38;5;27m9e/[0m     [38;5;27ma0/[0m     [38;5;27ma3/[0m     [38;5;27ma6/[0m     [38;5;27ma8/[0m     [38;5;27mab/[0m     
+[38;5;27mac/[0m     [38;5;27maf/[0m     [38;5;27mb0/[0m     [38;5;27mb2/[0m     [38;5;27mb3/[0m     [38;5;27mb6/[0m     [38;5;27mb7/[0m     [38;5;27mb8/[0m     [38;5;27mb9/[0m     [38;5;27mba/[0m     
+[38;5;27mbe/[0m     [38;5;27mbf/[0m     [38;5;27mc0/[0m     [38;5;27mc1/[0m     [38;5;27mc3/[0m     [38;5;27mc5/[0m     [38;5;27mc6/[0m     [38;5;27mc7/[0m     [38;5;27mc8/[0m     [38;5;27mc9/[0m     
+[38;5;27mca/[0m     [38;5;27mcc/[0m     [38;5;27mce/[0m     [38;5;27mcf/[0m     [38;5;27md0/[0m     [38;5;27md3/[0m     [38;5;27md4/[0m     [38;5;27mdf/[0m     [38;5;27me1/[0m     [38;5;27me2/[0m     
+[38;5;27me5/[0m     [38;5;27me6/[0m     [38;5;27me7/[0m     [38;5;27me8/[0m     [38;5;27me9/[0m     [38;5;27mec/[0m     [38;5;27mf0/[0m     [38;5;27mf1/[0m     [38;5;27mf2/[0m     [38;5;27mf3/[0m     
+[38;5;27mfa/[0m     [38;5;27mfc/[0m     [38;5;27mfd/[0m     [38;5;27mff/[0m     [38;5;27minfo/[0m   [38;5;27mpack/[0m   
+
+./.git/objects/00:
+a87904f3da64a1ad76f13f2af92c74c3f2de31[0m    
+
+
+./.git/objects/02:
+a202fc60d314305690d24e4005f1bdaa5cd633[0m    
+c8901b2241844df809e1a511c59f6d8bc8ca31[0m    
+
+
+./.git/objects/03:
+5fdd3d23b3f881611f3d65eb19c726b755f6e7[0m    
+
+
+./.git/objects/06:
+6d77ef9a788836c2ab973b7e1194e3e9766c57[0m    
+
+
+./.git/objects/09:
+16a81eb0498e53336cce2107802f13e367b93d[0m    
+
+
+./.git/objects/0f:
+e3c41d6fa8389e8d8b175ac2938dd2a2bc382e[0m    
+
+
+./.git/objects/10:
+7f8748e5def972f6dc2b5a9f052b1df5915e63[0m    
+8e003f0df7f55307ca5128d4401e9a10676f63[0m    
+9e09b0e523b7d7ec2f0286b25f895093850d04[0m    
+
+
+./.git/objects/14:
+01993a890e06f6531560c9f53d54c4d10aeabc[0m    
+
+
+./.git/objects/1b:
+ffdc3920971fd49d7828b66604df06e010f113[0m    
+
+
+./.git/objects/1f:
+aeb406ea6abf077bd76f0d4a34a36cf51ce138[0m    
+
+
+./.git/objects/21:
+65624282f90ae5bb61550c92cf6d834cc41859[0m    
+
+
+./.git/objects/22:
+99a964901890dc8d780b59ca508ff7baceef90[0m    
+
+
+./.git/objects/24:
+d1a15fd18c3dc90ab4741d43b70abf7c527635[0m    
+fc85f1176c0f7104f39d7ee441b68c1fee2c3d[0m    
+
+
+./.git/objects/2f:
+903b2e72cdbb861beb039c95d76ab4a7f2f5a2[0m    
+
+
+./.git/objects/32:
+545458455199bbe8ea7f50464940f41d722710[0m    
+5f02b0b1c549686927146f0dc84a4a31bad68b[0m    
+
+
+./.git/objects/35:
+87daa0207f93ddfc649a772a3d3bafc37a981a[0m    
+
+
+./.git/objects/36:
+cb7b86f923486e80260afec8c25e5363ee7f4c[0m    
+f9f59d8fbbaf9d1b901c6df8dad5ada7853724[0m    
+
+
+./.git/objects/38:
+25aa705f3df9db0143e926d36e1728edcf9e87[0m    
+
+
+./.git/objects/3c:
+5a0946305070a1d807d3a42dab0e5284d0a6f2[0m    
+
+
+./.git/objects/3f:
+13d47b417cf0ceeeabc0135ed55a4c65776dcb[0m    
+
+
+./.git/objects/40:
+4bf07ca41584949860b23e74d3b1fb3422cead[0m    
+daf033e5fe4b76b78ee71c94506e83616b73b7[0m    
+
+
+./.git/objects/43:
+a5fe9eb399f9b044909419049e9a63254a394e[0m    
+db6911de22835fb0d1cb64383f61d6ec7d747f[0m    
+
+
+./.git/objects/46:
+90282709f4f110b2b5e3e1dc239cdf6369c150[0m    
+
+
+./.git/objects/4b:
+4f4b8c9ca5537be5d1ec0067358b7267333ba8[0m    
+
+
+./.git/objects/52:
+be9e5b990af4fe89105bc4d36570daa673fb5b[0m    
+
+
+./.git/objects/56:
+30d42aba074216e5f2f82ce10efce9a5835c8d[0m    
+
+
+./.git/objects/58:
+fb5c2326def283c662d284d8d70bf6b3213cf7[0m    
+
+
+./.git/objects/59:
+1274d38775db79f270f695b9eef09265c597ad[0m    
+5574bd2b483ea10c2e91c42f7e36e19ca9e984[0m    
+
+
+./.git/objects/5b:
+0dd730d6200fc63261008aa2c347785582b982[0m    
+a4192f6cb32a5795cf3ee249a7e2533b65299b[0m    
+
+
+./.git/objects/5c:
+4ce9bb915fea4267bde72551d249f82446d4a2[0m    
+
+
+./.git/objects/60:
+1c98dff80d9d4cf2ab282fbfb65aaa46b85ced[0m    
+
+
+./.git/objects/62:
+b15113bf0bb4e0728b2b76e8beae2d84f4f10b[0m    
+
+
+./.git/objects/67:
+098fcd8ac554ba494d4f016b0e67fed05fee93[0m    
+
+
+./.git/objects/68:
+89a058ae12ef402f64c64979fcbdee1a982ad8[0m    
+
+
+./.git/objects/69:
+b974e64a13eca1b693d436e004434fbf71913c[0m    
+
+
+./.git/objects/6a:
+2bc9248e9280a49b5e1037d50ec26cb7392bad[0m    
+b1b93bfb4fc9dac71e67a782ab92b8eadcb333[0m    
+
+
+./.git/objects/71:
+f72d184096182faedde45db9ba3a9c5bf7acf4[0m    
+
+
+./.git/objects/72:
+6985b3e74f607ca4f48a70f4c9afbf01f5b22a[0m    
+
+
+./.git/objects/73:
+ec928a36ee102d6db1dbc7dbae8c670386efbc[0m    
+
+
+./.git/objects/76:
+b6546bde85b7b2146150bfb8573b4362f44d4a[0m    
+
+
+./.git/objects/79:
+2761d79a6eae1853c0c7697dbd9db6980d535a[0m    
+61ef60d9d9e9b743385bae2c06733a9b27b6b5[0m    
+
+
+./.git/objects/7a:
+794b9c43ad888f0450f7f05c45e4b3a8e68a9e[0m    
+af3d22c6397070dd687f1324bea7f57f3d5b7c[0m    
+
+
+./.git/objects/7c:
+2d53a127a75ab607222cf3d49e46550d1a29ad[0m    
+f8398af78637824cafe03888d237cbac46d992[0m    
+
+
+./.git/objects/82:
+e71789852cd48a09d699361715fa95e1203045[0m    
+
+
+./.git/objects/87:
+726b915d1cd7a6d9e128574043235668ff6b8b[0m    
+
+
+./.git/objects/89:
+4f0da413d1ba573ca4308d4a477f25c4b63dc6[0m    
+
+
+./.git/objects/8a:
+4c7f7462edb4abc895afc5e71bb51b77a40f12[0m    
+
+
+./.git/objects/8b:
+dc5e703bd868dbb6415e53ac80c53fe901c2de[0m    
+
+
+./.git/objects/90:
+317e829821f8c105ecb543b78f265c6ba3dc04[0m    
+
+
+./.git/objects/91:
+d7fe65ba25c91339d140200144b346261a5faf[0m    
+
+
+./.git/objects/95:
+e24ff8c4b6256d63b8037d4716113893e2b781[0m    
+
+
+./.git/objects/98:
+1c9f863927e504977ebfbba985de5d8a3cfcb7[0m    
+
+
+./.git/objects/99:
+1ca2a2e1f9c1e24cd68a5c6efcab26acaf62c7[0m    
+
+
+./.git/objects/9d:
+7e32cbc772e91217d43591e46aa70e244278aa[0m    
+
+
+./.git/objects/9e:
+c616ef41efc0d65252211770692ec337132fd4[0m    
+
+
+./.git/objects/a0:
+87552a2ebfcfd4d37002ff5396de773ea3e7a6[0m    
+
+
+./.git/objects/a3:
+6d9096521c4b265ad79b44068e59e197cee25b[0m    
+
+
+./.git/objects/a6:
+1336aba2c509839aecddbd125326dc06954ffe[0m    
+e9e28ce0fdfb3cff1935e7eb5e8bdcab378f86[0m    
+
+
+./.git/objects/a8:
+4c9fc47979a4ed374ca6128d24534675803d41[0m    
+
+
+./.git/objects/ab:
+9caee63b0b0db50f1ee0c4a39b9dd211e1466c[0m    
+ddb1890c78bbdfd98714d2ba7e924a8f7c61f4[0m    
+
+
+./.git/objects/ac:
+e391a5c0e2a92bdbe646b67b3fdeda633b8388[0m    
+
+
+./.git/objects/af:
+7156a9be95c179291561c8883eefe83e77565c[0m    
+
+
+./.git/objects/b0:
+a63e4d0dec50ad94135ded55f1b3fda5874fa0[0m    
+
+
+./.git/objects/b2:
+ab07ed82fc1b80ef174c5ebce23cc40804745f[0m    
+
+
+./.git/objects/b3:
+1a4fcd2ac5805530518c78c206a241f2a01d1b[0m    
+
+
+./.git/objects/b6:
+2021748bc77d643ae44acdf2f1747bac332af7[0m    
+
+
+./.git/objects/b7:
+a18e8a716cb3a618eee6267b0c937466141174[0m    
+
+
+./.git/objects/b8:
+057114cf7a9daf7d17a4a51ff73eec9eb237e8[0m    
+9efcdc01fc51a5ac8e42b779b0f9b0b40cff21[0m    
+
+
+./.git/objects/b9:
+6f5d70e5d3f7398fe9df336c99123cb2a2ee59[0m    
+
+
+./.git/objects/ba:
+f60e470c4e67f707b7c6f128cd75c79aee0048[0m    
+
+
+./.git/objects/be:
+c858926aa75097b18aaa17aa3cdc197603e238[0m    
+
+
+./.git/objects/bf:
+0608c99cdc9b8285fdc86d6cfbb4e1bb9da132[0m    
+
+
+./.git/objects/c0:
+af9ca21eeebbb3800489adaef2e12ca69704ae[0m    
+
+
+./.git/objects/c1:
+8bc09d807e8a9256ed207c87f09d65518e0663[0m    
+
+
+./.git/objects/c3:
+3bd4a6683c785830023b74c0fd43cdc89e8338[0m    
+
+
+./.git/objects/c5:
+fd9dabc55f15e2dfb865138af1ae0d29621d02[0m    
+
+
+./.git/objects/c6:
+2551277bea5da8ce313178a7b9dd4b849d5d7a[0m    
+5da401e28d35110c8511e0b1cb7813be8c472e[0m    
+
+
+./.git/objects/c7:
+3d532a720d5667965a4eb0c4ce02f2f72f3357[0m    
+
+
+./.git/objects/c8:
+e574d8ce52793375ffa886aeaa503f4f4de820[0m    
+
+
+./.git/objects/c9:
+4d7e15d1954a3255fce4b73d2429fcc5da54e2[0m    
+
+
+./.git/objects/ca:
+33b4332ef618fd3751f0143385cb6cc3f555dc[0m    
+
+
+./.git/objects/cc:
+7395d61b0f45264da6c61e73816a1e9b45836b[0m    
+
+
+./.git/objects/ce:
+2702a7b973b7880d96f4f53434e720cb7052c1[0m    
+82a258051beb83dee593a91d7a7e672e70f863[0m    
+
+
+./.git/objects/cf:
+fc790fe945b16652cc269ec52f7dd38999a42b[0m    
+
+
+./.git/objects/d0:
+bdcb866e37f1aefc1d8b463bb1cbf3b5788c18[0m    
+
+
+./.git/objects/d3:
+b66d594fff73fe5039d82a6db5a47f828c61d1[0m    
+
+
+./.git/objects/d4:
+344fcf7cccb26562a772e27e947a0558241b36[0m    
+
+
+./.git/objects/df:
+9a366b76f78895e1c46e8f0368ca4780aa8a95[0m    
+
+
+./.git/objects/e1:
+dadabf6fc69fdcb3b04b0005f3b0437ae98e8d[0m    
+
+
+./.git/objects/e2:
+deea434d41007cbfac9f2e5306fafc1f369ede[0m    
+
+
+./.git/objects/e5:
+48a4664cb9db9b1424fe20efbd295b19ce6b7e[0m    
+
+
+./.git/objects/e6:
+9de29bb2d1d6434b8b29ae775ad8c2e48c5391[0m    
+
+
+./.git/objects/e7:
+f736f224992af1f8a5cb8324bfe9a383675495[0m    
+
+
+./.git/objects/e8:
+b627524ac2a4bba4c2f4e071b0ea9abe471696[0m    
+
+
+./.git/objects/e9:
+86b5c740e8232f934edf8c29ea3fc902e610a6[0m    
+
+
+./.git/objects/ec:
+80fcc28a6a6fb1e2f109fe3a841c62a7621656[0m    
+
+
+./.git/objects/f0:
+7b89356cf7c3ecc81c403d10b7ed2cfdc1fac8[0m    
+c5018c14e2aeea490caa6be8677785baa809d0[0m    
+
+
+./.git/objects/f1:
+a200c83599a99b1164f5c09ad13b94a2a6d7f9[0m    
+
+
+./.git/objects/f2:
+d5d2d81bd00a1e8464f792744450c44efc15a5[0m    
+
+
+./.git/objects/f3:
+7d4b64b92f8884ba9aa04e3c0c317ddfc5e33c[0m    
+
+
+./.git/objects/fa:
+5ce6fc289329895c493ae1c267e5744f499931[0m    
+795363f94186862d0008059dea032b6bf1f0cd[0m    
+
+
+./.git/objects/fc:
+1be8b393135d66391505ba87d59d39eb1579ec[0m    
+2bce49c494054a58a43fc2912fcd61bc4ec13b[0m    
+
+
+./.git/objects/fd:
+4e1f8df211d58505b1cd34fc4b9cf535592779[0m    
+c8ffc83087e495d746f2239006435cb71bceb7[0m    
+
+
+./.git/objects/ff:
+839b01aa8c7b4afb0daabca6aa81b28d69e465[0m    
+
+
+./.git/objects/info:
+
+
+./.git/objects/pack:
+
+
+./.git/refs:
+[38;5;27mheads/[0m     [38;5;27mremotes/[0m   [38;5;27mtags/[0m      
+
+./.git/refs/heads:
+exec[0m      ls[0m        master[0m    
+
+./.git/refs/remotes:
+[38;5;27morigin/[0m   
+
+./.git/refs/remotes/origin:
+exec[0m      ls[0m        master[0m    
+
+./.git/refs/tags:
+hw0[0m    
+
+./bin:
+[38;5;34mls[0m        [38;5;34mrshell[0m    
+
+./src:
+ls.cpp[0m      main.cpp[0m    
+
+./tests:
+exec.script[0m    ls.script[0m      
+
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m clear[K[K[K[K[K#ls[K[K ls -R wt[Kith a directory
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls -R [K[K[K[K[K[K[K[K[K[Kmkdir sa[K[K-m sample/sp[K[Kapple/bear
+mkdir: missing operand
+Try `mkdir --help' for more information.
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls -R tests
+tests:
+exec.script[0m    ls.script[0m      
+
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m mkdir tests/sample
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls -R tests
+tests:
+exec.script[0m    ls.script[0m      [38;5;27msample/[0m        
+
+tests/sample:
+
+
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m touch [K[K[K[K[K[K# Proof that -r will faile[K
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m ls -r[K[K[K[K[Kbin/ls -r
+ls: invalid option -- 'r'
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m #[K# Options separate
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls -a -l
+total: 36
+drwx------ 6 abarb014 csmajs 4096 Nov  6 16:16 [47m[38;5;27m./[0m
+drwx------ 9 abarb014 csmajs 4096 Nov  3 10:32 [47m[38;5;27m../[0m
+drwx------ 8 abarb014 csmajs 4096 Nov  6 16:16 [47m[38;5;27m.git/[0m
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:16 [38;5;27mbin/[0m
+-rw------- 1 abarb014 csmajs 94 Oct 16 10:05 LICENSE[0m
+-rw------- 1 abarb014 csmajs 199 Nov  6 13:43 Makefile[0m
+-rw------- 1 abarb014 csmajs 1675 Nov  6 15:57 README.md[0m
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:15 [38;5;27msrc/[0m
+drwx------ 3 abarb014 csmajs 4096 Nov  6 16:21 [38;5;27mtests/[0m
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m ls[K[Kbin/ls -a -l[K[K[K[Kl - a
+opendir: No such file or directory
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls -l - a[K[K[K[K[K[K[K[K[K[K[K[K[K#s[K Sorry, ms[Kis[K[K[Ktypo, ignore the last thing
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls -l -a
+total: 36
+drwx------ 6 abarb014 csmajs 4096 Nov  6 16:16 [47m[38;5;27m./[0m
+drwx------ 9 abarb014 csmajs 4096 Nov  3 10:32 [47m[38;5;27m../[0m
+drwx------ 8 abarb014 csmajs 4096 Nov  6 16:16 [47m[38;5;27m.git/[0m
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:16 [38;5;27mbin/[0m
+-rw------- 1 abarb014 csmajs 94 Oct 16 10:05 LICENSE[0m
+-rw------- 1 abarb014 csmajs 199 Nov  6 13:43 Makefile[0m
+-rw------- 1 abarb014 csmajs 1675 Nov  6 15:57 README.md[0m
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:15 [38;5;27msrc/[0m
+drwx------ 3 abarb014 csmajs 4096 Nov  6 16:21 [38;5;27mtests/[0m
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m ls -Ral [K[K[K[K[K[K[K[Kbin/ls -Ral tests[K[K[K[K[Ksrc
+src:
+total: 32
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:15 [47m[38;5;27m./[0m
+drwx------ 6 abarb014 csmajs 4096 Nov  6 16:16 [47m[38;5;27m../[0m
+-rw------- 1 abarb014 csmajs 11102 Nov  6 16:15 ls.cpp[0m
+-rw------- 1 abarb014 csmajs 10121 Oct 21 10:28 main.cpp[0m
+
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls -Ral src tests
+src:
+total: 32
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:15 [47m[38;5;27m./[0m
+drwx------ 6 abarb014 csmajs 4096 Nov  6 16:16 [47m[38;5;27m../[0m
+-rw------- 1 abarb014 csmajs 11102 Nov  6 16:15 ls.cpp[0m
+-rw------- 1 abarb014 csmajs 10121 Oct 21 10:28 main.cpp[0m
+
+
+tests:
+total: 92
+drwx------ 3 abarb014 csmajs 4096 Nov  6 16:21 [47m[38;5;27m./[0m
+drwx------ 6 abarb014 csmajs 4096 Nov  6 16:16 [47m[38;5;27m../[0m
+-rw------- 1 abarb014 csmajs 77746 Oct 21 19:43 exec.script[0m
+-rw------- 1 abarb014 csmajs 0 Nov  6 16:16 ls.script[0m
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:21 [38;5;27msample/[0m
+
+tests/sample:
+total: 8
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:21 [47m[38;5;27m./[0m
+drwx------ 3 abarb014 csmajs 4096 Nov  6 16:21 [47m[38;5;27m../[0m
+
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m ls [K[K[Kb[K# Fil[K[K[KDirectory before options
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls tests -alR
+tests:
+total: 92
+drwx------ 3 abarb014 csmajs 4096 Nov  6 16:21 [47m[38;5;27m./[0m
+drwx------ 6 abarb014 csmajs 4096 Nov  6 16:16 [47m[38;5;27m../[0m
+-rw------- 1 abarb014 csmajs 77746 Oct 21 19:43 exec.script[0m
+-rw------- 1 abarb014 csmajs 0 Nov  6 16:16 ls.script[0m
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:21 [38;5;27msample/[0m
+
+tests/sample:
+total: 8
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:21 [47m[38;5;27m./[0m
+drwx------ 3 abarb014 csmajs 4096 Nov  6 16:21 [47m[38;5;27m../[0m
+
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls tests -alR[K[K[K[Ksrc -alR
+src:
+total: 32
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:15 [47m[38;5;27m./[0m
+drwx------ 6 abarb014 csmajs 4096 Nov  6 16:16 [47m[38;5;27m../[0m
+-rw------- 1 abarb014 csmajs 11102 Nov  6 16:15 ls.cpp[0m
+-rw------- 1 abarb014 csmajs 10121 Oct 21 10:28 main.cpp[0m
+
+
+tests:
+total: 92
+drwx------ 3 abarb014 csmajs 4096 Nov  6 16:21 [47m[38;5;27m./[0m
+drwx------ 6 abarb014 csmajs 4096 Nov  6 16:16 [47m[38;5;27m../[0m
+-rw------- 1 abarb014 csmajs 77746 Oct 21 19:43 exec.script[0m
+-rw------- 1 abarb014 csmajs 0 Nov  6 16:16 ls.script[0m
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:21 [38;5;27msample/[0m
+
+tests/sample:
+total: 8
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:21 [47m[38;5;27m./[0m
+drwx------ 3 abarb014 csmajs 4096 Nov  6 16:21 [47m[38;5;27m../[0m
+
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m # F[KDirectories in between options
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls tests -alR src
+src:
+total: 32
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:15 [47m[38;5;27m./[0m
+drwx------ 6 abarb014 csmajs 4096 Nov  6 16:16 [47m[38;5;27m../[0m
+-rw------- 1 abarb014 csmajs 11102 Nov  6 16:15 ls.cpp[0m
+-rw------- 1 abarb014 csmajs 10121 Oct 21 10:28 main.cpp[0m
+
+
+tests:
+total: 92
+drwx------ 3 abarb014 csmajs 4096 Nov  6 16:21 [47m[38;5;27m./[0m
+drwx------ 6 abarb014 csmajs 4096 Nov  6 16:16 [47m[38;5;27m../[0m
+-rw------- 1 abarb014 csmajs 77746 Oct 21 19:43 exec.script[0m
+-rw------- 1 abarb014 csmajs 0 Nov  6 16:16 ls.script[0m
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:21 [38;5;27msample/[0m
+
+tests/sample:
+total: 8
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:21 [47m[38;5;27m./[0m
+drwx------ 3 abarb014 csmajs 4096 Nov  6 16:21 [47m[38;5;27m../[0m
+
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls tests -alR src[K[K[K[K[K[K -[Ksrc -l bin -R
+bin:
+total: 120
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:16 [47m[38;5;27m./[0m
+drwx------ 6 abarb014 csmajs 4096 Nov  6 16:16 [47m[38;5;27m../[0m
+-rwx------ 1 abarb014 csmajs 55170 Nov  6 16:16 [38;5;34mls[0m
+-rwx------ 1 abarb014 csmajs 53262 Nov  6 16:16 [38;5;34mrshell[0m
+
+
+src:
+total: 32
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:15 [47m[38;5;27m./[0m
+drwx------ 6 abarb014 csmajs 4096 Nov  6 16:16 [47m[38;5;27m../[0m
+-rw------- 1 abarb014 csmajs 11102 Nov  6 16:15 ls.cpp[0m
+-rw------- 1 abarb014 csmajs 10121 Oct 21 10:28 main.cpp[0m
+
+
+tests:
+total: 92
+drwx------ 3 abarb014 csmajs 4096 Nov  6 16:21 [47m[38;5;27m./[0m
+drwx------ 6 abarb014 csmajs 4096 Nov  6 16:16 [47m[38;5;27m../[0m
+-rw------- 1 abarb014 csmajs 77746 Oct 21 19:43 exec.script[0m
+-rw------- 1 abarb014 csmajs 0 Nov  6 16:16 ls.script[0m
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:21 [38;5;27msample/[0m
+
+tests/sample:
+total: 8
+drwx------ 2 abarb014 csmajs 4096 Nov  6 16:21 [47m[38;5;27m./[0m
+drwx------ 3 abarb014 csmajs 4096 Nov  6 16:21 [47m[38;5;27m../[0m
+
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m # Options that don't exisy[Kt
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m ls [K[K[Kbin/ls -fake
+ls: invalid option -- 'f'
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls -fake[K[K[K[Kapple -fake
+ls: invalid option -- 'p'
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m # Directory that doesn't exist
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls Miks[KeIsSupe[K[K[K[K[K[KAndTaeyoungAreCoolAndShouldGiveMeExtraCredit
+opendir: No such file or directory
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m # Trying to open [K[K[K[K[Kshow contents of files [K, not directories
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls
+[38;5;27mbin/[0m         LICENSE[0m      Makefile[0m     README.md[0m    [38;5;27msrc/[0m         [38;5;27mtests/[0m       
+
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls LICENSE
+opendir: Not a directory
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls LICENSE[K[K[K[K[K[K[KMakefile
+opendir: Not a directory
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls Makefile -a
+opendir: Not a directory
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls Makefile -al
+opendir: Not a directory
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls Makefile -alR
+Makefile:
+opendir: Not a directory
+
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m # T[KThe previous showed a broken feature, when la[K[Kpassed the l flag, [K[K
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m # information about the file should still be shown
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m ls te[K[K[K[K[Kbin/ls bin -R fake[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K# ls <file that exists> -R <file that doesn't exist>
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m bin/ls bin -R fake
+bin:
+[38;5;34mls[0m        [38;5;34mrshell[0m    
+
+
+fake:
+opendir: No such file or directory
+
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (ls) [0;36m$[0m exit
+exit
+~
+abarb014@hammer $ exit
+exit
+
+Script done on Thu 06 Nov 2014 04:30:39 PM PST
