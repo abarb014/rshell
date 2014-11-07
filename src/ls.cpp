@@ -50,6 +50,7 @@ vector<string> listDirectories(int flags, string initial)
     vector<struct stat> info;
 
     struct stat statbuf;
+    struct stat lstatbuf;
     struct passwd *pwd;
     struct group *grp;
 
@@ -260,7 +261,7 @@ vector<string> listDirectories(int flags, string initial)
                 }
 
                 cout << RESET_C;
-
+                
                 if (!(i + 1 == files.size()))
                     cout << endl;
             }
