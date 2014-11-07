@@ -12,6 +12,7 @@
 #include <grp.h>
 #include <ctime>
 #include <stdio.h>
+#include <string.h>
 
 using namespace std;
 
@@ -27,6 +28,12 @@ using namespace std;
 #define E_COLOR "\x1b[38;5;34m"
 #define H_COLOR "\x1b[47m"
 #define RESET_C "\x1b[0m"
+
+// Comparator for the algorithm sort function, to ignore case
+bool compareNoCase(const string& s1, const string& s2)
+{
+    return strcasecmp( s1.c_str(), s2.c_str() ) <= 0;
+}
 
 vector<string> listDirectories(int flags, string initial)
 {
@@ -70,7 +77,7 @@ vector<string> listDirectories(int flags, string initial)
         exit(1);
     }
 
-    sort(files.begin(), files.end());
+    sort(files.begin(), files.end(), compareNoCase);
     
     for (unsigned i = 0; i < files.size(); i++)
     {
@@ -379,7 +386,7 @@ int main(int argc, char **argv)
         }
     }
 
-    sort(files.begin(), files.end());
+    sort(files.begin(), files.end(), compareNoCase);
 
     if (files.empty())
     {
