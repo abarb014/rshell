@@ -7,6 +7,9 @@
 #include <time.h>
 #include <unistd.h>
 #include "Timer.h"
+#include <vector>
+#include <string>
+#include <string.h>
 
 void copy1(char *i_name, char *o_name) {
 	std::ifstream in(i_name);
@@ -125,15 +128,41 @@ inline bool file_exists(const char *name) {
 }
 
 int main(int argc, char *argv[]) {
+    // Check for the optional parameter
+    char *file_parameters[2];
+    bool tests = 0;
+
+    int j = 0;
+    for (int i = 1; i < argc; i++)
+    {
+        if (argv[i][0] == '-')
+        {
+            tests = true;
+        }
+        else
+        {
+            file_parameters[j] = argv[i];
+            j++;
+            if (j == 2)
+                break;
+        }
+    }
+
 	if (argc != 3 && argc != 4) {
 		std::cerr << "incorrect number of arguments\n";
 		return 1;
 	}
-	if (file_exists(argv[2])) {
+
+	if (file_exists(file_parameters[1])) {
 		std::cerr << "destination file already exists\n";
 		return 1;
 	}
-	if (argc == 4) time_functions(argv[1], argv[2]);
-	else copy3(argv[1], argv[2]);
+
+	if (tests) 
+        time_functions(file_parameters[0], file_parameters[1]);
+
+	else 
+        copy3(file_parameters[0], file_parameters[1]);
+
 	return 0;
 }
