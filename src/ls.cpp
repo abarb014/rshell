@@ -437,6 +437,9 @@ int main(int argc, char **argv)
             if (flags & FLAG_R)
             {
                 allDirectories(flags, files.at(i));
+
+                if (!(i + 1 == files.size()))
+                    cout << endl;
             }
             else
             {
