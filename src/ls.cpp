@@ -83,6 +83,21 @@ vector<string> listDirectories(int flags, string initial)
     for (unsigned i = 0; i < files.size(); i++)
     {
         directory_path.append(files.at(i));
+        // Link checking
+        if ((lstat(directory_path.c_str(), &lstatbuf) == -1))
+        {
+            perror("lstat");
+            exit(1);
+        }
+
+        if (S_ISLNK(lstatbuf.st_mode))
+        {
+            info.push_back(lstatbuf);
+            directory_path = copy;
+            continue;
+        }
+
+        // Regular info checking
         if ((stat(directory_path.c_str(), &statbuf)) == -1)
         {
             perror("stat");
@@ -154,12 +169,14 @@ vector<string> listDirectories(int flags, string initial)
             columns--;
             if (columns == 0)
             {
-                columns = width / longest;
                 cout << endl;
+                columns = width / longest;
             }
 
             directory_path = copy;
         }
+
+        cout << endl;
     }
 
     // The 'l flag is set, and POSSIBLY the 'a' flag too
@@ -255,9 +272,15 @@ vector<string> listDirectories(int flags, string initial)
 
                 else
                 {
-                    if (info.at(i).st_mode & S_IEXEC)
+                    if (S_ISLNK(info.at(i).st_mode))
+                    {
+                        ;
+                    }
+
+                    else if (info.at(i).st_mode & S_IEXEC)
                         cout << E_COLOR;
-                        cout << files.at(i);
+
+                    cout << files.at(i);
                 }
 
                 cout << RESET_C;
@@ -266,6 +289,8 @@ vector<string> listDirectories(int flags, string initial)
                     cout << endl;
             }
         }
+
+        cout << endl;
     }
 
 
@@ -325,15 +350,16 @@ vector<string> listDirectories(int flags, string initial)
                 if (columns == 0)
                 {
                     columns = width / longest;
-                    cout << endl;
                 }
 
                 directory_path = copy;
             }
+
+            if ((columns == width/longest && columns != 0) || (i + 1) == files.size())
+                cout << endl;
         }
     }
 
-    cout << endl;
     return directories;
 }
 
@@ -342,6 +368,9 @@ void allDirectories(int flags, string initial)
     cout << initial << ":" << endl;
 
     vector<string> directories = listDirectories(flags,initial);
+    
+    if (directories.empty())
+        return;
 
     cout << endl;
 
@@ -349,7 +378,7 @@ void allDirectories(int flags, string initial)
     {
         allDirectories(flags, directories.at(i));
     }
-
+    
     return;
 }
 
@@ -414,10 +443,10 @@ int main(int argc, char **argv)
                 if (files.size() > 1)
                     cout << files.at(i) << ":" << endl;
                 listDirectories(flags, files.at(i));
-            }
 
-            if (!(i + 1 == files.size()))
-                cout << endl;
+                if (!(i + 1 == files.size()))
+                    cout << endl;
+            }
         }
     }
 
