@@ -9,6 +9,7 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/param.h>
+#include <fcntl.h>
 
 using namespace std;
 using namespace boost;
@@ -26,6 +27,7 @@ void rshellExit();
 int main()
 {
     // Set up the login and hostname and a failsafe in case either one doesn't work.
+
     bool loginStatus = 0;
     char host[MAXHOSTNAMELEN];
     if (gethostname(host, sizeof(host)) == -1)
@@ -54,160 +56,180 @@ int main()
     }
     
     // Obtain a line of input from the user then fix it, and tokenize it
-    // then save it in a Queue.
-    string command_line;
-    queue<string> command_list;
+    string input_line;
+    queue<string> raw_commands;
 
-    getInput(prompt, command_line, command_list);
+    getInput(prompt, input_line, raw_commands);
     int commandCount = 0;
     
-    // Further parse the input to stop at a connecter
     // Connector status will be set by an int variable
     int status = 0;
     char **argv = NULL;
-    queue<string> con_command_list;
-    statusChecker(command_list, con_command_list, commandCount, status, argv);
+    queue<string> command_list;
+    statusChecker(raw_commands, command_list, commandCount, status, argv);
 
-    // Dynamically allocate the arrays we need for our command list
-  
-    buildArrays(argv, commandCount, con_command_list);
+    buildArrays(argv, commandCount, command_list);
 
     int *commandStatus = new int;
 
-    // Fork and execute the commands!
     while(1)
     {
         int pid = fork();
         
-        if (pid == -1) // This is the error checker
+        if (pid == -1)
         {
             perror("fork");
         }
+
         else if (pid == 0) // This is the child process
         {
+            // If we need to do input redirection
+            if (status == 5)
+            {
+               if (raw_commands.empty())
+                   cerr << "Error: expected argument after '<'\n";
+                   
+               else
+               {
+                   int in = open(raw_commands.front().c_str(), O_RDONLY);
+                   if (in == -1)
+                   {
+                       perror("open");
+                       exit(1);
+                   }
+
+                   if (close(0) == -1)
+                   {
+                       perror("close");
+                       exit(1);
+                   }
+
+                   if (dup(in) == -1)
+                   {
+                       perror("dup");
+                       exit(1);
+                   }
+               }
+            }
+
             if (execvp(argv[0], argv) == -1)
             {
                 perror("execvp");
                 exit(1);
             }
-            exit(0); // A successful exit
+            exit(0);
         }
+
         else // This is the parent process
         {
             pid = wait(&commandStatus);
-            //cout << WEXITSTATUS(commandStatus) << endl;
 
             if (pid == -1)
             {
                 perror("wait");
             }
 
-            // If status 1 (semicolon) is detected, add commands from command_list until next connector is reached, and start again
+            // If status 1 (semicolon) is detected, add commands from raw_commands until next connector is reached, and start again
+
             if (status == 1)
             {
-                // First clear the old arrays
                 clearArrays(argv, commandCount);
-                
-                // Reset status and build up command list again
-                statusChecker(command_list, con_command_list, commandCount, status, argv);
-                
-                // Build the new arrays and start the loop over again
-                buildArrays(argv, commandCount, con_command_list);
+                statusChecker(raw_commands, command_list, commandCount, status, argv);
+                buildArrays(argv, commandCount, command_list);
 
                 continue;
             }
 
             // If status 2 (AND) is detected, the next command will only execute if the first succeeds.
+
             else if (status == 2)
             {
                 if (WEXITSTATUS(commandStatus) == 1)
                 {
-                    // If the first command failed, clear the queues
+                    clearQueue(raw_commands);
                     clearQueue(command_list);
-                    clearQueue(con_command_list);
 
-                    // Call delete on the old arrays
                     clearArrays(argv, commandCount);
 
-                    // Get new input and parse it
-                    getInput(prompt, command_line, command_list);
-
-                    // Check for more connectors
-                    statusChecker(command_list, con_command_list, commandCount, status, argv);
-
-                    // Build the new command arrays
-                    buildArrays(argv, commandCount, con_command_list);
+                    getInput(prompt, input_line, raw_commands);
+                    statusChecker(raw_commands, command_list, commandCount, status, argv);
+                    buildArrays(argv, commandCount, command_list);
                     
                     continue;
                 }
+
                 else
                 {
-                    // If it works, get the next command and test it too
                     clearArrays(argv, commandCount);
-
-                    statusChecker(command_list, con_command_list, commandCount, status, argv);
-
-                    buildArrays(argv, commandCount, con_command_list);
+                    statusChecker(raw_commands, command_list, commandCount, status, argv);
+                    buildArrays(argv, commandCount, command_list);
 
                     continue;
                 }
             }
 
             // If status 3 (OR) is detected, the next command will only execute if the first fails.
+
             else if (status == 3)
             {
                 if (WEXITSTATUS(commandStatus) == 1)
                 {
                     clearArrays(argv, commandCount);
-
-                    statusChecker(command_list, con_command_list, commandCount, status, argv);
-
-                    buildArrays(argv, commandCount, con_command_list);
+                    statusChecker(raw_commands, command_list, commandCount, status, argv);
+                    buildArrays(argv, commandCount, command_list);
 
                     continue;
                 }
+
                 else
                 {
+                    clearQueue(raw_commands);
                     clearQueue(command_list);
-                    clearQueue(con_command_list);
 
                     clearArrays(argv, commandCount);
 
-                    getInput(prompt, command_line, command_list);
-
-                    statusChecker(command_list, con_command_list, commandCount, status, argv);
-
-                    buildArrays(argv, commandCount, con_command_list);
+                    getInput(prompt, input_line, raw_commands);
+                    statusChecker(raw_commands, command_list, commandCount, status, argv);
+                    buildArrays(argv, commandCount, command_list);
 
                     continue;
                 }
             }
 
             // If status 4 (#) is detected, the program will discard everything after it
+
             else if (status == 4)
             {
+                clearQueue(raw_commands);
                 clearQueue(command_list);
-                clearQueue(con_command_list);
 
                 clearArrays(argv, commandCount);
 
-                getInput(prompt, command_line, command_list);
+                getInput(prompt, input_line, raw_commands);
+                statusChecker(raw_commands, command_list, commandCount, status, argv);
+                buildArrays(argv, commandCount, command_list);
 
-                statusChecker(command_list, con_command_list, commandCount, status, argv);
+                continue;
+            }
 
-                buildArrays(argv, commandCount, con_command_list);
+            // If status 5 (<) is detected, pop raw_commands
+            else if (status == 5)
+            {
+                raw_commands.pop();
+
+                clearArrays(argv, commandCount);
+                statusChecker(raw_commands, command_list, commandCount, status, argv);
+                buildArrays(argv, commandCount, command_list);
 
                 continue;
             }
 
             // This stuff will happen AFTER the connectors
+
             clearArrays(argv, commandCount);
-
-            getInput(prompt, command_line, command_list);
-
-            statusChecker(command_list, con_command_list, commandCount, status, argv);
-
-            buildArrays(argv, commandCount, con_command_list);
+            getInput(prompt, input_line, raw_commands);
+            statusChecker(raw_commands, command_list, commandCount, status, argv);
+            buildArrays(argv, commandCount, command_list);
         }
     }
 
@@ -221,13 +243,11 @@ string cleanInput(const string& input)
     for (unsigned i = 0; i < input.size(); i++)
     {
         if (input[i] == ';')
-        {
             new_input += " ; ";
-        }
+
         else if (input[i] == '#')
-        {
             new_input += " # ";
-        }
+
         else if (input[i] == '|')
         {
             if (i+1 < input.size())
@@ -235,7 +255,11 @@ string cleanInput(const string& input)
                 if (input[i+1] == '|')
                     new_input += " || ";
             }
+
+            else
+                new_input += " | ";
         }
+
         else if (input[i] == '&')
         {
             if (i+1 < input.size())
@@ -244,6 +268,22 @@ string cleanInput(const string& input)
                     new_input += " && ";
             }
         }
+
+        else if (input[i] == '<')
+            new_input += " < ";
+
+        else if (input[i] == '>')
+        {
+            if (i+1 < input.size())
+            {
+                if (input[i+1] == '>')
+                    new_input += " >> ";
+            }
+
+            else
+                new_input += " > ";
+        }
+
         else
         {
             new_input += input[i];
@@ -258,8 +298,10 @@ void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCo
     // ALWAYS CHECK IF THE DAMN QUEUE IS EMPTY BEFORE TRYING TO ACCESS MEMORY
     if (original.empty())
     {
+        status = 0;
         return;
     }
+
     if (original.front().compare("exit") == 0)
     {
         for (int i = 0; i < commandCount; i++)
@@ -283,6 +325,7 @@ void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCo
             status = 1;
             return;
         }
+
         // If && is found, only execute the next command if it succeeds
         else if (original.front().compare("&&") == 0)
         {
@@ -290,6 +333,7 @@ void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCo
             status = 2;
             return;
         }
+
         // If || is found, only execute the next command if the first fails
         else if (original.front().compare("||") == 0)
         {
@@ -297,6 +341,7 @@ void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCo
             status = 3;
             return;
         }
+
         // If # is found, everything after it will be discarded
         else if (original.front().compare("#") == 0)
         {
@@ -304,6 +349,39 @@ void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCo
             status = 4;
             return;
         }
+
+        // If < is found, we need to do input redirection
+        else if (original.front().compare("<") == 0)
+        {
+            original.pop();
+            status = 5;
+            return;
+        }
+
+        // If > is found, we need to do ouput (1) redirection
+        else if (original.front().compare(">") == 0)
+        {
+            original.pop();
+            status = 6;
+            return;
+        }
+
+        // If >> is found, we need to do ouput (2) redirection
+        else if (original.front().compare(">>") == 0)
+        {
+            original.pop();
+            status = 7;
+            return;
+        }
+
+        // If | is found, we need to do piping
+        else if (original.front().compare("|") == 0)
+        {
+            original.pop();
+            status = 8;
+            return;
+        }
+
         else
         {
             fixed.push(original.front());
@@ -316,15 +394,16 @@ void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCo
     status = 0;
 }
 
-void buildArrays(char **&argv, const int &commandCount, queue<string> &con_command_list)
+void buildArrays(char **&argv, const int &commandCount, queue<string> &command_list)
 {
     argv = new char *[commandCount + 1];
+
     for (int i = 0; i < commandCount; i++)
     {
         argv[i] = new char[MAX_ARGS];
-        strcpy(argv[i], con_command_list.front().c_str());
+        strcpy(argv[i], command_list.front().c_str());
 
-        con_command_list.pop();
+        command_list.pop();
     }
 
     argv[commandCount] = '\0';
@@ -351,17 +430,18 @@ void clearArrays(char **&argv, int &commandCount)
     commandCount = 0;
 }
 
-void getInput(const string& prompt, string &command_line, queue<string> &command_list)
+void getInput(const string& prompt, string &input_line, queue<string> &raw_commands)
 {
 
     cout << prompt;
-    getline(cin, command_line);
-    command_line = cleanInput(command_line);
+    getline(cin, input_line);
+    input_line = cleanInput(input_line);
     char_separator<char> sep(" ");
-    tokenizer< char_separator<char> > tok(command_line, sep);
+    tokenizer< char_separator<char> > tok(input_line, sep);
+
     for (tokenizer< char_separator<char> >::iterator it = tok.begin(); it != tok.end(); it++)
     {
-        command_list.push(*it);
+        raw_commands.push(*it);
     }
 }
 
