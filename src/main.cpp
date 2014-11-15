@@ -98,18 +98,34 @@ int main()
                        exit(1);
                    }
 
-                   if (close(0) == -1)
+                   if (dup2(in, 0) == -1)
                    {
-                       perror("close");
-                       exit(1);
-                   }
-
-                   if (dup(in) == -1)
-                   {
-                       perror("dup");
+                       perror("dup2");
                        exit(1);
                    }
                }
+            }
+
+            // If we need to do output (1) redirection (create  or overwrite)
+            else if (status == 6)
+            {
+                cerr << "Made it" << endl;
+
+                if (raw_commands.empty())
+                    cerr << "Error: expected argument after '>'\n";
+
+                int out = open(raw_commands.front().c_str(), O_CREAT | O_WRONLY);
+                if (out == -1)
+                {
+                    perror("open");
+                    exit(1);
+                }
+
+                if (dup2(out, 1) == -1)
+                {
+                    perror("dup2");
+                    exit(1);
+                }
             }
 
             if (execvp(argv[0], argv) == -1)
@@ -215,7 +231,21 @@ int main()
             // If status 5 (<) is detected, pop raw_commands
             else if (status == 5)
             {
-                raw_commands.pop();
+                if (!raw_commands.empty())
+                    raw_commands.pop();
+
+                clearArrays(argv, commandCount);
+                statusChecker(raw_commands, command_list, commandCount, status, argv);
+                buildArrays(argv, commandCount, command_list);
+
+                continue;
+            }
+
+            // If status 6 (>) is detected, pop raw_commands
+            else if (status == 6)
+            {
+                if (!raw_commands.empty())
+                    raw_commands.pop();
 
                 clearArrays(argv, commandCount);
                 statusChecker(raw_commands, command_list, commandCount, status, argv);
@@ -277,11 +307,14 @@ string cleanInput(const string& input)
             if (i+1 < input.size())
             {
                 if (input[i+1] == '>')
+                {
                     new_input += " >> ";
+                    continue;
+                }
+
             }
 
-            else
-                new_input += " > ";
+            new_input += " > ";
         }
 
         else
@@ -361,6 +394,7 @@ void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCo
         // If > is found, we need to do ouput (1) redirection
         else if (original.front().compare(">") == 0)
         {
+            cerr << "> detected" << endl;
             original.pop();
             status = 6;
             return;
