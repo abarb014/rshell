@@ -109,12 +109,31 @@ int main()
             // If we need to do output (1) redirection (create  or overwrite)
             else if (status == 6)
             {
-                cerr << "Made it" << endl;
-
                 if (raw_commands.empty())
                     cerr << "Error: expected argument after '>'\n";
 
                 int out = open(raw_commands.front().c_str(), O_CREAT | O_WRONLY);
+                if (out == -1)
+                {
+                    perror("open");
+                    exit(1);
+                }
+
+                if (dup2(out, 1) == -1)
+                {
+                    perror("dup2");
+                    exit(1);
+                }
+            }
+
+            // If we need to do output (2) redirection (create or append)
+            else if (status == 7)
+            {
+                if (raw_commands.empty())
+                    cerr << "Error: expected argument after '>>'\n";
+
+                int out = open(raw_commands.front().c_str(), O_CREAT | O_WRONLY | O_APPEND);
+                
                 if (out == -1)
                 {
                     perror("open");
@@ -243,6 +262,19 @@ int main()
 
             // If status 6 (>) is detected, pop raw_commands
             else if (status == 6)
+            {
+                if (!raw_commands.empty())
+                    raw_commands.pop();
+
+                clearArrays(argv, commandCount);
+                statusChecker(raw_commands, command_list, commandCount, status, argv);
+                buildArrays(argv, commandCount, command_list);
+
+                continue;
+            }
+
+            // Do the same as status 6 basically
+            else if (status == 7)
             {
                 if (!raw_commands.empty())
                     raw_commands.pop();
@@ -403,6 +435,7 @@ void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCo
         // If >> is found, we need to do ouput (2) redirection
         else if (original.front().compare(">>") == 0)
         {
+            original.pop();
             original.pop();
             status = 7;
             return;
