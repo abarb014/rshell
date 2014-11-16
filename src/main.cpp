@@ -74,11 +74,11 @@ int main()
 
     // This is used for piping
     int fd[2];
-    if (pipe(fd) == -1)
-    {
-        perror("pipe");
-        exit(1);
-    }
+    //if (pipe(fd) == -1)
+    //{
+    //    perror("pipe");
+    //   exit(1);
+    //}
 
     int savestdin;
 
@@ -90,6 +90,12 @@ int main()
 
     while(1)
     {
+        if (pipe(fd) == -1)
+        {
+            perror("pipe");
+            exit(1);
+        }
+
         int pid = fork();
         
         if (pid == -1)
@@ -122,6 +128,14 @@ int main()
                    {
                        perror("dup2");
                        exit(1);
+                   }
+
+                   // If piping follows
+                   if (!raw_commands.empty())
+                       raw_commands.pop();
+                   if (!raw_commands.empty() && raw_commands.front().compare("|") == 0)
+                   {
+                       status = 8;
                    }
                }
             }
@@ -174,7 +188,7 @@ int main()
             }
 
             // If we need to do piping
-            else if (status == 8)
+            if (status == 8)
             {
                 if (raw_commands.empty())
                 {
@@ -302,11 +316,20 @@ int main()
                 if (!raw_commands.empty())
                     raw_commands.pop();
 
-                clearArrays(argv, commandCount);
-                statusChecker(raw_commands, command_list, commandCount, status, argv);
-                buildArrays(argv, commandCount, command_list);
+                if (!raw_commands.empty() && raw_commands.front().compare("|") == 0)
+                {
+                    raw_commands.pop();
+                    status = 8;
+                }
 
-                continue;
+                else
+                {
+                    clearArrays(argv, commandCount);
+                    statusChecker(raw_commands, command_list, commandCount, status, argv);
+                    buildArrays(argv, commandCount, command_list);
+
+                    continue;
+                }
             }
 
             // If status 6 (>) is detected, pop raw_commands
@@ -336,7 +359,7 @@ int main()
             }
 
             // Piping
-            else if (status == 8)
+            if (status == 8)
             {
                 if (dup2(fd[0], 0))
                 {
@@ -365,11 +388,11 @@ int main()
                 exit(1);
             }
 
-            if (pipe(fd) == -1)
-            {
-                perror("pipe");
-                exit(1);
-            }
+            //if (pipe(fd) == -1)
+            //{
+             //   perror("pipe");
+              //  exit(1);
+            //}
             
             clearArrays(argv, commandCount);
             getInput(prompt, input_line, raw_commands);
