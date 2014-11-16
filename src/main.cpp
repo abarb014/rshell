@@ -72,6 +72,22 @@ int main()
 
     int *commandStatus = new int;
 
+    // This is used for piping
+    int fd[2];
+    if (pipe(fd) == -1)
+    {
+        perror("pipe");
+        exit(1);
+    }
+
+    int savestdin;
+
+    if ((savestdin = dup(0)) == -1)
+    {
+        perror("dup");
+        exit(1);
+    }
+
     while(1)
     {
         int pid = fork();
@@ -79,6 +95,7 @@ int main()
         if (pid == -1)
         {
             perror("fork");
+            exit(1);
         }
 
         else if (pid == 0) // This is the child process
@@ -87,7 +104,10 @@ int main()
             if (status == 5)
             {
                if (raw_commands.empty())
+               {
                    cerr << "Error: expected argument after '<'\n";
+                   exit(1);
+               }
                    
                else
                {
@@ -110,7 +130,10 @@ int main()
             else if (status == 6)
             {
                 if (raw_commands.empty())
+                {
                     cerr << "Error: expected argument after '>'\n";
+                    exit(1);
+                }
 
                 int out = open(raw_commands.front().c_str(), O_CREAT | O_WRONLY);
                 if (out == -1)
@@ -130,7 +153,10 @@ int main()
             else if (status == 7)
             {
                 if (raw_commands.empty())
+                {
                     cerr << "Error: expected argument after '>>'\n";
+                    exit(1);
+                }
 
                 int out = open(raw_commands.front().c_str(), O_CREAT | O_WRONLY | O_APPEND);
                 
@@ -147,11 +173,34 @@ int main()
                 }
             }
 
+            // If we need to do piping
+            else if (status == 8)
+            {
+                if (raw_commands.empty())
+                {
+                    cerr << "Error: expected argument after '>>'\n";
+                    exit(1);
+                }
+
+                if (dup2(fd[1], 1) == -1)
+                {
+                    perror("dup2");
+                    exit(1);
+                }
+
+                if (close(fd[0]) == -1)
+                {
+                    perror("close");
+                    exit(1);
+                }
+            }
+
             if (execvp(argv[0], argv) == -1)
             {
                 perror("execvp");
                 exit(1);
             }
+
             exit(0);
         }
 
@@ -286,8 +335,42 @@ int main()
                 continue;
             }
 
+            // Piping
+            else if (status == 8)
+            {
+                if (dup2(fd[0], 0))
+                {
+                    perror("dup2");
+                    exit(1);
+                }
+
+                if (close(fd[1]))
+                {
+                    perror("close");
+                    exit(1);
+                }
+
+                clearArrays(argv, commandCount);
+                statusChecker(raw_commands, command_list, commandCount, status, argv);
+                buildArrays(argv, commandCount, command_list);
+
+                continue;
+            }
+
             // This stuff will happen AFTER the connectors
 
+            if (dup2(savestdin, 0) == -1)
+            {
+                perror("dup2");
+                exit(1);
+            }
+
+            if (pipe(fd) == -1)
+            {
+                perror("pipe");
+                exit(1);
+            }
+            
             clearArrays(argv, commandCount);
             getInput(prompt, input_line, raw_commands);
             statusChecker(raw_commands, command_list, commandCount, status, argv);
@@ -315,11 +398,13 @@ string cleanInput(const string& input)
             if (i+1 < input.size())
             {
                 if (input[i+1] == '|')
+                {
                     new_input += " || ";
+                    continue;
+                }
             }
 
-            else
-                new_input += " | ";
+            new_input += " | ";
         }
 
         else if (input[i] == '&')
@@ -426,7 +511,6 @@ void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCo
         // If > is found, we need to do ouput (1) redirection
         else if (original.front().compare(">") == 0)
         {
-            cerr << "> detected" << endl;
             original.pop();
             status = 6;
             return;
