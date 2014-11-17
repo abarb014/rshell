@@ -130,18 +130,29 @@ int main()
                        exit(1);
                    }
 
-                   // If piping follows
+                   // If piping follows or output redirection follows
                    if (!raw_commands.empty())
                        raw_commands.pop();
                    if (!raw_commands.empty() && raw_commands.front().compare("|") == 0)
                    {
                        status = 8;
                    }
+                   if (!raw_commands.empty() && raw_commands.front().compare(">") == 0)
+                   {
+                       raw_commands.pop();
+                       status = 6;
+                   }
+                   if (!raw_commands.empty() && raw_commands.front().compare(">>") == 0)
+                   {
+                       raw_commands.pop();
+                       raw_commands.pop();
+                       status = 7;
+                   }
                }
             }
 
             // If we need to do output (1) redirection (create  or overwrite)
-            else if (status == 6)
+            if (status == 6)
             {
                 if (raw_commands.empty())
                 {
@@ -149,7 +160,7 @@ int main()
                     exit(1);
                 }
 
-                int out = open(raw_commands.front().c_str(), O_CREAT | O_WRONLY);
+                int out = open(raw_commands.front().c_str(), O_CREAT | O_WRONLY | O_TRUNC);
                 if (out == -1)
                 {
                     perror("open");
@@ -164,7 +175,7 @@ int main()
             }
 
             // If we need to do output (2) redirection (create or append)
-            else if (status == 7)
+            if (status == 7)
             {
                 if (raw_commands.empty())
                 {
