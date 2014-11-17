@@ -203,7 +203,7 @@ int main()
             {
                 if (raw_commands.empty())
                 {
-                    cerr << "Error: expected argument after '>>'\n";
+                    cerr << "Error: expected argument after '|'\n";
                     exit(1);
                 }
 
