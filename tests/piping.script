@@ -1,0 +1,232 @@
+Script started on Wed 19 Nov 2014 12:33:38 PM PST
+~
+abarb014@hammer $ cs100
+[0;91m
+===============================================================================
+|                                                                             |
+| You have enabled settings specific for cs100.                               |
+|                                                                             |
+===============================================================================
+[0m
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m cd cs100/rshell; make
+mkdir -p bin
+g++ -Wall -Werror -ansi -pedantic src/main.cpp -o bin/rshell
+g++ -Wall -Werror -ansi -pedantic src/ls.cpp -o bin/ls
+g++ -Wall -Werror -ansi -pedantic src/cp.cpp -o bin/cp
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (redirect) [0;36m$[0m bin/l[Krshell
+abarb014@hammer.cs.ucr.edu $ # Basic output redirection
+abarb014@hammer.cs.ucr.edu $ cat > output
+Yolo Swaggins an  and the Fellow                s
+and the f Fellowship of the Bling
+abarb014@hammer.cs.ucr.edu $ cat output
+Yolo Swaggins
+and the Fellowship of the Bling
+abarb014@hammer.cs.ucr.edu $ echo > outp        Dolla dolla bull   ill yall > output2
+abarb014@hammer.cs.ucr.edu $ cat output2
+Dolla dolla bill yall
+abarb014@hammer.cs.ucr.edu $ # Multiple output redirecr tions
+abarb014@hammer.cs.ucr.edu $ cat > output > output2
+Hey   The     My eyes, the goggles do nothing!
+abarb014@hammer.cs.ucr.edu $ cay t output
+My eyes, the goggles do nothing!
+abarb014@hammer.cs.ucr.edu $ cat output2
+abarb014@hammer.cs.ucr.edu $ # Appending output redirection
+abarb014@hammer.cs.ucr.edu $ cat >  > output
+No, not the bees!
+abarb014@hammer.cs.ucr.edu $ cat output
+My eyes, the goggles do nothing!
+No, not the bees!
+abarb014@hammer.cs.ucr.edu $ cat >> output
+Ahhh! They're in my eyes!
+abarb014@hammer.cs.ucr.edu $ cat output
+My eyes, the goggles do nothing!
+No, not the bees!
+Ahhh! They're in my eyes!
+abarb014@hammer.cs.ucr.edu $ # Multiplt   e output redirections
+abarb014@hammer.cs.ucr.edu $ cat >> output >> output2
+Nick Cage in the     The Wicker Man
+abarb014@hammer.cs.ucr.edu $ cat output
+My eyes, the goggles do nothing!
+No, not the bees!
+Ahhh! They're in my eyes!
+Nick Cage in The Wicker Man
+abarb014@hammer.cs.ucr.edu $ cat output2
+abarb014@hammer.cs.ucr.edu $ # input       Input Redirection
+abarb014@hammer.cs.ucr.edu $ wc -c < op utput
+105
+abarb014@hammer.cs.ucr.edu $ wc -c l < output
+4
+abarb014@hammer.cs.ucr.edu $ cat < output
+My eyes, the goggles do nothing!
+No, not the bees!
+Ahhh! They're in my eyes!
+Nick Cage in The Wicker Man
+abarb014@hammer.cs.ucr.edu $ # Multiple input redirections
+abarb014@hammer.cs.ucr.edu $ wc <   -c < output < output2
+105
+abarb014@hammer.cs.ucr.edu $ wc -l       cat < output < output2
+My eyes, the goggles do nothing!
+No, not the bees!
+Ahhh! They're in my eyes!
+Nick Cage in The Wicker Man
+abarb014@hammer.cs.ucr.edu $ # Baisc   sic piping
+abarb014@hammer.cs.ucr.edu $ cat output | tr a-z A-Z
+MY EYES, THE GOGGLES DO NOTHING!
+NO, NOT THE BEES!
+AHHH! THEY'RE IN MY EYES!
+NICK CAGE IN THE WICKER MAN
+abarb014@hammer.cs.ucr.edu $ wc -c output | cat
+105 output
+abarb014@hammer.cs.ucr.edu $ # Multiple pipes
+abarb014@hammer.cs.ucr.edu $ cat ouu tput | tr a-z A-Z | cat
+MY EYES, THE GOGGLES DO NOTHING!
+NO, NOT THE BEES!
+AHHH! THEY'RE IN MY EYES!
+NICK CAGE IN THE WICKER MAN
+abarb014@hammer.cs.ucr.edu $ echo The     Bears | tail -1
+Bears
+abarb014@hammer.cs.ucr.edu $ echo Bears | tail -1 | tr B F
+Fears
+abarb014@hammer.cs.ucr.edu $ # Mixed Redirection
+abarb014@hammer.cs.ucr.edu $ # Input then output
+abarb014@hammer.cs.ucr.edu $ cat < output > output2
+abarb014@hammer.cs.ucr.edu $ cat output2
+My eyes, the goggles do nothing!
+No, not the bees!
+Ahhh! They're in my eyes!
+Nick Cage in The Wicker Man
+abarb014@hammer.cs.ucr.edu $ wc -l < output >> output2
+abarb014@hammer.cs.ucr.edu $ cat output2
+My eyes, the goggles do nothing!
+No, not the bees!
+Ahhh! They're in my eyes!
+Nick Cage in The Wicker Man
+4
+abarb014@hammer.cs.ucr.edu $ # o Output then input, W this wi on't do anything to the                 the input because the output d isn't affect  ed by stdin
+abarb014@hammer.cs.ucr.edu $ cat     echo o Bears > output2 < output
+abarb014@hammer.cs.ucr.edu $ cat output2
+Bears
+abarb014@hammer.cs.ucr.edu $ car output
+execvp: No such file or directory
+abarb014@hammer.cs.ucr.edu $ cat output
+My eyes, the goggles do nothing!
+No, not the bees!
+Ahhh! They're in my eyes!
+Nick Cage in The Wicker Man
+abarb014@hammer.cs.ucr.edu $ echo Bear    Fers  ars >> output2 < output
+abarb014@hammer.cs.ucr.edu $ cat output2
+Bears
+Fears
+abarb014@hammer.cs.ucr.edu $ cat output
+My eyes, the goggles do nothing!
+No, not the bees!
+Ahhh! They're in my eyes!
+Nick Cage in The Wicker Man
+abarb014@hammer.cs.ucr.edu $ # Mixed redirection with pipes
+abarb014@hammer.cs.ucr.edu $ # Pipe, then inptu  ut output
+abarb014@hammer.cs.ucr.edu $ ls | tail -1            $   # The initial pipe wne   ens   ends up ignored because the < takes precedence
+abarb014@hammer.cs.ucr.edu $ ls | tail -1 < output > output2
+abarb014@hammer.cs.ucr.edu $ cat output2
+Nick Cage in The Wicker Man
+abarb014@hammer.cs.ucr.edu $ ls | tail      tr a-z A-Z < output >> output2
+abarb014@hammer.cs.ucr.edu $ cat output2
+Nick Cage in The Wicker Man
+MY EYES, THE GOGGLES DO NOTHING!
+NO, NOT THE BEES!
+AHHH! THEY'RE IN MY EYES!
+NICK CAGE IN THE WICKER MAN
+abarb014@hammer.cs.ucr.edu $ # N the sequence > < or > << does nothing. t    to the output file                                    >> < does nothing to the initially outputted file
+abarb014@hammer.cs.ucr.edu $ ls | tr a-     tail -1 > output < output2
+abarb014@hammer.cs.ucr.edu $ cat output2 
+tests
+abarb014@hammer.cs.ucr.edu $ ls | tail -2 > output          >> output < output2
+abarb014@hammer.cs.ucr.edu $ cat output
+tests
+src
+tests
+abarb014@hammer.cs.ucr.edu $ # in /o then          or o then pipe then i or o
+abarb014@hammer.cs.ucr.edu $ cat < output | tr - a-z A-Z > output2
+abarb014@hammer.cs.ucr.edu $ cat output2
+TESTS
+SRC
+TESTS
+abarb014@hammer.cs.ucr.edu $ cat < output | tail -1 > output2
+abarb014@hammer.cs.ucr.edu $ cat output2
+tests
+abarb014@hammer.cs.ucr.edu $ # The sequence < > | or >> | causes an error because it attempts to execute a non executable
+abarb014@hammer.cs.ucr.edu $ ca  wc output > output2 | tr 0-9 f
+abarb014@hammer.cs.ucr.edu $ cat output2
+ 3  3 16 output
+abarb014@hammer.cs.ucr.edu $ # n Not an error, sorry I  , I meant does nothing
+abarb014@hammer.cs.ucr.edu $ wc output >> output  2 | tr 0-9 f
+abarb014@hammer.cs.ucr.edu $ cat output2
+ 3  3 16 output
+ 3  3 16 output
+abarb014@hammer.cs.ucr.edu $ # Now th  of the form  , i/o i/o pipe
+abarb014@hammer.cs.ucr.edu $ echo butt > output < output2 | wc
+      0       0       0
+abarb014@hammer.cs.ucr.edu $ cat output
+butt
+abarb014@hammer.cs.ucr.edu $ cat coutput2        output2
+ 3  3 16 output
+ 3  3 16 output
+abarb014@hammer.cs.ucr.edu $ @ # the final command in the chain will not recieve any input, so                                                           pipe will not rev cieve input so the final command won't finish
+abarb014@hammer.cs.ucr.edu $ echo but >> output < output2 | wc
+      0       0       0
+abarb014@hammer.cs.ucr.edu $ cat output
+butt
+but
+abarb014@hammer.cs.ucr.edu $ cat output2
+ 3  3 16 output
+ 3  3 16 output
+abarb014@hammer.cs.ucr.edu $ # Finally, commands of the form i                                 # Mixed redirection with multiple pipes
+abarb014@hammer.cs.ucr.edu $ cat > output | tr a-z A-Z | tr 0-9 f                                      cat > output
+This is a test file, I'll use          
+0- 18263 and 97482734 woo!
+abarb014@hammer.cs.ucr.edu $ cat < output | tr a-z A-Z | tr 0-9 f q > output2
+abarb014@hammer.cs.ucr.edu $ cat output2
+THIS IS A TEST FILE
+qqqqqq AND qqqqqqqq WOO!
+abarb014@hammer.cs.ucr.edu $ # Again, commands of the form > | or | < mak       > <<   > < do not make send se, but they will be tested for completion        nsistency               anywya  ay
+abarb014@hammer.cs.ucr.edu $ cat > output | tr a-Z 9 | ew  wc -c
+This ain't fo  gonna work cle   Cleetus
+tr: range-endpoints of `a-Z' are in reverse collating sequence order
+0
+abarb014@hammer.cs.ucr.edu $ # I screwed up thes  test, but the pipes still worked as intended
+abarb014@hammer.cs.ucr.edu $ echo butt >> output < output2 | wc
+      0       0       0
+abarb014@hammer.cs.ucr.edu $ cat output
+This ain't gonna work Cleetus
+butt
+abarb014@hammer.cs.ucr.edu $ cat output2
+THIS IS A TEST FILE
+qqqqqq AND qqqqqqqq WOO!
+abarb014@hammer.cs.ucr.edu $ # Nothing happened in the last part because t noth  h thing came through the input on the pipe
+abarb014@hammer.cs.ucr.edu $ # Error messages
+abarb014@hammer.cs.ucr.edu $ cat >
+Error: expected argument after '>'
+abarb014@hammer.cs.ucr.edu $ echo >>
+Error: expected argument after '>>'
+abarb014@hammer.cs.ucr.edu $ wc <
+Error: expected argument after '<'
+abarb014@hammer.cs.ucr.edu $ >
+Error: expected argument after '>'
+abarb014@hammer.cs.ucr.edu $ <
+Error: expected argument after '<'
+abarb014@hammer.cs.ucr.edu $ <<
+open: No such file or directory
+abarb014@hammer.cs.ucr.edu $ |
+Error: expected argument after '|'
+abarb014@hammer.cs.ucr.edu $ # This concludes the test cases! Thank you for reda  ading. M P  
+abarb014@hammer.cs.ucr.edu $ # P.S. NOT THE BEES
+abarb014@hammer.cs.ucr.edu $ exit
+logout
+
+[Process Completed]
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (redirect) [0;36m$[0m exit
+exit
+~
+abarb014@hammer $ exit
+exit
+
+Script done on Wed 19 Nov 2014 01:00:51 PM PST
