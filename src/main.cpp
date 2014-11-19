@@ -145,7 +145,6 @@ int main()
                    if (!raw_commands.empty() && raw_commands.front().compare(">>") == 0)
                    {
                        raw_commands.pop();
-                       raw_commands.pop();
                        status = 7;
                    }
                }
@@ -333,6 +332,18 @@ int main()
                     status = 8;
                 }
 
+                else if (!raw_commands.empty() && raw_commands.front().compare(">") == 0)
+                {
+                    raw_commands.pop();
+                    raw_commands.pop();
+                }
+
+                else if (!raw_commands.empty() && raw_commands.front().compare(">>") == 0)
+                {
+                    raw_commands.pop();
+                    raw_commands.pop();
+                }
+
                 else
                 {
                     clearArrays(argv, commandCount);
@@ -460,6 +471,7 @@ string cleanInput(const string& input)
                 if (input[i+1] == '>')
                 {
                     new_input += " >> ";
+                    i += 1;
                     continue;
                 }
 
@@ -553,7 +565,6 @@ void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCo
         // If >> is found, we need to do ouput (2) redirection
         else if (original.front().compare(">>") == 0)
         {
-            original.pop();
             original.pop();
             status = 7;
             return;
