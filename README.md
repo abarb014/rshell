@@ -1,4 +1,4 @@
-###Rshell
+#Rshell
 
 * Project source can be downloaded from https://github.com/abarb014/rshell
 
@@ -45,7 +45,7 @@ Andrew Barboza
 
 ##Known Bugs
 
-#rshell
+###rshell
 
 * Typing multiple "&&" connectors with no spaces in between will not produce any errors.
 * Typing multiple "||" connectors with no spaces in between will not produce any errors.
@@ -55,10 +55,10 @@ Andrew Barboza
 * Using a chain of output redirectors ">" or ">>" will empty any file AFTER the first file; the first file will recieve
     the output of the command, but the rest of the files in the chain will be erased.
 
-#ls
+###ls
 
 * Typing the -l command followed by a file parameter will not list the file information, instead it will give an error.
 
-#cp
+###cp
 
 * No known bugs.
