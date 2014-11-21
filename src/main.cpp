@@ -159,7 +159,7 @@ int main()
                     exit(1);
                 }
 
-                int out = open(raw_commands.front().c_str(), O_CREAT | O_WRONLY | O_TRUNC);
+                int out = open(raw_commands.front().c_str(), O_CREAT | O_WRONLY | O_TRUNC, 0666);
                 if (out == -1)
                 {
                     perror("open");
@@ -182,7 +182,7 @@ int main()
                     exit(1);
                 }
 
-                int out = open(raw_commands.front().c_str(), O_CREAT | O_WRONLY | O_APPEND);
+                int out = open(raw_commands.front().c_str(), O_CREAT | O_WRONLY | O_APPEND, 0666);
                 
                 if (out == -1)
                 {
