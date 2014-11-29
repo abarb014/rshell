@@ -10,6 +10,7 @@
 #include <sys/types.h>
 #include <sys/param.h>
 #include <fcntl.h>
+#include <signal.h>
 
 using namespace std;
 using namespace boost;
@@ -23,9 +24,13 @@ void buildArrays(char **&, const int &, queue<string> &);
 void clearQueue(queue<string>&);
 void clearArrays(char **&argv, int &commandCount);
 void rshellExit();
+void sig_handler(int);
+int my_exec(const char *prog, char *const args[]);
 
 int main()
 {
+    signal(SIGINT, sig_handler);
+
     // Set up the login and hostname and a failsafe in case either one doesn't work.
 
     bool loginStatus = 0;
@@ -71,15 +76,7 @@ int main()
     buildArrays(argv, commandCount, command_list);
 
     int *commandStatus = new int;
-
-    // This is used for piping
     int fd[2];
-    //if (pipe(fd) == -1)
-    //{
-    //    perror("pipe");
-    //   exit(1);
-    //}
-
     int savestdin;
 
     if ((savestdin = dup(0)) == -1)
@@ -219,11 +216,16 @@ int main()
                 }
             }
 
-            if (execvp(argv[0], argv) == -1)
+            if (my_exec(argv[0], argv) == -1)
+            {
+                perror("my_exec");
+                exit(1);
+            }
+            /*if (execvp(argv[0], argv) == -1)
             {
                 perror("execvp");
                 exit(1);
-            }
+            }*/
 
             exit(0);
         }
@@ -646,4 +648,51 @@ void rshellExit()
     cout << "logout\n" << endl;
     cout << "[Process Completed]" << endl;
     exit(0); // Successful exit
+}
+
+void sig_handler(int signum)
+{
+    // I know something should go in here, but I don't know what.
+    cout << endl;
+}
+
+int my_exec(const char *prog, char *const args[])
+{
+    string path = getenv("PATH");
+    queue<string> raw_path;
+
+    // Tokenize the path
+    char_separator<char> sep(":");
+    tokenizer< char_separator<char> > tok(path, sep);
+
+    for (tokenizer< char_separator<char> >::iterator it = tok.begin(); it != tok.end(); it++)
+    {
+        raw_path.push(*it);
+    }
+
+    // Test possible locations for the program
+    string current_path;
+
+    while (!raw_path.empty())
+    {
+        current_path = raw_path.front();
+
+        if (current_path.at(current_path.size() - 1) != '/')
+            current_path.append("/");
+
+        current_path.append(prog);
+
+        if (execv(current_path.c_str(), args) == -1)
+        {
+            if (errno == ENOENT)
+                raw_path.pop();
+            else
+                return -1;
+        }
+
+        if (raw_path.empty())
+            return -1;
+    }
+
+    return 0;
 }
