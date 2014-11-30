@@ -412,12 +412,6 @@ int main()
                 exit(1);
             }
 
-            //if (pipe(fd) == -1)
-            //{
-             //   perror("pipe");
-              //  exit(1);
-            //}
-            
             clearArrays(argv, commandCount);
             getInput(prompt, input_line, raw_commands);
             statusChecker(raw_commands, command_list, commandCount, status, argv);
@@ -512,6 +506,25 @@ void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCo
         argv = NULL;
 
         rshellExit();
+    }
+
+    if (original.front().compare("cd") == 0)
+    {
+        original.pop();
+
+        if (chdir(original.front().c_str()) == -1)
+        {
+            perror("chdir");
+            exit(1);
+        }
+
+        while (!original.empty())
+        {
+            original.pop();
+        }
+
+        status = 0;
+        return;
     }
 
     for (int i = 0, size = original.size(); i < size; i++)
