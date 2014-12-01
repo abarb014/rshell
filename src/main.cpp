@@ -18,6 +18,8 @@ using namespace boost;
 const int MAX_ARGS = 100;
 char CWD[1024];
 string prompt;
+int pid = 1;
+bool isChild = false;
 
 string cleanInput(const string&);
 void getInput(const string&, string &, queue<string> &);
@@ -26,12 +28,15 @@ void buildArrays(char **&, const int &, queue<string> &);
 void clearQueue(queue<string>&);
 void clearArrays(char **&argv, int &commandCount);
 void rshellExit();
-void sig_handler(int);
+void sigint_handler(int);
 int my_exec(const char *prog, char *const args[]);
 
 int main()
 {
-    signal(SIGINT, sig_handler);
+    if (signal(SIGINT, sigint_handler) == SIG_ERR)
+    {
+        perror("signal");
+    }
 
     if (getcwd(CWD, sizeof(CWD)) == NULL)
     {
@@ -106,7 +111,8 @@ int main()
             exit(1);
         }
 
-        int pid = fork();
+        // FIX
+        pid = fork();
         
         if (pid == -1)
         {
@@ -116,6 +122,8 @@ int main()
 
         else if (pid == 0) // This is the child process
         {
+            isChild = true;
+
             // If we need to do input redirection
             if (status == 5)
             {
@@ -690,9 +698,11 @@ void rshellExit()
     exit(0); // Successful exit
 }
 
-void sig_handler(int signum)
+void sigint_handler(int signum)
 {
-    // I know something should go in here, but I don't know what.
+    if (isChild)
+        kill(pid, SIGKILL);
+
     cout << endl;
 }
 
