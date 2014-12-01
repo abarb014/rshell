@@ -20,7 +20,7 @@ Andrew Barboza
 
 `rshell` is a basic shell program. It is based around BASH, and can use many of the same functionalities
  as the BASH. `rshell` is also capable of using connectors and i/o redirection. Some programs from BASH, such as
- `cd` and `history` are currently not supported in `rshell`. Along with this repository comes
+ `history` are currently not supported in `rshell`. However, a notable addition to `rshell` is the `cd` command, which allows the user to change directories while using the program. Along with this repository comes
  two additional programs that can be called from within `rshell`: `ls`, which will print the contents of a directory,
  and `cp`, which will copy one file to another. `ls` supports the `-alR` flags and outputs with color. `cp` will
  create a file if the given name if unique, however it will not overwite an existing file.
@@ -42,6 +42,7 @@ Andrew Barboza
 * Supports piping, `|`.
 * Includes a custom `ls` program that supports the `-alR` flags as well as color based on filetype.
 * Includes a custom `cp` program that will copy files, but not overwrite existing ones.
+* Fully functioning `cd` command that allows the user to change to a different directory. It only accepts two arguments, and will completely ignore anything after the second argument.
 
 ##Known Bugs
 
