@@ -16,6 +16,8 @@ using namespace std;
 using namespace boost;
 
 const int MAX_ARGS = 100;
+char CWD[1024];
+string prompt;
 
 string cleanInput(const string&);
 void getInput(const string&, string &, queue<string> &);
@@ -31,9 +33,20 @@ int main()
 {
     signal(SIGINT, sig_handler);
 
-    // Set up the login and hostname and a failsafe in case either one doesn't work.
-
-    bool loginStatus = 0;
+    if (getcwd(CWD, sizeof(CWD)) == NULL)
+    {
+        perror("getcwd");
+        prompt = "$ ";
+    }
+    
+    else
+    {
+        prompt = CWD;
+        prompt.append(" $ ");
+    }
+    // HW0 Extra Credit
+   
+    /* bool loginStatus = 0;
     char host[MAXHOSTNAMELEN];
     if (gethostname(host, sizeof(host)) == -1)
     {
@@ -58,7 +71,7 @@ int main()
         prompt.append("@");
         prompt.append(host);
         prompt.append(" $ ");
-    }
+    } */
     
     // Obtain a line of input from the user then fix it, and tokenize it
     string input_line;
@@ -515,7 +528,6 @@ void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCo
         if (chdir(original.front().c_str()) == -1)
         {
             perror("chdir");
-            exit(1);
         }
 
         while (!original.empty())
@@ -524,6 +536,21 @@ void statusChecker(queue<string>& original, queue<string>& fixed, int& commandCo
         }
 
         status = 0;
+
+        // Capture the working directory
+
+        if (getcwd(CWD, sizeof(CWD)) == NULL)
+        {
+            perror("getcwd");
+            prompt = "$ ";
+        }
+
+        else
+        {
+            prompt = CWD;
+            prompt.append(" $ ");
+        }
+
         return;
     }
 
