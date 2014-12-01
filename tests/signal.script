@@ -860,3 +860,50 @@ abarb014@hammer $ exit
 exit
 
 Script done on Mon 01 Dec 2014 09:48:41 AM PST
+Script started on Mon 01 Dec 2014 09:52:09 AM PST
+~
+abarb014@hammer $ cd[Ks100
+[0;91m
+===============================================================================
+|                                                                             |
+| You have enabled settings specific for cs100.                               |
+|                                                                             |
+===============================================================================
+[0m
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m cd cs100/rshell
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (signal) [0;36m$[0m ,ake[K[K[K[Kmake
+mkdir -p bin
+g++ -Wall -Werror -ansi -pedantic src/main.cpp -o bin/rshell
+g++ -Wall -Werror -ansi -pedantic src/ls.cpp -o bin/ls
+g++ -Wall -Werror -ansi -pedantic src/cp.cpp -o bin/cp
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (signal) [0;36m$[0m # I forgot o[Ksome cd cases
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (signal) [0;36m$[0m # Here is cd with a non existent directory
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (signal) [0;36m$[0m bin/rshell
+/home/csmajs/abarb014/cs100/rshell $ cd imaginat ry
+chdir: No such file or directory
+/home/csmajs/abarb014/cs100/rshell $ # Directory remains the same and future progras ms can be run
+/home/csmajs/abarb014/cs100/rshell $ ls
+bin  LICENSE  Makefile	README.md  src	tests
+/home/csmajs/abarb014/cs100/rshell $ # cd without anything after it
+/home/csmajs/abarb014/cs100/rshell $ cd
+chdir: Bad address
+/home/csmajs/abarb014/cs100/rshell $ # Nothing happend s but an error code    string
+/home/csmajs/abarb014/cs100/rshell $ #cd     cd with multiple arguments
+/home/csmajs/abarb014/cs100/rshell $ cd false ans d all this will be ignored
+chdir: No such file or directory
+/home/csmajs/abarb014/cs100/rshell $ # only th  e first argument gets counted
+/home/csmajs/abarb014/cs100/rshell $ cd .. This stud ff is irrelevant
+/home/csmajs/abarb014/cs100 $ ls
+lab  rshell  ucr-cs100
+/home/csmajs/abarb014/cs100 $ @ # This yet again concludes the testing
+/home/csmajs/abarb014/cs100 $ exut  it
+logout
+
+[Process Completed]
+[s%%%%%%%%%%[u[0;32mabarb014[0;36m@[0;32mcs100[0;36m:[0;32m~/cs100/rshell[0;95m (signal) [0;36m$[0m exit
+exit
+~
+abarb014@hammer $ exit
+exit
+
+Script done on Mon 01 Dec 2014 09:54:18 AM PST
