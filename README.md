@@ -55,6 +55,8 @@ Andrew Barboza
 * Currently, using connectors by themselves will send the program into an infinite loop.
 * Using a chain of output redirectors ">" or ">>" will empty any file AFTER the first file; the first file will recieve
     the output of the command, but the rest of the files in the chain will be erased.
+* There are two newlines printed instead of only one when rshell is called within rshell, and the ^C signal is sent.
+* Color displaying is lost when changing directories.
 
 ###ls
 
